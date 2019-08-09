@@ -1,0 +1,35 @@
+group 'ru.codebattle'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+mainClassName = 'ru.codebattle.client.CodeBattleJava'
+
+jar {
+    manifest {
+        attributes "Main-Class": "ru.codebattle.client.CodeBattleJava"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    compile 'org.java-websocket:Java-WebSocket:1.3.7'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'ch.qos.logback:logback-classic:1.0.1'
+    compile 'ch.qos.logback:logback-core:1.0.1'
+
+    compile 'commons-lang:commons-lang:2.6'
+
+    compileOnly "org.projectlombok:lombok:1.16.16"
+}
