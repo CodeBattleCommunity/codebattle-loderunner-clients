@@ -33,3 +33,6 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 }
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"

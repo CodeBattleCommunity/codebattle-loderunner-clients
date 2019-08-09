@@ -51,20 +51,24 @@ public enum BoardElement {
 
     public static BoardElement forOtherHero(BoardElement hero) {
         switch (hero) {
-            case HERO_DRILL_LEFT :
-            case HERO_LEFT :
-            case HERO_FALL_LEFT :
+            case HERO_DRILL_LEFT:
+            case HERO_LEFT:
+            case HERO_FALL_LEFT:
                 return OTHER_HERO_LEFT;
 
-            case HERO_DRILL_RIGHT :
-            case HERO_RIGHT :
-            case HERO_FALL_RIGHT :
+            case HERO_DRILL_RIGHT:
+            case HERO_RIGHT:
+            case HERO_FALL_RIGHT:
                 return OTHER_HERO_RIGHT;
 
-            case HERO_DIE : return OTHER_HERO_DIE;
-            case HERO_LADDER : return OTHER_HERO_LADDER;
-            case HERO_PIPE_LEFT : return OTHER_HERO_PIPE_LEFT;
-            case HERO_PIPE_RIGHT : return OTHER_HERO_PIPE_RIGHT;
+            case HERO_DIE:
+                return OTHER_HERO_DIE;
+            case HERO_LADDER:
+                return OTHER_HERO_LADDER;
+            case HERO_PIPE_LEFT:
+                return OTHER_HERO_PIPE_LEFT;
+            case HERO_PIPE_RIGHT:
+                return OTHER_HERO_PIPE_RIGHT;
         }
         throw new IllegalArgumentException("Bad hero state: " + hero);
     }
