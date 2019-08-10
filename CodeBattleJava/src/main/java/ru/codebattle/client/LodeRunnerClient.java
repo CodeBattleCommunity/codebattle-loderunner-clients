@@ -1,5 +1,7 @@
 package ru.codebattle.client;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
 import ru.codebattle.client.api.GameBoard;
 import ru.codebattle.client.api.LoderunnerAction;
 import ru.codebattle.client.api.LoderunnerBase;
@@ -8,11 +10,17 @@ import java.io.Console;
 import java.net.URISyntaxException;
 import java.util.Random;
 
-public class MyAI extends LoderunnerBase {
+public class LodeRunnerClient extends LoderunnerBase {
 
-    public MyAI(String serverAddress, String user, String code) throws URISyntaxException {
+    private Function<GameBoard, LoderunnerAction> callback;
+
+    public LodeRunnerClient(String serverAddress, String user, String code) throws URISyntaxException {
         super(serverAddress, user, code);
+    }
+
+    public void run(Function<GameBoard, LoderunnerAction> callback) {
         connect();
+        this.callback = callback;
     }
 
     @Override
@@ -20,7 +28,7 @@ public class MyAI extends LoderunnerBase {
         clearScreen();
         gameBoard.printBoard();
         Random random = new Random(System.currentTimeMillis());
-        LoderunnerAction action = LoderunnerAction.values()[random.nextInt(3)];
+        LoderunnerAction action = callback.apply(gameBoard);
         System.out.println(action.toString());
         return loderunnerActionToString(action);
     }
