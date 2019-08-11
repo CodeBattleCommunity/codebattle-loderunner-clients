@@ -8,9 +8,9 @@ import ru.codebattle.client.api.LoderunnerAction;
 
 public class Main {
 
-    private static final String SERVER_ADDRESS = "epruizhsa0001t2.moscow.epam.com:8888";
-    private static final String PLAYER_NAME = "0lo7153glmm061u8hdpt";
-    private static final String AUTH_CODE = "5427192905953074174";
+    private static final String SERVER_ADDRESS = "localhost:8080";
+    private static final String PLAYER_NAME = "<player-id>";
+    private static final String AUTH_CODE = "<code>";
 
     public static void main(String[] args) throws URISyntaxException, IOException {
         LodeRunnerClient client = new LodeRunnerClient(SERVER_ADDRESS, PLAYER_NAME, AUTH_CODE);
