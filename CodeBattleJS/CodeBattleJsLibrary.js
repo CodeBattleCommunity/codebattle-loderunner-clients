@@ -387,7 +387,7 @@ class LengthToXY {
   }
 
   inversionY(y) {
-    return this.boardSize - 1 - y;
+    return y;
   }
 
   inversionX(x) {
