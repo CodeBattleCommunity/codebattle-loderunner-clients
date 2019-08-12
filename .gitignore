@@ -193,3 +193,4 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+/CodeBattleNet/.vs/Loderunner/v16/Server/sqlite3

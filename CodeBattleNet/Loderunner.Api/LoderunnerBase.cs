@@ -30,52 +30,26 @@ namespace Loderunner.Api
     public abstract class LoderunnerBase
     {
         private const string ResponsePrefix = "board=";
+        private WebSocket socket;
 
-        protected LoderunnerBase(string serverUrl)
+        protected LoderunnerBase(string serverAddress, string user, string code)
         {
-            ServerUrl = serverUrl;
+
+            string url = string.Format("ws://{0}/codenjoy-contest/ws?user={1}&code={2}",
+                serverAddress,
+                Uri.EscapeDataString(user),
+                code);
+
+            this.socket = new WebSocket(url);
+            socket.OnMessage += Socket_OnMessage;
         }
 
-        public string ServerUrl { get; private set; }
 
         /// <summary>
         /// Set this property to true to finish playing
         /// </summary>
         public bool ShouldExit { get; protected set; }
 
-        public void Play()
-        {
-            string url = GetWebSocketUrl(this.ServerUrl);
-
-            var socket = new WebSocket(url);
-
-            socket.OnMessage += Socket_OnMessage;
-            socket.Connect();
-
-            while (!ShouldExit && socket.ReadyState != WebSocketState.Closed)
-            {
-                Thread.Sleep(50);
-            }
-        }
-
-        private static string GetWebSocketUrl(string serverUrl)
-        {
-            Uri uri = new Uri(serverUrl);
-
-            var server = $"{uri.Host}:{uri.Port}";
-            var userName = uri.Segments.Last();
-            var code = HttpUtility.ParseQueryString(uri.Query).Get("code");
-
-            return GetWebSocketUrl(userName, code, server);
-        }
-
-        private static string GetWebSocketUrl(string userName, string code, string server)
-        {
-            return string.Format("ws://{0}/codenjoy-contest/ws?user={1}&code={2}",
-                server,
-                Uri.EscapeDataString(userName),
-                code);
-        }
 
         private void Socket_OnMessage(object sender, MessageEventArgs e)
         {
@@ -113,6 +87,11 @@ namespace Loderunner.Api
                 case LoderunnerAction.DrillRight: return "act,right";
                 default: return "stop";
             }
+        }
+
+        protected void Connect()
+        {
+            this.socket.Connect(); 
         }
     }
 }

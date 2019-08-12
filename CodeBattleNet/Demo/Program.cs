@@ -19,6 +19,7 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+using Loderunner.Api;
 using System;
 using System.Threading;
 
@@ -26,22 +27,28 @@ namespace Demo
 {
     class Program
     {
-        // you can get this URL after registration on the server with your email
-        static string ServerUrl = "http://epruizhsa0001t2.moscow.epam.com:8888/codenjoy-contest/board/player/0lo7153glmm061u8hdpt?code=5427192905953074174";
+        const string ServerAddress = "localhost:8080";
+        const string PlayerName = "<player-id>";
+        const string AuthCode = "<code>";
 
         static void Main(string[] args)
         {
             // creating custom AI client
-            var bot = new MyCustomLoderunnerAI(ServerUrl);
-            
+            var client = new LodeRunnerClient(ServerAddress, PlayerName, AuthCode);
+
             // starting thread with playing game
-            (new Thread(bot.Play)).Start();
-            
+            client.Run(gameBoard =>
+            {
+                Random random = new Random(Environment.TickCount);
+                return (LoderunnerAction)random.Next(3);
+
+            });
+
             // waiting for any key
             Console.ReadKey();
 
             // on any key - asking AI client to stop.
-            bot.InitiateExit();
+            client.InitiateExit();
         }
     }
 }
