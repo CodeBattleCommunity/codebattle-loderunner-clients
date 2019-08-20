@@ -1,24 +1,11 @@
-﻿  easywsclient.cpp
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(95): warning C4477: 'fprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'WCHAR *'
-  c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(95): note: consider using '%ls' in the format string
-  c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(95): note: consider using '%lls' in the format string
-  c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(95): note: consider using '%Ls' in the format string
-  c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(95): note: consider using '%ws' in the format string
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(102): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(199): warning C4244: 'argument': conversion from 'socket_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(203): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(224): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(468): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(470): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(473): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(475): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(476): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(478): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(480): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(481): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\easywsclient\easywsclient.cpp(482): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+﻿  GameBoard.cpp
+d:\codebattlecpp\codebattlecpplibrary\boardelement.h(9): warning C4066: characters beyond first in wide-character constant ignored
+d:\codebattlecpp\codebattlecpplibrary\gameboard.cpp(22): warning C4018: '<': signed/unsigned mismatch
+d:\codebattlecpp\codebattlecpplibrary\gameboard.cpp(24): warning C4018: '<': signed/unsigned mismatch
+d:\codebattlecpp\codebattlecpplibrary\gameboard.cpp(44): warning C4018: '<': signed/unsigned mismatch
+d:\codebattlecpp\codebattlecpplibrary\gameboard.cpp(46): warning C4018: '<': signed/unsigned mismatch
   GameClientLodeRunner.cpp
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\loderunnerblocks.h(9): warning C4066: characters beyond first in wide-character constant ignored
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\gameclientloderunner.cpp(49): warning C4244: 'initializing': conversion from 'double' to 'uint32_t', possible loss of data
+d:\codebattlecpp\codebattlecpplibrary\boardelement.h(9): warning C4066: characters beyond first in wide-character constant ignored
+d:\codebattlecpp\codebattlecpplibrary\gameclientloderunner.cpp(51): warning C4244: 'initializing': conversion from 'double' to 'uint32_t', possible loss of data
   Generating Code...
-  CodeBattleCppLibrary.vcxproj -> C:\Users\Daniil_Nasretdinov\Downloads\CodeBattleCpp\x64\Debug\CodeBattleCppLibrary.lib
+  CodeBattleCppLibrary.vcxproj -> D:\CodeBattleCPP\x64\Debug\CodeBattleCppLibrary.lib
