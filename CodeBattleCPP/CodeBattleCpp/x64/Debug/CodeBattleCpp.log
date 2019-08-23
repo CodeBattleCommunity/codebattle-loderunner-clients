@@ -1,4 +1,4 @@
 ﻿  CodeBattleCpp.cpp
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpplibrary\loderunnerblocks.h(9): warning C4066: characters beyond first in wide-character constant ignored
-c:\users\daniil_nasretdinov\downloads\codebattlecpp\codebattlecpp\codebattlecpp.cpp(9): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  CodeBattleCpp.vcxproj -> C:\Users\Daniil_Nasretdinov\Downloads\CodeBattleCpp\x64\Debug\CodeBattleCpp.exe
+d:\codebattlecpp\codebattlecpplibrary\boardelement.h(9): warning C4066: characters beyond first in wide-character constant ignored
+d:\codebattlecpp\codebattlecpp\codebattlecpp.cpp(20): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  CodeBattleCpp.vcxproj -> D:\CodeBattleCPP\x64\Debug\CodeBattleCpp.exe

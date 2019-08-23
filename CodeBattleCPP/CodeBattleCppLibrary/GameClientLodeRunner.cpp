@@ -1,16 +1,18 @@
 #include "GameClientLodeRunner.h"
-
 #include <iostream>
+
 
 GameClientLodeRunner::GameClientLodeRunner(std::string _server, std::string _userId, std::string _code)
 {
 	map = nullptr;
+	board = nullptr;
 	map_size = 0;
 
 	path = "ws://" + _server + "/codenjoy-contest/ws?user=" + _userId + "&code=" + _code;
 
 	is_running = false;
 }
+
 
 GameClientLodeRunner::~GameClientLodeRunner()
 {
@@ -57,35 +59,35 @@ void GameClientLodeRunner::update_func(std::function<void()> _message_handler)
 				}
 				map_size = size;
 
-				map = new LodeRunnerBlocks*[map_size];
+				map = new BoardElement*[map_size];
 				for (uint32_t j = 0; j < map_size; j++)
 				{
-					map[j] = new LodeRunnerBlocks[map_size];
+					map[j] = new BoardElement[map_size];
 					for (uint32_t i = 0; i < map_size; i++)
 					{
-						map[j][i] = LodeRunnerBlocks::NONE;
+						map[j][i] = BoardElement::NONE;
 					}
 				}
 			}
-
+			
 			uint32_t chr = 6;
 			for (uint32_t j = 0; j < map_size; j++)
 			{
 				for (uint32_t i = 0; i < map_size; i++)
 				{
-					map[j][i] = (LodeRunnerBlocks)wmessage[chr];
+					map[j][i] = (BoardElement)wmessage[chr];
 					chr++;
 					
-					if (map[j][i] == LodeRunnerBlocks::HERO_DIE || 
-						map[j][i] == LodeRunnerBlocks::HERO_DRILL_LEFT || 
-						map[j][i] == LodeRunnerBlocks::HERO_DRILL_RIGHT ||
-						map[j][i] == LodeRunnerBlocks::HERO_LADDER ||
-						map[j][i] == LodeRunnerBlocks::HERO_LEFT ||
-						map[j][i] == LodeRunnerBlocks::HERO_RIGHT ||
-						map[j][i] == LodeRunnerBlocks::HERO_FALL_LEFT ||
-						map[j][i] == LodeRunnerBlocks::HERO_FALL_RIGHT ||
-						map[j][i] == LodeRunnerBlocks::HERO_PIPE_LEFT ||
-						map[j][i] == LodeRunnerBlocks::HERO_PIPE_RIGHT
+					if (map[j][i] == BoardElement::HERO_DIE ||
+						map[j][i] == BoardElement::HERO_DRILL_LEFT ||
+						map[j][i] == BoardElement::HERO_DRILL_RIGHT ||
+						map[j][i] == BoardElement::HERO_LADDER ||
+						map[j][i] == BoardElement::HERO_LEFT ||
+						map[j][i] == BoardElement::HERO_RIGHT ||
+						map[j][i] == BoardElement::HERO_FALL_LEFT ||
+						map[j][i] == BoardElement::HERO_FALL_RIGHT ||
+						map[j][i] == BoardElement::HERO_PIPE_LEFT ||
+						map[j][i] == BoardElement::HERO_PIPE_RIGHT
 						)
 					{
 						player_x = i;
@@ -94,7 +96,8 @@ void GameClientLodeRunner::update_func(std::function<void()> _message_handler)
 					
 				}
 			}
-
+			board = new GameBoard(map, map_size);
+			std::cout << board << '\n';
 			_message_handler();
 		});
 	}

@@ -4,8 +4,6 @@
 #include "GameClientLodeRunner.h"
 
 	/*
-	 !!!!!ВНИМАНИЕ!!!!!
-		Запускать приложение только в Microsoft Visual Studio 2017
 		Если при сборке появилась ошибка типа 
 		The Windows SDK version 10.0.16299.0 was not found...
 		делаем следующее:
@@ -27,53 +25,28 @@ void main()
 	 адрес сервера = localhost:8888
 	 id пользователя = cg601yim3186cotnftue
 	 код пользователя = 8887669793631271133
-	 
-	 Прописываем их так:
-		GameClientLodeRunner *gcb = new GameClientLodeRunner("localhost:8888", "cg601yim3186cotnftue", "8887669793631271133")
 	*/
-	GameClientLodeRunner *gcb = new GameClientLodeRunner("адрес сервера", "id пользователя", "код пользователя");
+	std::string url = "localhost:8888";
+	std::string userId = "cg601yim3186cotnftue";
+	std::string userCode = "8887669793631271133";
+	GameClientLodeRunner *gcb = new GameClientLodeRunner(url, userId, userCode);
 	gcb->Run([&]()
 	{
-		LodeRunnerBlocks **map = gcb->get_map();
-		/*
-		 пишем код здесь 
-		 список комманд
-			 gcb->Blank() - ничего не делать
-			 gcb->Act() - сверлить дыру
-			 gcb->get_map() - получить карту
-			 Комманды движения:
-			 gcb->Up() 
-			 gcb->Down()
-			 gcb->Left()
-			 gcb->Right()
-			 Если нужно сделать движение и просверлить дырку т.е. комманды типа (LEFT, ACT), то вызываем методы так
-			 gcb->Up(PlayerAction::ACT)
-			 gcb->Down(PlayerAction::ACT)
-			 gcb->Left(PlayerAction::ACT)
-			 gcb->Right(PlayerAction::ACT)
-			 по дефолту в методе стоит PlayerAction::None
+			GameBoard* gb = gcb->get_GameBoard();
+			std::list<BoardPoint> gold = gb->getGoldPositions();
 
-			 Циклы здесь писать не нужно т.к. тут возможно отправить только одну комманду боту за шаг.
-			 При вызове методов Up(), Down(), Left(), Right(), Act() идёт сразу отправка комманды на сервер.
-			 После этого происходит расчёт хода на сервере и он(сервер) отправляет новое состояние поля т.е.
-			 мы пишем код в цикле. 
-
-		*/
-
-		bool done = false;
-
-		switch (rand() % 5)
-		{
-			case 0: gcb->Up(PlayerAction::ACT); done = true;
-			case 1: gcb->Down(PlayerAction::ACT); done = true;
-			case 2: gcb->Left(PlayerAction::ACT); done = true;
-			case 3: gcb->Right(PlayerAction::ACT); done = true;
-			case 4: gcb->Act(); done = true;
-		}
-
-
-		if (done == false)
-			gcb->Blank();
+			bool done = false;
+			switch (rand() % 5)
+			{
+				case 0: gcb->LoderunnerAction(LoderunnerAction::GO_UP); done = true;
+				case 1: gcb->LoderunnerAction(LoderunnerAction::GO_DOWN); done = true;
+				case 2: gcb->LoderunnerAction(LoderunnerAction::GO_LEFT); done = true;
+				case 3: gcb->LoderunnerAction(LoderunnerAction::GO_RIGHT); done = true;
+				case 4: gcb->LoderunnerAction(LoderunnerAction::DRILL); done = true;
+			}
+			if (!done) {
+				gcb->LoderunnerAction(LoderunnerAction::DO_NOTHING);
+			}
 	});
 
 	getchar();

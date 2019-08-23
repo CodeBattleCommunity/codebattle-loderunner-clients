@@ -13,12 +13,14 @@
 #include <string>
 #include <memory>
 
-#include "LodeRunnerBlocks.h"
-#include "PlayerAction.h"
+#include "BoardElement.h"
+#include "LoderunnerAction.h"
+#include "GameBoard.h"
 
 class GameClientLodeRunner
 {
-	LodeRunnerBlocks **map;
+	BoardElement **map;
+	GameBoard *board;
 	uint32_t map_size, player_x, player_y;
 
 	easywsclient::WebSocket *web_socket;
@@ -29,39 +31,45 @@ class GameClientLodeRunner
 	void update_func(std::function<void()> _message_handler);
 
 public:
-	GameClientLodeRunner(std::string _server, std::string _userEmail, std::string _userPassword = "");
+ 	GameClientLodeRunner(std::string _server, std::string _userEmail, std::string _userPassword = "");
 	~GameClientLodeRunner();
 
 	void Run(std::function<void()> _message_handler);
-	
-	void Up(PlayerAction _action = PlayerAction::None)
-	{
-		send(std::string(_action == PlayerAction::ACT ? "ACT," : "") + "UP");
+	void LoderunnerAction(LoderunnerAction action = LoderunnerAction::DO_NOTHING) {
+		switch (action)
+		{
+		case LoderunnerAction::DRILL_LEFT:
+			send(std::string("ACT,LEFT"));
+			break;
+		case LoderunnerAction::DRILL_RIGHT:
+			send(std::string("ACT,RIGHT"));
+			break;
+		case LoderunnerAction::GO_DOWN:
+			send(std::string("DOWN"));
+			break;
+		case LoderunnerAction::GO_UP:
+			send(std::string("UP"));
+			break;
+		case LoderunnerAction::GO_LEFT:
+			send(std::string("LEFT"));
+			break;
+		case LoderunnerAction::GO_RIGHT:
+			send(std::string("RIGHT"));
+			break;
+		case LoderunnerAction::SUICIDE:
+			send(std::string("ACT(0)"));
+			break;
+		case LoderunnerAction::DRILL:
+			send(std::string("ACT"));
+			break;
+		case LoderunnerAction::DO_NOTHING:
+			break;
+		default:
+			send(std::string("STOP"));
+			break;
+		}
 	}
-	void Down(PlayerAction _action = PlayerAction::None)
-	{
-		send(std::string(_action == PlayerAction::ACT ? "ACT," : "") + "DOWN");
-	}
-	void Right(PlayerAction _action = PlayerAction::None)
-	{
-		send(std::string(_action == PlayerAction::ACT ? "ACT," : "") + "RIGHT");
-	}
-	void Left(PlayerAction _action = PlayerAction::None)
-	{
-		send(std::string(_action == PlayerAction::ACT ? "ACT," : "") + "LEFT");
-	}
-	void Act() { send("ACT"); }
-	
-
-	 
-
-	void Blank() { send(""); }
-
-	LodeRunnerBlocks **get_map() { return map; }
-	uint32_t get_map_size() { return map_size; }
-	uint32_t get_player_x() { return player_x; }
-	uint32_t get_player_y() { return player_y; }
-
+	GameBoard* get_GameBoard() { return board; }
 private:
 	void send(std::string msg)
 	{
