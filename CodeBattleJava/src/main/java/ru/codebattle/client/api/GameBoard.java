@@ -1,5 +1,8 @@
 package ru.codebattle.client.api;
 
+import static ru.codebattle.client.api.BoardElement.HERO_SHADOW_DRILL_LEFT;
+import static ru.codebattle.client.api.BoardElement.HERO_SHADOW_DRILL_RIGHT;
+
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -29,6 +32,15 @@ public class GameBoard {
         result.addAll(findAllElements(BoardElement.HERO_PIPE_RIGHT));
         result.addAll(findAllElements(BoardElement.HERO_LEFT));
         result.addAll(findAllElements(BoardElement.HERO_RIGHT));
+        result.addAll(findAllElements(HERO_SHADOW_DRILL_LEFT));
+        result.addAll(findAllElements(HERO_SHADOW_DRILL_RIGHT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_LADDER));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_LEFT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_RIGHT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_FALL_LEFT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_FALL_RIGHT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_PIPE_LEFT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_PIPE_RIGHT));
         return result.get(0);
     }
 
@@ -86,7 +98,21 @@ public class GameBoard {
         result.addAll(findAllElements(BoardElement.OTHER_HERO_PIPE_LEFT));
         result.addAll(findAllElements(BoardElement.OTHER_HERO_PIPE_RIGHT));
         result.addAll(findAllElements(BoardElement.OTHER_HERO_RIGHT));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_LADDER));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_LEFT));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_RIGHT));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_LADDER));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_PIPE_LEFT));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_PIPE_RIGHT));
         return result;
+    }
+
+    public List<BoardPoint> getShadowPills() {
+        return findAllElements(BoardElement.THE_SHADOW_PILL);
+    }
+
+    public List<BoardPoint> getPortals() {
+        return findAllElements(BoardElement.PORTAL);
     }
 
     public List<BoardPoint> getWallPositions() {
@@ -155,6 +181,33 @@ public class GameBoard {
 
     public boolean hasPipeAt(BoardPoint point) {
         return getPipePositions().contains(point);
+    }
+
+    public boolean isShadow(BoardPoint point) {
+        return getShadows().contains(point);
+    }
+
+    public boolean isPortal(BoardPoint point) {
+        return getPortals().contains(point);
+    }
+
+    private List<BoardPoint> getShadows() {
+        List<BoardPoint> shadows = findAllElements(BoardElement.HERO_SHADOW_DRILL_LEFT);
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_DRILL_RIGHT));
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_LADDER));
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_LEFT));
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_RIGHT));
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_FALL_LEFT));
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_FALL_RIGHT));
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_PIPE_LEFT));
+        shadows.addAll(findAllElements(BoardElement.HERO_SHADOW_PIPE_RIGHT));
+
+        shadows.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_LEFT));
+        shadows.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_RIGHT));
+        shadows.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_LADDER));
+        shadows.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_PIPE_LEFT));
+        shadows.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_PIPE_RIGHT));
+        return shadows;
     }
 
     public int getCountElementsNearToPoint(BoardPoint point, BoardElement element) {
