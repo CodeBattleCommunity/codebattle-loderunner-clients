@@ -46,6 +46,15 @@ class Board:
         points.update(self._find_all(Element('HERO_RIGHT')))
         points.update(self._find_all(Element('HERO_PIPE_LEFT')))
         points.update(self._find_all(Element('HERO_PIPE_RIGHT')))
+        points.update(self._find_all(Element('HERO_SHADOW_DRILL_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_DRILL_RIGHT')))
+        points.update(self._find_all(Element('HERO_SHADOW_LADDER')))
+        points.update(self._find_all(Element('HERO_SHADOW_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_RIGHT')))
+        points.update(self._find_all(Element('HERO_SHADOW_FALL_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_FALL_RIGHT')))
+        points.update(self._find_all(Element('HERO_SHADOW_PIPE_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_PIPE_RIGHT')))
         assert len(points) <= 1, "There should be only one hero"
         return list(points)[0]
 
@@ -72,6 +81,40 @@ class Board:
         points.update(self._find_all(Element('OTHER_HERO_RIGHT')))
         points.update(self._find_all(Element('OTHER_HERO_PIPE_LEFT')))
         points.update(self._find_all(Element('OTHER_HERO_PIPE_RIGHT')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_LEFT')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_RIGHT')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_LADDER')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_PIPE_LEFT')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_PIPE_RIGHT')))
+        return list(points)
+
+    def get_shadow_pills(self):
+        points = set()
+        points.update(self._find_all(Element('THE_SHADOW_PILL')))
+        return list(points)
+
+    def get_portals(self):
+        points = set()
+        points.update(self._find_all(Element('PORTAL')))
+        return list(points)
+
+    def __get_shadows(self):
+        points = set()
+        points.update(self._find_all(Element('HERO_SHADOW_DRILL_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_DRILL_RIGHT')))
+        points.update(self._find_all(Element('HERO_SHADOW_LADDER')))
+        points.update(self._find_all(Element('HERO_SHADOW_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_RIGHT')))
+        points.update(self._find_all(Element('HERO_SHADOW_FALL_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_FALL_RIGHT')))
+        points.update(self._find_all(Element('HERO_SHADOW_PIPE_LEFT')))
+        points.update(self._find_all(Element('HERO_SHADOW_PIPE_RIGHT')))
+
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_LEFT')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_RIGHT')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_LADDER')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_PIPE_LEFT')))
+        points.update(self._find_all(Element('OTHER_HERO_SHADOW_PIPE_RIGHT')))
         return list(points)
 
     def get_wall_positions(self):
@@ -137,6 +180,9 @@ class Board:
 
     def has_pipe_at(self, x, y):
         return Point(x, y) in self.get_pipe_positions()
+
+    def has_shadow_at(self, x, y):
+        return Point(x, y) in self.__get_shadows()
 
     def get_count_elements_near_to_point(self, x, y, elem):
         """ Counts the number of occurencies of elem nearby """

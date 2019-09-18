@@ -33,6 +33,16 @@ _ELEMENTS = dict(
     HERO_PIPE_LEFT  = '{',
     HERO_PIPE_RIGHT  = '}',
 
+    HERO_SHADOW_DRILL_LEFT = '⊰',
+    HERO_SHADOW_DRILL_RIGHT = '⊱',
+    HERO_SHADOW_LADDER = '⍬',
+    HERO_SHADOW_LEFT = '⊲',
+    HERO_SHADOW_RIGHT = '⊳',
+    HERO_SHADOW_FALL_LEFT = '⊅',
+    HERO_SHADOW_FALL_RIGHT = '⊄',
+    HERO_SHADOW_PIPE_LEFT = '⋜',
+    HERO_SHADOW_PIPE_RIGHT = '⋝',
+
     # this is other players
     OTHER_HERO_DIE  = 'Z',
     OTHER_HERO_LEFT  = ')',
@@ -41,9 +51,20 @@ _ELEMENTS = dict(
     OTHER_HERO_PIPE_LEFT  = 'Э',
     OTHER_HERO_PIPE_RIGHT  = 'Є',
 
+    OTHER_HERO_SHADOW_DIE = '⋈',
+    OTHER_HERO_SHADOW_LEFT = '⋊',
+    OTHER_HERO_SHADOW_RIGHT = '⋉',
+    OTHER_HERO_SHADOW_LADDER = '⋕',
+    OTHER_HERO_SHADOW_PIPE_LEFT = '⊣',
+    OTHER_HERO_SHADOW_PIPE_RIGHT = '⊢',
+
     # ladder and pipe - you can walk
     LADDER  = 'H',
-    PIPE  = '~'
+    PIPE  = '~',
+
+    PORTAL = '⊛',
+
+    THE_SHADOW_PILL = 'S'
 )
 
 
