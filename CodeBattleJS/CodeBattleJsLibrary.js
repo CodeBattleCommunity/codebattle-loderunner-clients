@@ -35,6 +35,16 @@
   HERO_PIPE_LEFT: '{',
   HERO_PIPE_RIGHT: '}',
 
+  HERO_SHADOW_DRILL_LEFT: '⊰',
+  HERO_SHADOW_DRILL_RIGHT: '⊱',
+  HERO_SHADOW_LADDER: '⍬',
+  HERO_SHADOW_LEFT: '⊲',
+  HERO_SHADOW_RIGHT: '⊳',
+  HERO_SHADOW_FALL_LEFT: '⊅',
+  HERO_SHADOW_FALL_RIGHT: '⊄',
+  HERO_SHADOW_PIPE_LEFT: '⋜',
+  HERO_SHADOW_PIPE_RIGHT: '⋝',
+
   /// this is other players
   OTHER_HERO_DIE: 'Z',
   OTHER_HERO_LEFT: ')',
@@ -43,9 +53,18 @@
   OTHER_HERO_PIPE_LEFT: 'Э',
   OTHER_HERO_PIPE_RIGHT: 'Є',
 
+  OTHER_HERO_SHADOW_DIE: '⋈',
+  OTHER_HERO_SHADOW_LEFT: '⋊',
+  OTHER_HERO_SHADOW_RIGHT: '⋉',
+  OTHER_HERO_SHADOW_LADDER: '⋕',
+  OTHER_HERO_SHADOW_PIPE_LEFT: '⊣',
+  OTHER_HERO_SHADOW_PIPE_RIGHT: '⊢',
+
   /// ladder and pipe - you can walk
   LADDER: 'H',
-  PIPE: '~'
+  PIPE: '~',
+  PORTAL: '⊛',
+  THE_SHADOW_PILL: 'S'
 };
 
 class GameClient {
@@ -170,6 +189,15 @@ class Board {
     result = result.concat(this.findAll(Elements.HERO_RIGHT));
     result = result.concat(this.findAll(Elements.HERO_PIPE_LEFT));
     result = result.concat(this.findAll(Elements.HERO_PIPE_RIGHT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_DRILL_LEFT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_DRILL_RIGHT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_LADDER));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_LEFT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_RIGHT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_FALL_LEFT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_FALL_RIGHT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_PIPE_LEFT));
+    result = result.concat(this.findAll(Elements.HERO_SHADOW_PIPE_RIGHT));
     return result[0];
   };
 
@@ -201,7 +229,12 @@ class Board {
     result = result.concat(this.findAll(Elements.OTHER_HERO_RIGHT));
     result = result.concat(this.findAll(Elements.OTHER_HERO_LADDER));
     result = result.concat(this.findAll(Elements.OTHER_HERO_PIPE_LEFT));
-    result = result.concat(this.findAll(Elements.OTHER_HERO_PIPE_RIGHT));
+    result = result.concat(this.findAll(Elements.OTHER_HERO_PIPE_RIGHT));    
+    result = result.concat(this.findAll(Elements.OTHER_HERO_SHADOW_LEFT));
+    result = result.concat(this.findAll(Elements.OTHER_HERO_SHADOW_RIGHT));
+    result = result.concat(this.findAll(Elements.OTHER_HERO_SHADOW_LADDER));
+    result = result.concat(this.findAll(OTHER_HERO_SHADOW_PIPE_LEFT));
+    result = result.concat(this.findAll( OTHER_HERO_SHADOW_PIPE_RIGHT));
     return result;
   };
 
@@ -236,6 +269,14 @@ class Board {
     result = result.concat(this.findAll(Elements.ENEMY_PIPE_RIGHT));
     return result;
   };
+
+  getShadowPillPositions() {
+    return this.findAll(Elements.THE_SHADOW_PILL);    
+  };
+
+  getPortalPositions() {
+    return this.findAll(Elements.PORTAL);
+  }
 
   getAt(x, y) {
     if (pt(x, y).isOutOf(this.size)) {
@@ -339,6 +380,31 @@ class Board {
       Elements.ENEMY_PIPE_LEFT,
       Elements.ENEMY_PIPE_RIGHT,
     ]);
+  };
+
+  hasShadowAt(x, y) {
+    return this.isAnyOfAt(x, y, [
+      HERO_SHADOW_DRILL_LEFT,
+      HERO_SHADOW_DRILL_RIGHT,
+      HERO_SHADOW_LADDER,
+      HERO_SHADOW_LEFT,
+      HERO_SHADOW_RIGHT,
+      HERO_SHADOW_FALL_LEFT,
+      HERO_SHADOW_FALL_RIGHT,
+      HERO_SHADOW_PIPE_LEFT,
+      HERO_SHADOW_PIPE_RIGHT,
+      OTHER_HERO_SHADOW_DIE,
+      OTHER_HERO_SHADOW_LEFT,
+      OTHER_HERO_SHADOW_RIGHT,
+      OTHER_HERO_SHADOW_LADDER,
+      OTHER_HERO_SHADOW_PIPE_LEFT,
+      OTHER_HERO_SHADOW_PIPE_RIGHT,
+    ])
+  };
+
+  hasPortalAt(x, y) {
+    return this.hasElementAt(x, y, Elements.PORTAL);  
+
   };
 
   countNear(x, y, element) {
