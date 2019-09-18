@@ -54,6 +54,16 @@
         HeroPipeLeft = (short)'{',
         HeroPipeRight = (short)'}',
 
+        HeroShadowDrillLeft = (short)'⊰',
+        HeroShadowDrillRight = (short)'⊱',
+        HeroShadowLadder = (short)'⍬',
+        HeroShadowLeft = (short)'⊲',
+        HeroShadowRight = (short)'⊳',
+        HeroShadowFallLeft = (short)'⊅',
+        HeroShadowFallRight = (short)'⊄',
+        HeroShadowPipeLeft = (short)'⋜',
+        HeroShadowPipeRight = (short)'⋝',
+
         OtherHeroDie = (short)'Z',
         OtherHeroLeft = (short)')',
         OtherHeroRight = (short)'(',
@@ -61,7 +71,18 @@
         OtherHeroPipeLeft = (short)'Э',
         OtherHeroPipeRight = (short)'Є',
 
+        OtherHeroShadowDie = (short)'⋈',
+        OtherHeroShadowLeft = (short)'⋊',
+        OtherHeroShadowRight = (short)'⋉',
+        OtherHeroShadowLadder = (short)'⋕',
+        OtherHeroShadowPipeLeft = (short)'⊣',
+        OtherHeroShadowPipeRight = (short)'⊢',
+
         Ladder = (short)'H',
-        Pipe = (short)'~'
+        Pipe = (short)'~',
+
+        Portal = (short)'⊛',
+
+        TheShadowPill = (short)'S'
     }
 }

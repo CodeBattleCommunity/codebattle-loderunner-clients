@@ -30,6 +30,7 @@
         FrillLeft,
         DrillRight,
         DrillLeft,
-        DoNothing
+        DoNothing,
+        Suicide
     }
 }
