@@ -42,7 +42,7 @@ namespace Loderunner.Api
             }
         }
 
-        public BoardPoint GetMe
+        public BoardPoint GetMyPosition
         {
             get
             {
@@ -56,6 +56,15 @@ namespace Loderunner.Api
                     .Concat(FindAllElements(BoardElement.HeroRight))
                     .Concat(FindAllElements(BoardElement.HeroPipeLeft))
                     .Concat(FindAllElements(BoardElement.HeroPipeRight))
+                    .Concat(FindAllElements(BoardElement.HeroShadowDrillLeft))
+                    .Concat(FindAllElements(BoardElement.HeroShadowDrillRight))
+                    .Concat(FindAllElements(BoardElement.HeroShadowFallLeft))
+                    .Concat(FindAllElements(BoardElement.HeroShadowFallRight))
+                    .Concat(FindAllElements(BoardElement.HeroShadowLadder))
+                    .Concat(FindAllElements(BoardElement.HeroShadowLeft))
+                    .Concat(FindAllElements(BoardElement.HeroShadowRight))
+                    .Concat(FindAllElements(BoardElement.HeroShadowPipeLeft))
+                    .Concat(FindAllElements(BoardElement.HeroShadowPipeRight))
                     .Single();
             }
         }
@@ -126,7 +135,11 @@ namespace Loderunner.Api
                 .Concat(FindAllElements(BoardElement.OtherHeroPipeLeft))
                 .Concat(FindAllElements(BoardElement.OtherHeroPipeRight))
                 .Concat(FindAllElements(BoardElement.OtherHeroRight))
-                //.Concat(FindAllElements(BoardElement.OtherHeroPit))
+                .Concat(FindAllElements(BoardElement.OtherHeroShadowLadder))
+                .Concat(FindAllElements(BoardElement.OtherHeroShadowLeft))
+                .Concat(FindAllElements(BoardElement.OtherHeroShadowRight))
+                .Concat(FindAllElements(BoardElement.OtherHeroShadowPipeLeft))
+                .Concat(FindAllElements(BoardElement.OtherHeroShadowPipeRight))
                 .ToList();
         }
 
@@ -160,6 +173,16 @@ namespace Loderunner.Api
             .Concat(FindAllElements(BoardElement.EnemyPipeLeft))
             .Concat(FindAllElements(BoardElement.EnemyPipeRight))
             .ToList();
+        }
+
+        public List<BoardPoint> GetShadowPillPositions()
+        {
+            return FindAllElements(BoardElement.TheShadowPill);
+        }
+
+        public List<BoardPoint> GetPortalPositions()
+        {
+            return FindAllElements(BoardElement.Portal);
         }
 
         public bool HasElementAt(BoardPoint point, params BoardElement[] elements)
@@ -206,6 +229,26 @@ namespace Loderunner.Api
         public bool HasPipeAt(BoardPoint point)
         {
             return GetPipePositions().Contains(point);
+        }
+
+        public bool HasPortalAt(BoardPoint point)
+        {
+            return GetPortalPositions().Contains(point);
+        }
+
+        public bool HasShadowPillAt(BoardPoint point)
+        {
+            return GetShadowPillPositions().Contains(point);
+        }
+
+        public bool HasShadowAt(BoardPoint point)
+        {
+            return HasElementAt(point,
+                BoardElement.OtherHeroShadowLadder,
+                BoardElement.OtherHeroShadowLeft,
+                BoardElement.OtherHeroShadowRight,
+                BoardElement.OtherHeroShadowPipeLeft,
+                BoardElement.OtherHeroShadowPipeRight);
         }
 
         public int GetCountElementsNearToPoint(BoardPoint point, BoardElement element)
