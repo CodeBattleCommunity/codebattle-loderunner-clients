@@ -21,7 +21,9 @@
   ENEMY_PIT: 'X',
 
   /// gold ;)
-  GOLD: '$',
+  YELLOW_GOLD: '$',
+  GREEN_GOLD: '&',
+  RED_GOLD: '@',
 
   /// this is you
   HERO_DIE: 'Ѡ',
@@ -255,7 +257,11 @@ class Board {
   };
 
   getGoldPositions() {
-    return this.findAll(Elements.GOLD);
+    var result = [];
+    result = result.concat(this.findAll(Elements.YELLOW_GOLD));
+    result = result.concat(this.findAll(Elements.GREEN_GOLD));
+    result = result.concat(this.findAll(Elements.RED_GOLD));
+    return result;
   };
 
   getPipePositions() {
@@ -367,7 +373,11 @@ class Board {
   };
 
   hasGoldAt(x, y) {
-    return this.hasElementAt(x, y, Elements.GOLD);
+    return this.isAnyOfAt(x, y, [
+      Elements.YELLOW_GOLD,
+      Elements.GREEN_GOLD,
+      Elements.RED_GOLD
+    ]);
   };
 
   hasPipeAt(x, y) {

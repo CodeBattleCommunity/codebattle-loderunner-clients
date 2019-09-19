@@ -41,7 +41,9 @@
         EnemyPipeRight = (short)'>',
         EnemyPit = (short)'X',
 
-        Gold = (short)'$',
+        YellowGold = (short)'$',
+        GreenGold = (short)'&',
+        RedGold = (short)'@',
 
         HeroDie = (short)'Ѡ',
         HeroDrillLeft = (short)'Я',
