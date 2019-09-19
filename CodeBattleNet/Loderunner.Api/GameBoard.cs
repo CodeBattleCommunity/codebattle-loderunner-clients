@@ -159,7 +159,9 @@ namespace Loderunner.Api
 
         public List<BoardPoint> GetGoldPositions()
         {
-            return FindAllElements(BoardElement.Gold)
+            return FindAllElements(BoardElement.YellowGold)
+            .Concat(FindAllElements(BoardElement.GreenGold))
+            .Concat(FindAllElements(BoardElement.RedGold))
             .ToList();
         }
 
