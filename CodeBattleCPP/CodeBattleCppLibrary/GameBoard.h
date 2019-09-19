@@ -20,6 +20,8 @@ public:
 	std::list<BoardPoint> getGoldPositions();
 	std::list<BoardPoint> getPipePositions();
 	std::list<BoardPoint> getEnemyPositions();
+	std::list<BoardPoint> getPortals();
+	std::list<BoardPoint> getShadowPills();
 	bool isNearToElement(BoardPoint point, BoardElement element);
 	bool hasEnemyAt(BoardPoint point);
 	bool hasOtherHeroAt(BoardPoint point);
@@ -27,6 +29,7 @@ public:
 	bool hasLadderAt(BoardPoint point);
 	bool hasGoldAt(BoardPoint point);
 	bool hasPipeAt(BoardPoint point);
+	bool hasShadowAt(BoardPoint point);
 	~GameBoard();
 
 private:
