@@ -16,6 +16,15 @@ BoardPoint GameBoard::getMyPosition() {
 	result.splice(result.end(), findAllElements(BoardElement::HERO_FALL_RIGHT));
 	result.splice(result.end(), findAllElements(BoardElement::HERO_PIPE_LEFT));
 	result.splice(result.end(), findAllElements(BoardElement::HERO_PIPE_RIGHT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_DRILL_LEFT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_DRILL_RIGHT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_LADDER));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_LEFT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_RIGHT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_FALL_LEFT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_FALL_RIGHT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_PIPE_LEFT));
+	result.splice(result.end(), findAllElements(BoardElement::HERO_SHADOW_PIPE_RIGHT));
 	return result.front();
 }
 bool GameBoard::isGameOver() {
@@ -59,6 +68,12 @@ std::list<BoardPoint> GameBoard::getOtherHeroPositions() {
 	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_LADDER));
 	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_PIPE_LEFT));
 	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_PIPE_RIGHT));
+	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_SHADOW_DIE));
+	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_SHADOW_LEFT));
+	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_SHADOW_RIGHT));
+	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_SHADOW_LADDER));
+	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_SHADOW_PIPE_LEFT));
+	result.splice(result.end(), findAllElements(BoardElement::OTHER_HERO_SHADOW_PIPE_RIGHT));
 	return result;
 }
 std::list<BoardPoint> GameBoard::getWallPositions() {
@@ -74,7 +89,10 @@ std::list<BoardPoint> GameBoard::getLadderPositions() {
 	return result;
 }
 std::list<BoardPoint> GameBoard::getGoldPositions() {
-	return findAllElements(BoardElement::GOLD);
+	std::list<BoardPoint> result = findAllElements(BoardElement::YELLOW_GOLD);
+	result.splice(result.end(), findAllElements(BoardElement::GREEN_GOLD));
+	result.splice(result.end(), findAllElements(BoardElement::RED_GOLD));
+	return result;
 }
 std::list<BoardPoint> GameBoard::getPipePositions() {
 	std::list<BoardPoint> result = findAllElements(BoardElement::PIPE);
@@ -94,6 +112,13 @@ std::list<BoardPoint> GameBoard::getEnemyPositions() {
 	result.splice(result.end(), findAllElements(BoardElement::ENEMY_RIGHT));
 	result.splice(result.end(), findAllElements(BoardElement::ENEMY_PIT));
 	return result;
+}
+std::list<BoardPoint> GameBoard::getPortals() {
+	return findAllElements(BoardElement::PORTAL);
+}
+
+std::list<BoardPoint> GameBoard::getShadowPills() {
+	return findAllElements(BoardElement::THE_SHADOW_PILL);
 }
 bool GameBoard::isNearToElement(BoardPoint point, BoardElement element) {
 	if (point.isOutOfBoard(map_size)) {
@@ -151,6 +176,16 @@ bool GameBoard::hasGoldAt(BoardPoint point) {
 }
 bool GameBoard::hasPipeAt(BoardPoint point) {
 	std::list<BoardPoint> enemies = getPipePositions();
+	for (std::list<BoardPoint>::iterator it = enemies.begin(); it != enemies.end(); ++it) {
+		if (it->getX() == point.getX() && it->getY() == point.getY()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool GameBoard::hasShadowAt(BoardPoint point) {
+	std::list<BoardPoint> enemies = getShadowPills();
 	for (std::list<BoardPoint>::iterator it = enemies.begin(); it != enemies.end(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {
 			return true;
