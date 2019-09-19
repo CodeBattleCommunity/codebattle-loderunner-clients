@@ -24,7 +24,9 @@ public enum BoardElement {
     ENEMY_PIPE_RIGHT('>'),
     ENEMY_PIT('X'),
 
-    GOLD('$'),
+    YELLOW_GOLD('$'),
+    GREEN_GOLD('&'),
+    RED_GOLD('@'),
 
     HERO_DIE('Ѡ'),
     HERO_DRILL_LEFT('Я'),

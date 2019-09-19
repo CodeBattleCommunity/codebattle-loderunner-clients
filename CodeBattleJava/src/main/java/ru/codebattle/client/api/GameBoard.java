@@ -130,7 +130,10 @@ public class GameBoard {
     }
 
     public List<BoardPoint> getGoldPositions() {
-        return findAllElements(BoardElement.GOLD);
+        List<BoardPoint> result = findAllElements(BoardElement.YELLOW_GOLD);
+        result.addAll(findAllElements(BoardElement.GREEN_GOLD));
+        result.addAll(findAllElements(BoardElement.RED_GOLD));
+        return result;
     }
 
     public List<BoardPoint> getPipePositions() {
