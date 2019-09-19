@@ -134,7 +134,11 @@ class Board:
         return list(points)
 
     def get_gold_positions(self):
-        return self._find_all(Element('GOLD'))
+        points = set()
+        points.update(self._find_all(Element('YELLOW_GOLD')))
+        points.update(self._find_all(Element('GREEN_GOLD')))
+        points.update(self._find_all(Element('RED_GOLD')))
+        return list(points)
 
     def get_pipe_positions(self):
         """Returns the set of pipe Points"""

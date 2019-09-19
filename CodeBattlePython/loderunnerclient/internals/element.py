@@ -19,7 +19,9 @@ _ELEMENTS = dict(
     ENEMY_PIPE_RIGHT  = '>',
     ENEMY_PIT  = 'X',
 
-    GOLD  = '$',
+    YELLOW_GOLD = '$',
+    GREEN_GOLD = '&',
+    RED_GOLD = '@',
 
     # This is your loderunner
     HERO_DIE  = 'Ѡ',
