@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <functional>
 
 #include "BoardElement.h"
 #include "LoderunnerAction.h"

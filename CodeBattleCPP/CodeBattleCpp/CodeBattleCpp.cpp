@@ -27,8 +27,8 @@ void main()
 	 код пользователя = 8887669793631271133
 	*/
 	std::string url = "localhost:8888";
-	std::string userId = "cg601yim3186cotnftue";
-	std::string userCode = "8887669793631271133";
+	std::string userId = "<player-id>";
+	std::string userCode = "<code>";
 	GameClientLodeRunner *gcb = new GameClientLodeRunner(url, userId, userCode);
 	gcb->Run([&]()
 	{
@@ -38,11 +38,11 @@ void main()
 			bool done = false;
 			switch (rand() % 5)
 			{
-				case 0: gcb->LoderunnerAction(LoderunnerAction::GO_UP); done = true;
-				case 1: gcb->LoderunnerAction(LoderunnerAction::GO_DOWN); done = true;
-				case 2: gcb->LoderunnerAction(LoderunnerAction::GO_LEFT); done = true;
-				case 3: gcb->LoderunnerAction(LoderunnerAction::GO_RIGHT); done = true;
-				case 4: gcb->LoderunnerAction(LoderunnerAction::DRILL); done = true;
+			case 0: gcb->LoderunnerAction(LoderunnerAction::GO_UP); done = true; break;
+			case 1: gcb->LoderunnerAction(LoderunnerAction::GO_DOWN); done = true; break;
+			case 2: gcb->LoderunnerAction(LoderunnerAction::GO_LEFT); done = true; break;
+			case 3: gcb->LoderunnerAction(LoderunnerAction::GO_RIGHT); done = true; break;
+			case 4: gcb->LoderunnerAction(LoderunnerAction::DRILL); done = true; break;
 			}
 			if (!done) {
 				gcb->LoderunnerAction(LoderunnerAction::DO_NOTHING);

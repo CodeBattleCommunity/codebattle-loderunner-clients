@@ -96,7 +96,6 @@ void GameClientLodeRunner::update_func(std::function<void()> _message_handler)
 					
 				}
 			}
-			delete board;
 			board = new GameBoard(map, map_size);
 			std::cout << board << '\n';
 			_message_handler();
