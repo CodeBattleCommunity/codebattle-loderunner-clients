@@ -16,7 +16,7 @@ public class Main {
         LodeRunnerClient client = new LodeRunnerClient(SERVER_ADDRESS, PLAYER_NAME, AUTH_CODE);
         client.run(gameBoard -> {
             Random random = new Random(System.currentTimeMillis());
-            return LoderunnerAction.values()[random.nextInt(3)];
+            return LoderunnerAction.values()[random.nextInt(LoderunnerAction.values().length)];
         });
 
         System.in.read();
