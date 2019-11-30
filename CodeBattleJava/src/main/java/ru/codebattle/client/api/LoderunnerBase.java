@@ -16,8 +16,7 @@ public abstract class LoderunnerBase extends WebSocketClient {
     private final String responsePrefix = "board=";
 
     public LoderunnerBase(String url) throws URISyntaxException {
-        String serverLocation = url.replace("http", "ws").replace("board/player/", "ws?user=").replace("?code=", "&code=");
-        super(new URI(serverLocation));
+        super(new URI(url.replace("http", "ws").replace("board/player/", "ws?user=").replace("?code=", "&code=")));
     }
 
     @Setter
