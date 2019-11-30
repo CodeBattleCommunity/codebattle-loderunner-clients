@@ -32,7 +32,7 @@ class GameClientLodeRunner
 	void update_func(std::function<void()> _message_handler);
 
 public:
- 	GameClientLodeRunner(std::string _server, std::string _userEmail, std::string _userPassword = "");
+ 	GameClientLodeRunner(std::string _server);
 	~GameClientLodeRunner();
 
 	void Run(std::function<void()> _message_handler);

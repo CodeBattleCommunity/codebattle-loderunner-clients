@@ -14,8 +14,8 @@ public class LodeRunnerClient extends LoderunnerBase {
 
     private Function<GameBoard, LoderunnerAction> callback;
 
-    public LodeRunnerClient(String serverAddress, String user, String code) throws URISyntaxException {
-        super(serverAddress, user, code);
+    public LodeRunnerClient(String url) throws URISyntaxException {
+        super(url);
     }
 
     public void run(Function<GameBoard, LoderunnerAction> callback) {

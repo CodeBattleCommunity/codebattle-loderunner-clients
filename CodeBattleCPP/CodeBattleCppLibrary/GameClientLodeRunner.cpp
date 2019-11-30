@@ -1,18 +1,18 @@
 #include "GameClientLodeRunner.h"
 #include <iostream>
 
-
-GameClientLodeRunner::GameClientLodeRunner(std::string _server, std::string _userId, std::string _code)
+GameClientLodeRunner::GameClientLodeRunner(std::string _server)
 {
 	map = nullptr;
 	board = nullptr;
 	map_size = 0;
 
-	path = "ws://" + _server + "/codenjoy-contest/ws?user=" + _userId + "&code=" + _code;
+	path = _server.replace(_server.find("http"), sizeof("http")-1, "ws");
+	path = path.replace(path.find("board/player/"),sizeof("board/player/")-1,"ws?user=");
+	path = path.replace(path.find("?code="),sizeof("?code=")-1,"&code=");
 
 	is_running = false;
 }
-
 
 GameClientLodeRunner::~GameClientLodeRunner()
 {

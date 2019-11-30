@@ -12,6 +12,6 @@ def turn(gcb: Board):
     action_id = random.randint(0, len(LoderunnerAction)-1)
     return list(LoderunnerAction)[action_id]
 
-if __name__ == '__main__':
-    gcb = GameClient("localhost:8080", "<player-id>", "<code>")
+def main():
+    gcb = GameClient("http://codebattle-spb-2019.francecentral.cloudapp.azure.com/codenjoy-contest/board/player/jxt3idzs6w9qc1f0tesr?code=3866554102209272582&gameName=loderunner")
     gcb.run(turn)

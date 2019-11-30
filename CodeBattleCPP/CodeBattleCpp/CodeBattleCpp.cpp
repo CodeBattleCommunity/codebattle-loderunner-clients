@@ -21,15 +21,13 @@ void main()
 	/*
 	 ѕосле регистрации вас переведЄт на страницу с картой и списком игроков.
 	 URL будет примерно такой: http://localhost:8888/codenjoy-contest/board/player/cg601yim3186cotnftue?code=8887669793631271133&gameName=loderunner
-	 из url берЄм:
+	 —остав url:
 	 адрес сервера = localhost:8888
 	 id пользовател€ = cg601yim3186cotnftue
 	 код пользовател€ = 8887669793631271133
 	*/
-	std::string url = "localhost:8888";
-	std::string userId = "<player-id>";
-	std::string userCode = "<code>";
-	GameClientLodeRunner *gcb = new GameClientLodeRunner(url, userId, userCode);
+
+	GameClientLodeRunner *gcb = new GameClientLodeRunner("http://codebattle-spb-2019.francecentral.cloudapp.azure.com/codenjoy-contest/board/player/jxt3idzs6w9qc1f0tesr?code=3866554102209272582");
 	gcb->Run([&]()
 	{
 			GameBoard* gb = gcb->get_GameBoard();

@@ -32,7 +32,7 @@ namespace Demo
 
         private Func<GameBoard, LoderunnerAction> callback;
 
-        public LodeRunnerClient(string serverAddress, string user, string code) : base(serverAddress, user, code)
+        public LodeRunnerClient(string serverAddress) : base(serverAddress)
         {
         }
 

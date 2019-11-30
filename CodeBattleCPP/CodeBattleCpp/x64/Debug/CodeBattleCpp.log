@@ -1,4 +1,1 @@
-﻿  CodeBattleCpp.cpp
-d:\codebattlecpp\codebattlecpplibrary\boardelement.h(9): warning C4066: characters beyond first in wide-character constant ignored
-d:\codebattlecpp\codebattlecpp\codebattlecpp.cpp(20): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  CodeBattleCpp.vcxproj -> D:\CodeBattleCPP\x64\Debug\CodeBattleCpp.exe
+﻿  CodeBattleCpp.vcxproj -> D:\Projects\codebattle-loderunner-clients\CodeBattleCPP\x64\Debug\CodeBattleCpp.exe

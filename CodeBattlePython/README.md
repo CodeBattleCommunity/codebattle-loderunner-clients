@@ -8,5 +8,5 @@
 
 Run client form command line:
 ```
-loderunnerclient
+./loderunnerclient
 ```

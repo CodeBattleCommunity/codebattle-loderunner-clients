@@ -32,15 +32,10 @@ namespace Loderunner.Api
         private const string ResponsePrefix = "board=";
         private WebSocket socket;
 
-        protected LoderunnerBase(string serverAddress, string user, string code)
+        protected LoderunnerBase(string url)
         {
-
-            string url = string.Format("ws://{0}/codenjoy-contest/ws?user={1}&code={2}",
-                serverAddress,
-                Uri.EscapeDataString(user),
-                code);
-
-            this.socket = new WebSocket(url);
+            var _server = url.Replace("http", "ws").Replace("board/player/", "ws?user=").Replace("?code=", "&code=");
+            this.socket = new WebSocket(_server);
             socket.OnMessage += Socket_OnMessage;
         }
 

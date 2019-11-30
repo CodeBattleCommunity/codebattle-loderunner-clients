@@ -27,14 +27,12 @@ namespace Demo
 {
     class Program
     {
-        const string ServerAddress = "localhost:8080";
-        const string PlayerName = "<player-id>";
-        const string AuthCode = "<code>";
+        const string ServerAddress = "http://codebattle-spb-2019.francecentral.cloudapp.azure.com/codenjoy-contest/board/player/jxt3idzs6w9qc1f0tesr?code=3866554102209272582&gameName=loderunner";
 
         static void Main(string[] args)
         {
             // creating custom AI client
-            var client = new LodeRunnerClient(ServerAddress, PlayerName, AuthCode);
+            var client = new LodeRunnerClient(ServerAddress);
 
             // starting thread with playing game
             client.Run(gameBoard =>
