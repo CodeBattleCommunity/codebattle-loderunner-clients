@@ -1,10 +1,10 @@
-
 class Point:
     """ Describes a point on board."""
+
     def __init__(self, x=0, y=0):
         self._x = int(x)
         self._y = int(y)
-    
+
     def __key(self):
         return self._x, self._y
 
@@ -27,12 +27,13 @@ class Point:
         return self._y
 
     def is_bad(self, board_size):
-        return (self._x > board_size or self._x < 0 or
-                self._y > board_size or self._y < 0)
+        return (
+            self._x > board_size or self._x < 0 or self._y > board_size or self._y < 0
+        )
 
     def to_string(self):
         return "[{},{}]".format(self._x, self._y)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise RuntimeError("This module is not expected to be ran from CLI")
