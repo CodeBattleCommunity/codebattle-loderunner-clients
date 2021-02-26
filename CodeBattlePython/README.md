@@ -52,7 +52,7 @@
 
 ```bash
 
-    pip install .
+    pip install -e .
 
 ```
 ## Запуск клиента и подключение к серверу игры
@@ -81,10 +81,13 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
 
 После этого вы можете начать игру командой
 
+### Для windows
 ```bash
-
-    ./loadrunnerclient
-
+    py loadrunnerclient
+```
+### Для *nix
+```bash
+    python3 loadrunnerclient
 ```
 
 Логику и то какие команды отправлять необходимо прописывать в методе **turn** в том же модуле __main__.py:
@@ -96,18 +99,4 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
         action_id = random.randint(0, len(LoderunnerAction) - 1)
         return list(LoderunnerAction)[action_id]
 
-```
-
-
-## Prerequisites:
-
-```pip install -e .```
-
-*You need `pip` to be installed first*
-
-## Usage:
-
-Run client form command line:
-```
-./loderunnerclient
 ```
