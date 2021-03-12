@@ -28,9 +28,9 @@ BoardPoint GameBoard::getMyPosition() {
 	return result.front();
 }
 bool GameBoard::isGameOver() {
-	for (uint32_t j = 0; j < map_size; j++)
+	for (int j = 0; j < map_size; j++)
 	{
-		for (uint32_t i = 0; i < map_size; i++)
+		for (int i = 0; i < map_size; i++)
 		{
 			if (map[j][i] == BoardElement::HERO_DIE) {
 				return true;
@@ -50,9 +50,9 @@ BoardElement GameBoard::getElementAt(BoardPoint point) {
 }
 std::list<BoardPoint> GameBoard::findAllElements(BoardElement element) {
 	std::list<BoardPoint> result;
-	for (uint32_t j = 0; j < map_size; j++)
+	for (int j = 0; j < map_size; j++)
 	{
-		for (uint32_t i = 0; i < map_size; i++)
+		for (int i = 0; i < map_size; i++)
 		{
 			if (map[j][i] == element) {
 				result.push_back(BoardPoint(j, i));

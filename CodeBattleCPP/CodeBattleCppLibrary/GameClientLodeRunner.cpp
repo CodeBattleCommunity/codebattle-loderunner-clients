@@ -48,7 +48,7 @@ void GameClientLodeRunner::update_func(std::function<void()> _message_handler)
 			std::wstring wmessage(size_needed, 0);
 			MultiByteToWideChar(CP_UTF8, 0, &message[0], (int)message.size(), &wmessage[0], size_needed);
 
-			uint32_t size = sqrt(wmessage.size() - 6);
+			uint32_t size = static_cast<uint32_t>(sqrt(wmessage.size() - 6));
 			if (map_size != size)
 			{
 				if (map_size != 0)

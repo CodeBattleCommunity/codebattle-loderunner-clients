@@ -4,27 +4,27 @@
 #include "GameClientLodeRunner.h"
 
 	/*
-		Если при сборке появилась ошибка типа 
+		пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ 
 		The Windows SDK version 10.0.16299.0 was not found...
-		делаем следующее:
-			1)Правой кнопкой мыши по CodeBattleCpp и жмём на properties.
-			2)Вкладка Configuration Properties->General
-			3)Находим Windows SDK Version и берем доступную в выпадающем списке
-			4)Нажимаем Apply
-			5)Повторяем тоже самое с CodeBattleCppLibrary
+		пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
+			1)пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ CodeBattleCpp пїЅ пїЅпїЅпїЅ пїЅпїЅ properties.
+			2)пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Configuration Properties->General
+			3)пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Windows SDK Version пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+			4)пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Apply
+			5)пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ CodeBattleCppLibrary
 	*/
 
 
 void main()
 {
-	srand(time(0));
+	srand(static_cast<uint32_t>(time(0)));
 	/*
-	 После регистрации вас переведёт на страницу с картой и списком игроков.
-	 URL будет примерно такой: http://localhost:8888/codenjoy-contest/board/player/cg601yim3186cotnftue?code=8887669793631271133&gameName=loderunner
-	 Состав url:
-	 адрес сервера = localhost:8888
-	 id пользователя = cg601yim3186cotnftue
-	 код пользователя = 8887669793631271133
+	 пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+	 URL пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ: http://localhost:8888/codenjoy-contest/board/player/cg601yim3186cotnftue?code=8887669793631271133&gameName=loderunner
+	 пїЅпїЅпїЅпїЅпїЅпїЅ url:
+	 пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ = localhost:8888
+	 id пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = cg601yim3186cotnftue
+	 пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ = 8887669793631271133
 	*/
 
 	GameClientLodeRunner *gcb = new GameClientLodeRunner("http://codebattle-spb-2019.francecentral.cloudapp.azure.com/codenjoy-contest/board/player/jxt3idzs6w9qc1f0tesr?code=3866554102209272582");
