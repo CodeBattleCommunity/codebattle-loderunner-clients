@@ -17,8 +17,6 @@ set(Sources
   GameClientLodeRunner.cpp
 
   LoderunnerAction.h
-  LodeRunnerBlocks.h
-  PlayerAction.h
 )
 
 add_subdirectory(easywsclient)
