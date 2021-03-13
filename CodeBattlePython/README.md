@@ -16,7 +16,7 @@
 ## Для UNIX
 ```bash
 
-    python -m venv env
+    python3 -m venv env
 
     # aктивация окружения
     source env/bin/activate 
@@ -33,7 +33,7 @@
 
 ```bash
 
-    python -m venv env
+    python3 -m venv env
     # aктивация окружения
     env\Scripts\activate.bat
 

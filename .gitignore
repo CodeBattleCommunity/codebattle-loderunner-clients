@@ -198,3 +198,4 @@ _NCrunch*
 CodeBattlePython/loderunnerclient/__pycache__
 CodeBattlePython/loderunnerclient/internals/__pycache__
 *.pyc
+CodeBattlePython/loderunnerclient.egg-info
