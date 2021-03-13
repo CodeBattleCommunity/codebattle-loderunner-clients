@@ -17,7 +17,7 @@ def turn(gcb: Board):
 def main():
     gcb = GameClient(
         # change this url to your
-        "http://35.228.17.103/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?code=2679320441167088196&gameName=loderunner"
+        "http://some-server-address/codenjoy-contest/board/player/jxt3idzs6w9qc1f0tesr?code=3866554102209272582&gameName=loderunner"
     )
     gcb.run(turn)
 

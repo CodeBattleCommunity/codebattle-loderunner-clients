@@ -100,3 +100,26 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
         return list(LoderunnerAction)[action_id]
 
 ```
+Вместо `list(LoderunnerAction)[action_id]` вы должны указать какую команду отправить на сервер в качестве вашего хода.
+
+Полное описание механики игры и список команд можно найти в UI на сервере игры.
+
+Actions (команды которые вы можете отправлять) в клиенте доступны в классе LoderunnerAction в модуле internals.actions.py:
+
+```python
+
+    GO_LEFT = "left"
+    GO_RIGHT = "right"
+    GO_UP = "up"
+    GO_DOWN = "down"
+    DRILL_RIGHT = "act,right"
+    DRILL_LEFT = "act,left"
+    DO_NOTHING = "stop"
+    SUICIDE = "act(0)"
+
+```
+
+Основной класс для получения информации об игровом поле - это Board (internals.board)
+
+
+
