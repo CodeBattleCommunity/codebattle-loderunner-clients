@@ -34,6 +34,6 @@ TEST(GameBoardTest, getGoldPositionsTest) {
     const std::string map(u8"☼☼☼$&@⋝⊛⊛");
     GameBoard board(map.cbegin(), map.cend());
     const auto positions = board.getGoldPositions();
-    std::list<BoardPoint> expected{{0,1}, {1,1}, {2,1}};
+    std::vector<BoardPoint> expected{{0,1}, {1,1}, {2,1}};
     EXPECT_THAT(positions, testing::UnorderedElementsAreArray(expected));
 }
