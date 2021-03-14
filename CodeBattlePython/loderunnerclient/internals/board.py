@@ -13,7 +13,7 @@ class Board:
         self._size = int(sqrt(self._len))  # size of the board
         # print("Board size is sqrt", self._len, self._size)
 
-    def _find_all(self, element):
+    def _find_all(self, element: Element):
         """ Returns the list of points for the given element type."""
         _points = []
         _a_char = element.get_char()
@@ -205,7 +205,7 @@ class Board:
 
     def _line_by_line(self):
         return "\n".join(
-            [self._string[i:i + self._size] for i in range(0, self._len, self._size)]
+            [self._string[i : i + self._size] for i in range(0, self._len, self._size)]
         )
 
     def _strpos2pt(self, strpos):
