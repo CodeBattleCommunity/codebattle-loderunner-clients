@@ -19,6 +19,14 @@ set(Sources
   LoderunnerAction.h
 )
 
+option(build_tests "Enable this option to build tests" false)
+
+if(build_tests)
+  include(CTest)
+  enable_testing()
+  add_subdirectory(tests)
+endif(build_tests)
+
 add_subdirectory(easywsclient)
 add_library(loderunner-client-library ${Sources})
 target_include_directories(loderunner-client-library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

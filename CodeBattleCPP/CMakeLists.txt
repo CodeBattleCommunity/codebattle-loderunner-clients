@@ -10,3 +10,6 @@ add_subdirectory(CodeBattleCppLibrary)
 
 add_executable(loderunner-client CodeBattleCpp.cpp)
 target_link_libraries(loderunner-client loderunner-client-library)
+if(UNIX)
+    target_link_libraries(loderunner-client pthread)
+endif(UNIX)
