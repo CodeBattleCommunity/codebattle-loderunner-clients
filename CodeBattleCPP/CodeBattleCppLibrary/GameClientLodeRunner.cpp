@@ -1,12 +1,12 @@
 #include "GameClientLodeRunner.h"
 #include <iostream>
+#include <cmath>
+#include <algorithm>
+
+#include "utf8tools.h"
 
 GameClientLodeRunner::GameClientLodeRunner(std::string _server)
 {
-	map = nullptr;
-	board = nullptr;
-	map_size = 0;
-
 	path = _server.replace(_server.find("http"), sizeof("http")-1, "ws");
 	path = path.replace(path.find("board/player/"),sizeof("board/player/")-1,"ws?user=");
 	path = path.replace(path.find("?code="),sizeof("?code=")-1,"&code=");
@@ -17,13 +17,14 @@ GameClientLodeRunner::GameClientLodeRunner(std::string _server)
 GameClientLodeRunner::~GameClientLodeRunner()
 {
 	is_running = false;
-	work_thread->join();
+	if(work_thread.joinable())
+		work_thread.join();
 }
 
 void GameClientLodeRunner::Run(std::function<void()> _message_handler)
 {
 	is_running = true;
-	work_thread = new std::thread(&GameClientLodeRunner::update_func, this, _message_handler);
+	work_thread = std::move(std::thread(&GameClientLodeRunner::update_func, this, _message_handler));
 }
 
 void GameClientLodeRunner::update_func(std::function<void()> _message_handler)
@@ -44,60 +45,7 @@ void GameClientLodeRunner::update_func(std::function<void()> _message_handler)
 		web_socket->poll();
 		web_socket->dispatch([&](const std::string &message)
 		{
-			int size_needed = MultiByteToWideChar(CP_UTF8, 0, &message[0], (int)message.size(), NULL, 0);
-			std::wstring wmessage(size_needed, 0);
-			MultiByteToWideChar(CP_UTF8, 0, &message[0], (int)message.size(), &wmessage[0], size_needed);
-
-			uint32_t size = static_cast<uint32_t>(sqrt(wmessage.size() - 6));
-			if (map_size != size)
-			{
-				if (map_size != 0)
-				{
-					for (uint32_t j = 0; j < map_size; j++)
-						delete[] map[j];
-					delete[] map;
-				}
-				map_size = size;
-
-				map = new BoardElement*[map_size];
-				for (uint32_t j = 0; j < map_size; j++)
-				{
-					map[j] = new BoardElement[map_size];
-					for (uint32_t i = 0; i < map_size; i++)
-					{
-						map[j][i] = BoardElement::NONE;
-					}
-				}
-			}
-			
-			uint32_t chr = 6;
-			for (uint32_t j = 0; j < map_size; j++)
-			{
-				for (uint32_t i = 0; i < map_size; i++)
-				{
-					map[j][i] = (BoardElement)wmessage[chr];
-					chr++;
-					
-					if (map[j][i] == BoardElement::HERO_DIE ||
-						map[j][i] == BoardElement::HERO_DRILL_LEFT ||
-						map[j][i] == BoardElement::HERO_DRILL_RIGHT ||
-						map[j][i] == BoardElement::HERO_LADDER ||
-						map[j][i] == BoardElement::HERO_LEFT ||
-						map[j][i] == BoardElement::HERO_RIGHT ||
-						map[j][i] == BoardElement::HERO_FALL_LEFT ||
-						map[j][i] == BoardElement::HERO_FALL_RIGHT ||
-						map[j][i] == BoardElement::HERO_PIPE_LEFT ||
-						map[j][i] == BoardElement::HERO_PIPE_RIGHT
-						)
-					{
-						player_x = i;
-						player_y = j;
-					}
-					
-				}
-			}
-			board = new GameBoard(map, map_size);
-			std::cout << board << '\n';
+			board = std::move(GameBoard(message.begin()+6, message.end()));
 			_message_handler();
 		});
 	}

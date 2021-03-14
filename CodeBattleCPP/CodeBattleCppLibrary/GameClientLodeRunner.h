@@ -1,18 +1,18 @@
 #pragma once
 
-#include <string>
-#include <thread>
-#include "easywsclient\easywsclient.hpp"
+#include "easywsclient/easywsclient.hpp"
 #ifdef _WIN32
 #pragma comment( lib, "ws2_32" )
 #include <WinSock2.h>
 #endif
-#include <assert.h>
-#include <stdio.h>
-#include <iostream>
+
 #include <string>
+#include <thread>
+#include <assert.h>
+#include <iostream>
 #include <memory>
 #include <functional>
+#include <vector>
 
 #include "BoardElement.h"
 #include "LoderunnerAction.h"
@@ -20,19 +20,17 @@
 
 class GameClientLodeRunner
 {
-	BoardElement **map;
-	GameBoard *board;
-	uint32_t map_size, player_x, player_y;
+	GameBoard board;
 
 	easywsclient::WebSocket *web_socket;
 	std::string path;
 
 	bool is_running;
-	std::thread *work_thread;
+	std::thread work_thread;
 	void update_func(std::function<void()> _message_handler);
 
 public:
- 	GameClientLodeRunner(std::string _server);
+	GameClientLodeRunner(std::string _server);
 	~GameClientLodeRunner();
 
 	void Run(std::function<void()> _message_handler);
@@ -70,7 +68,7 @@ public:
 			break;
 		}
 	}
-	GameBoard* get_GameBoard() { return board; }
+	const GameBoard& get_GameBoard() { return board; }
 private:
 	void send(std::string msg)
 	{
