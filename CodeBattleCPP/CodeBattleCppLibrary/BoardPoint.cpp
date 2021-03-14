@@ -51,3 +51,7 @@ bool BoardPoint::isOutOfBoard(int size) const noexcept {
 void BoardPoint::print() const noexcept {
 	std::cout << "[" << x << "," << y << "]" << "\n";
 }
+
+bool operator==(const BoardPoint& p1, const BoardPoint& p2) {
+	return ((p1.getX() == p2.getX()) && (p1.getY() == p2.getY()));
+}

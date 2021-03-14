@@ -27,3 +27,5 @@ private:
 	int x;
 	int y;
 };
+
+bool operator==(const BoardPoint& p1, const BoardPoint& p2);
