@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+if(WIN32)
+    add_compile_options(/utf-8)
+endif(WIN32)
+
 add_subdirectory(CodeBattleCppLibrary)
 
 add_executable(loderunner-client CodeBattleCpp.cpp)
