@@ -19,260 +19,416 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Loderunner.Api
 {
-    public class GameBoard
-    {
-        public GameBoard(string boardString)
-        {
-            BoardString = boardString.Replace("\n", "");
-        }
+	public class GameBoard
+	{
+		public GameBoard(string boardString)
+		{
+			BoardString = boardString.Replace("\n", "");
+		}
 
-        public string BoardString { get; private set; }
+		public string BoardString { get; private set; }
 
-        public int Size
-        {
-            get
-            {
-                return (int)Math.Sqrt(BoardString.Length);
-            }
-        }
+		public int Size
+		{
+			get
+			{
+				return (int)Math.Sqrt(BoardString.Length);
+			}
+		}
 
-        public BoardPoint GetMyPosition
-        {
-            get
-            {
-                return FindAllElements(BoardElement.HeroDie)
-                    .Concat(FindAllElements(BoardElement.HeroDrillLeft))
-                    .Concat(FindAllElements(BoardElement.HeroDrillRight))
-                    .Concat(FindAllElements(BoardElement.HeroFallRight))
-                    .Concat(FindAllElements(BoardElement.HeroFallLeft))
-                    .Concat(FindAllElements(BoardElement.HeroLadder))
-                    .Concat(FindAllElements(BoardElement.HeroLeft))
-                    .Concat(FindAllElements(BoardElement.HeroRight))
-                    .Concat(FindAllElements(BoardElement.HeroPipeLeft))
-                    .Concat(FindAllElements(BoardElement.HeroPipeRight))
-                    .Concat(FindAllElements(BoardElement.HeroShadowDrillLeft))
-                    .Concat(FindAllElements(BoardElement.HeroShadowDrillRight))
-                    .Concat(FindAllElements(BoardElement.HeroShadowFallLeft))
-                    .Concat(FindAllElements(BoardElement.HeroShadowFallRight))
-                    .Concat(FindAllElements(BoardElement.HeroShadowLadder))
-                    .Concat(FindAllElements(BoardElement.HeroShadowLeft))
-                    .Concat(FindAllElements(BoardElement.HeroShadowRight))
-                    .Concat(FindAllElements(BoardElement.HeroShadowPipeLeft))
-                    .Concat(FindAllElements(BoardElement.HeroShadowPipeRight))
-                    .Single();
-            }
-        }
+		/// <summary>
+		/// Returns the list of points for the given element type.
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public List<BoardPoint> FindAll(BoardElement element)
+		{
+			List<BoardPoint> result = new List<BoardPoint>();
 
-        public bool IsGameOver
-        {
-            get
-            {
-                return BoardString.Contains((char)BoardElement.HeroDie);
-            }
-        }
+			for (int i = 0; i < Size * Size; i++)
+			{
+				BoardPoint pt = GetPointByShift(i);
 
-        public bool HasElementAt(BoardPoint point, BoardElement element)
-        {
-            if (point.IsOutOfBoard(Size))
-            {
-                return false;
-            }
+				if (HasElementAt(pt, element))
+				{
+					result.Add(pt);
+				}
+			}
 
-            return GetElementAt(point) == element;
-        }
+			return result;
+		}
 
-        public BoardElement GetElementAt(BoardPoint point)
-        {
-            return (BoardElement)BoardString[GetShiftByPoint(point)];
-        }
+		/// <summary>
+		/// Returns a BoardElement object at coordinates x,y.
+		/// </summary>
+		/// <param name="point"></param>
+		/// <returns></returns>
+		public BoardElement GetAt(int x, int y)
+		{
+			return (BoardElement)BoardString[GetShiftByPoint(x, y)];
+		}
 
-        public void PrintBoard()
-        {
-            for (int i = 0; i < Size; i++)
-            {
-                Console.WriteLine(BoardString.Substring(i * Size, Size));
-            }
-        }
+		/// <summary>
+		/// Returns True if BoardElement is at x,y coordinates.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public bool HasElementAt(int x, int y, BoardElement element)
+		{
+			if (IsOutOfBoard(x, y))
+			{
+				return false;
+			}
 
-        public List<BoardPoint> FindAllElements(BoardElement element)
-        {
-            List<BoardPoint> result = new List<BoardPoint>();
+			return GetAt(x, y) == element;
+		}
 
-            for (int i = 0; i < Size * Size; i++)
-            {
-                BoardPoint pt = GetPointByShift(i);
+		/// <summary>
+		/// Returns true if barrier is at x,y.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool IsBarrierAt(int x, int y)
+		{
+			BoardPoint point = new BoardPoint(x, y);
+			return GetBarriers().Contains(point);
+		}
 
-                if (HasElementAt(pt, element))
-                {
-                    result.Add(pt);
-                }
-            }
+		/// <summary>
+		/// Returns the point where your hero is.
+		/// </summary>
+		public BoardPoint GetMyPosition()
+		{
+			return FindAll(BoardElement.HeroDie)
+				.Concat(FindAll(BoardElement.HeroDrillLeft))
+				.Concat(FindAll(BoardElement.HeroDrillRight))
+				.Concat(FindAll(BoardElement.HeroFallRight))
+				.Concat(FindAll(BoardElement.HeroFallLeft))
+				.Concat(FindAll(BoardElement.HeroLadder))
+				.Concat(FindAll(BoardElement.HeroLeft))
+				.Concat(FindAll(BoardElement.HeroRight))
+				.Concat(FindAll(BoardElement.HeroPipeLeft))
+				.Concat(FindAll(BoardElement.HeroPipeRight))
+				.Concat(FindAll(BoardElement.HeroShadowDrillLeft))
+				.Concat(FindAll(BoardElement.HeroShadowDrillRight))
+				.Concat(FindAll(BoardElement.HeroShadowFallLeft))
+				.Concat(FindAll(BoardElement.HeroShadowFallRight))
+				.Concat(FindAll(BoardElement.HeroShadowLadder))
+				.Concat(FindAll(BoardElement.HeroShadowLeft))
+				.Concat(FindAll(BoardElement.HeroShadowRight))
+				.Concat(FindAll(BoardElement.HeroShadowPipeLeft))
+				.Concat(FindAll(BoardElement.HeroShadowPipeRight))
+				.Single();
+		}
 
-            return result;
-        }
+		/// <summary>
+		/// Returns False if your hero still alive.
+		/// </summary>
+		/// <returns></returns>
+		public bool IsHeroDead()
+		{
+			return BoardString.Contains((char)BoardElement.HeroDie);
+		}
 
-        public List<BoardPoint> GetEnemyPositions()
-        {
-            return FindAllElements(BoardElement.EnemyLadder)
-                .Concat(FindAllElements(BoardElement.EnemyLeft))
-                .Concat(FindAllElements(BoardElement.EnemyPipeLeft))
-                .Concat(FindAllElements(BoardElement.EnemyPipeRight))
-                .Concat(FindAllElements(BoardElement.EnemyRight))
-                .Concat(FindAllElements(BoardElement.EnemyPit))
-                .ToList();
-        }
+		/// <summary>
+		/// Return the list of points for other heroes.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetEnemyPositions()
+		{
+			return FindAll(BoardElement.EnemyLadder)
+				.Concat(FindAll(BoardElement.EnemyLeft))
+				.Concat(FindAll(BoardElement.EnemyPipeLeft))
+				.Concat(FindAll(BoardElement.EnemyPipeRight))
+				.Concat(FindAll(BoardElement.EnemyRight))
+				.Concat(FindAll(BoardElement.EnemyPit))
+				.ToList();
+		}
 
-        public List<BoardPoint> GetOtherHeroPositions()
-        {
-            return FindAllElements(BoardElement.OtherHeroLadder)
-                .Concat(FindAllElements(BoardElement.OtherHeroLeft))
-                .Concat(FindAllElements(BoardElement.OtherHeroPipeLeft))
-                .Concat(FindAllElements(BoardElement.OtherHeroPipeRight))
-                .Concat(FindAllElements(BoardElement.OtherHeroRight))
-                .Concat(FindAllElements(BoardElement.OtherHeroShadowLadder))
-                .Concat(FindAllElements(BoardElement.OtherHeroShadowLeft))
-                .Concat(FindAllElements(BoardElement.OtherHeroShadowRight))
-                .Concat(FindAllElements(BoardElement.OtherHeroShadowPipeLeft))
-                .Concat(FindAllElements(BoardElement.OtherHeroShadowPipeRight))
-                .ToList();
-        }
+		/// <summary>
+		/// Returns the list of points for other heroes.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetOtherHeroPositions()
+		{
+			return FindAll(BoardElement.OtherHeroLadder)
+				.Concat(FindAll(BoardElement.OtherHeroLeft))
+				.Concat(FindAll(BoardElement.OtherHeroPipeLeft))
+				.Concat(FindAll(BoardElement.OtherHeroPipeRight))
+				.Concat(FindAll(BoardElement.OtherHeroRight))
+				.Concat(FindAll(BoardElement.OtherHeroShadowLadder))
+				.Concat(FindAll(BoardElement.OtherHeroShadowLeft))
+				.Concat(FindAll(BoardElement.OtherHeroShadowRight))
+				.Concat(FindAll(BoardElement.OtherHeroShadowPipeLeft))
+				.Concat(FindAll(BoardElement.OtherHeroShadowPipeRight))
+				.ToList();
+		}
 
-        public List<BoardPoint> GetWallPositions()
-        {
-            return FindAllElements(BoardElement.Brick)
-            .Concat(FindAllElements(BoardElement.UndestroyableWall))
-            .ToList();
-        }
+		/// <summary>
+		/// Returns the list of points for elements with type BoardElement.TheShadowPill.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetShadowPills()
+		{
+			return FindAll(BoardElement.TheShadowPill);
+		}
 
-        public List<BoardPoint> GetLadderPositions()
-        {
-            return FindAllElements(BoardElement.Ladder)
-            .Concat(FindAllElements(BoardElement.HeroLadder))
-            .ToList();
-        }
+		/// <summary>
+		/// Returns the list of points for elements with type BoardElement.Portal.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetPortals()
+		{
+			return FindAll(BoardElement.Portal);
+		}
 
-        public List<BoardPoint> GetGoldPositions()
-        {
-            return FindAllElements(BoardElement.YellowGold)
-            .Concat(FindAllElements(BoardElement.GreenGold))
-            .Concat(FindAllElements(BoardElement.RedGold))
-            .ToList();
-        }
+		/// <summary>
+		/// Returns the list of walls element Points.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetWallPositions()
+		{
+			return FindAll(BoardElement.Brick)
+				.Concat(FindAll(BoardElement.UndestroyableWall))
+				.ToList();
+		}
 
-        public List<BoardPoint> GetPipePositions()
-        {
-            return FindAllElements(BoardElement.Pipe)
-            .Concat(FindAllElements(BoardElement.HeroPipeLeft))
-            .Concat(FindAllElements(BoardElement.HeroPipeRight))
-            .Concat(FindAllElements(BoardElement.OtherHeroPipeLeft))
-            .Concat(FindAllElements(BoardElement.OtherHeroPipeRight))
-            .Concat(FindAllElements(BoardElement.EnemyPipeLeft))
-            .Concat(FindAllElements(BoardElement.EnemyPipeRight))
-            .ToList();
-        }
+		/// <summary>
+		/// Returns the set of ladder Points.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetLadderPositions()
+		{
+			HashSet<BoardPoint> set = new HashSet<BoardPoint>(
+				FindAll(BoardElement.Ladder)
+					.Concat(FindAll(BoardElement.HeroLadder))
+					.Concat(FindAll(BoardElement.OtherHeroLadder))
+					.Concat(FindAll(BoardElement.EnemyLadder))
+					.Concat(FindAll(BoardElement.HeroShadowLadder))
+					.Concat(FindAll(BoardElement.OtherHeroShadowLadder))
+			);
+			return set.ToList();
+		}
 
-        public List<BoardPoint> GetShadowPillPositions()
-        {
-            return FindAllElements(BoardElement.TheShadowPill);
-        }
+		/// <summary>
+		/// Return the list of points for elements with types:
+		/// BoardElement.YellowGold, BoardElement.GreenGold, BoardElement.RedGold
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetGoldPositions()
+		{
+			return FindAll(BoardElement.YellowGold)
+				.Concat(FindAll(BoardElement.GreenGold))
+				.Concat(FindAll(BoardElement.RedGold))
+				.ToList();
+		}
 
-        public List<BoardPoint> GetPortalPositions()
-        {
-            return FindAllElements(BoardElement.Portal);
-        }
+		/// <summary>
+		/// Returns the set of pipe BoardPoints.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetPipePositions()
+		{
+			return FindAll(BoardElement.Pipe)
+				.Concat(FindAll(BoardElement.HeroPipeLeft))
+				.Concat(FindAll(BoardElement.HeroPipeRight))
+				.Concat(FindAll(BoardElement.OtherHeroPipeLeft))
+				.Concat(FindAll(BoardElement.OtherHeroPipeRight))
+				.Concat(FindAll(BoardElement.EnemyPipeLeft))
+				.Concat(FindAll(BoardElement.EnemyPipeRight))
+				.Concat(FindAll(BoardElement.HeroShadowPipeLeft))
+				.Concat(FindAll(BoardElement.HeroShadowPipeRight))
+				.Concat(FindAll(BoardElement.OtherHeroShadowPipeLeft))
+				.Concat(FindAll(BoardElement.OtherHeroShadowPipeRight))
+				.ToList();
+		}
 
-        public bool HasElementAt(BoardPoint point, params BoardElement[] elements)
-        {
-            return elements.Any(elem => HasElementAt(point, elem));
-        }
+		/// <summary>
+		/// Returns the list of barriers Points.
+		/// </summary>
+		/// <returns></returns>
+		public List<BoardPoint> GetBarriers()
+		{
+			return new HashSet<BoardPoint>(GetWallPositions())
+				.ToList();
+		}
 
-        public bool IsNearToElement(BoardPoint point, BoardElement element)
-        {
-            if (point.IsOutOfBoard(Size))
-                return false;
+		/// <summary>
+		/// Check if near exists element of chosen type.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public bool IsNearToElement(int x, int y, BoardElement element)
+		{
+			if (IsOutOfBoard(x, y))
+				return false;
 
-            return HasElementAt(point.ShiftBottom(), element)
-                   || HasElementAt(point.ShiftTop(), element)
-                   || HasElementAt(point.ShiftLeft(), element)
-                   || HasElementAt(point.ShiftRight(), element);
-        }
+			BoardPoint p = new BoardPoint(x, y);
+			return HasElementAt(p.ShiftBottom(), element)
+				   || HasElementAt(p.ShiftTop(), element)
+				   || HasElementAt(p.ShiftLeft(), element)
+				   || HasElementAt(p.ShiftRight(), element);
+		}
 
-        public bool HasEnemyAt(BoardPoint point)
-        {
-            return GetEnemyPositions().Contains(point);
-        }
+		/// <summary>
+		/// Returns True if enemy exists in current point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool HasEnemyAt(int x, int y)
+		{
+			return GetEnemyPositions().Contains(new BoardPoint(x, y));
+		}
 
-        public bool HasOtherHeroAt(BoardPoint point)
-        {
-            return GetOtherHeroPositions().Contains(point);
-        }
+		/// <summary>
+		/// Returns True if other hero exists in current point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool HasOtherHeroAt(int x, int y)
+		{
+			return GetOtherHeroPositions().Contains(new BoardPoint(x, y));
+		}
 
-        public bool HasWallAt(BoardPoint point)
-        {
-            return GetWallPositions().Contains(point);
-        }
+		/// <summary>
+		/// Returns True if wall exists in current point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool HasWallAt(int x, int y)
+		{
+			return GetWallPositions().Contains(new BoardPoint(x, y));
+		}
 
-        public bool HasLadderAt(BoardPoint point)
-        {
-            return GetLadderPositions().Contains(point);
-        }
+		/// <summary>
+		/// Returns True if ladder exists in current point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool HasLadderAt(int x, int y)
+		{
+			return GetLadderPositions().Contains(new BoardPoint(x, y));
+		}
 
-        public bool HasGoldAt(BoardPoint point)
-        {
-            return GetGoldPositions().Contains(point);
-        }
+		/// <summary>
+		/// Returns True if golf exists in current point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool HasGoldAt(int x, int y)
+		{
+			return GetGoldPositions().Contains(new BoardPoint(x, y));
+		}
 
-        public bool HasPipeAt(BoardPoint point)
-        {
-            return GetPipePositions().Contains(point);
-        }
+		/// <summary>
+		/// Returns True if pipe exists in current point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool HasPipeAt(int x, int y)
+		{
+			return GetPipePositions().Contains(new BoardPoint(x, y));
+		}
 
-        public bool HasPortalAt(BoardPoint point)
-        {
-            return GetPortalPositions().Contains(point);
-        }
+		/// <summary>
+		/// Returns True if shadow exists in current point.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool HasShadowAt(int x, int y)
+		{
+			return HasElementAt(new BoardPoint(x, y),
+				BoardElement.OtherHeroShadowLadder,
+				BoardElement.OtherHeroShadowLeft,
+				BoardElement.OtherHeroShadowRight,
+				BoardElement.OtherHeroShadowPipeLeft,
+				BoardElement.OtherHeroShadowPipeRight,
+				BoardElement.HeroShadowDrillLeft,
+				BoardElement.HeroShadowDrillRight,
+				BoardElement.HeroShadowLadder,
+				BoardElement.HeroShadowLeft,
+				BoardElement.HeroShadowRight,
+				BoardElement.HeroShadowFallLeft,
+				BoardElement.HeroShadowFallRight,
+				BoardElement.HeroShadowPipeLeft,
+				BoardElement.HeroShadowPipeRight);
+		}
 
-        public bool HasShadowPillAt(BoardPoint point)
-        {
-            return GetShadowPillPositions().Contains(point);
-        }
+		/// <summary>
+		/// Counts the number of occurrences of element nearby.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public int GetCountElementsNearToPoint(int x, int y, BoardElement element)
+		{
+			int count = 0;
+			if (IsOutOfBoard(x, y))
+				return count;
 
-        public bool HasShadowAt(BoardPoint point)
-        {
-            return HasElementAt(point,
-                BoardElement.OtherHeroShadowLadder,
-                BoardElement.OtherHeroShadowLeft,
-                BoardElement.OtherHeroShadowRight,
-                BoardElement.OtherHeroShadowPipeLeft,
-                BoardElement.OtherHeroShadowPipeRight);
-        }
+			BoardPoint point = new BoardPoint(x, y);
 
-        public int GetCountElementsNearToPoint(BoardPoint point, BoardElement element)
-        {
-            if (point.IsOutOfBoard(Size))
-                return 0;
+			if (HasElementAt(point.ShiftLeft(), element))
+				count++;
+			if (HasElementAt(point.ShiftRight(), element))
+				count++;
+			if (HasElementAt(point.ShiftTop(), element))
+				count++;
+			if (HasElementAt(point.ShiftBottom(), element))
+				count++;
+			return count;
+		}
 
-            //GetHashCode() in classic MS.NET for bool returns 1 for true and 0 for false;
-            return HasElementAt(point.ShiftLeft(), element).GetHashCode() +
-                   HasElementAt(point.ShiftRight(), element).GetHashCode() +
-                   HasElementAt(point.ShiftTop(), element).GetHashCode() +
-                   HasElementAt(point.ShiftBottom(), element).GetHashCode();
-        }
+		public void PrintBoard()
+		{
+			for (int i = 0; i < Size; i++)
+			{
+				Console.WriteLine(BoardString.Substring(i * Size, Size));
+			}
+		}
 
-        private int GetShiftByPoint(BoardPoint point)
-        {
-            return point.Y * Size + point.X;
-        }
+		private bool HasElementAt(BoardPoint point, params BoardElement[] elements)
+		{
+			return elements.Any(elem => HasElementAt(point.X, point.Y, elem));
+		}
 
-        private BoardPoint GetPointByShift(int shift)
-        {
-            return new BoardPoint(shift % Size, shift / Size);
-        }
-    }
+		private int GetShiftByPoint(BoardPoint point)
+		{
+			return point.Y * Size + point.X;
+		}
+
+		private int GetShiftByPoint(int x, int y)
+		{
+			return y * Size + x;
+		}
+
+		private BoardPoint GetPointByShift(int shift)
+		{
+			return new BoardPoint(shift % Size, shift / Size);
+		}
+
+		private bool IsOutOfBoard(int x, int y)
+		{
+			return x >= Size || y >= Size || x < 0 || y < 0;
+		}
+	}
 }
