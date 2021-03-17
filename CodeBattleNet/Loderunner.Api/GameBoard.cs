@@ -154,6 +154,10 @@ namespace Loderunner.Api
         {
             return FindAllElements(BoardElement.Ladder)
             .Concat(FindAllElements(BoardElement.HeroLadder))
+            .Concat(FindAllElements(BoardElement.HeroShadowLadder))
+            .Concat(FindAllElements(BoardElement.OtherHeroLadder))
+            .Concat(FindAllElements(BoardElement.OtherHeroShadowLadder))
+            .Concat(FindAllElements(BoardElement.EnemyLadder))
             .ToList();
         }
 
@@ -174,6 +178,10 @@ namespace Loderunner.Api
             .Concat(FindAllElements(BoardElement.OtherHeroPipeRight))
             .Concat(FindAllElements(BoardElement.EnemyPipeLeft))
             .Concat(FindAllElements(BoardElement.EnemyPipeRight))
+            .Concat(FindAllElements(BoardElement.HeroShadowPipeLeft))
+            .Concat(FindAllElements(BoardElement.HeroShadowPipeRight))
+            .Concat(FindAllElements(BoardElement.OtherHeroShadowPipeLeft))
+            .Concat(FindAllElements(BoardElement.OtherHeroShadowPipeRight))
             .ToList();
         }
 
