@@ -20,74 +20,71 @@
  * #L%
  */
 using System;
-using System.Linq;
-using System.Threading;
-using System.Web;
 using WebSocketSharp;
 
 namespace Loderunner.Api
 {
-    public abstract class LoderunnerBase
-    {
-        private const string ResponsePrefix = "board=";
-        private WebSocket socket;
+	public abstract class LoderunnerBase
+	{
+		private const string ResponsePrefix = "board=";
+		private WebSocket socket;
 
-        protected LoderunnerBase(string url)
-        {
-            var _server = url.Replace("http", "ws").Replace("board/player/", "ws?user=").Replace("?code=", "&code=");
-            this.socket = new WebSocket(_server);
-            socket.OnMessage += Socket_OnMessage;
-        }
-
-
-        /// <summary>
-        /// Set this property to true to finish playing
-        /// </summary>
-        public bool ShouldExit { get; protected set; }
+		protected LoderunnerBase(string url)
+		{
+			var _server = url.Replace("http", "ws").Replace("board/player/", "ws?user=").Replace("?code=", "&code=");
+			this.socket = new WebSocket(_server);
+			socket.OnMessage += Socket_OnMessage;
+		}
 
 
-        private void Socket_OnMessage(object sender, MessageEventArgs e)
-        {
-            if (!ShouldExit)
-            {
-                var response = e.Data;
+		/// <summary>
+		/// Set this property to true to finish playing
+		/// </summary>
+		public bool ShouldExit { get; protected set; }
 
-                if (!response.StartsWith(ResponsePrefix))
-                {
-                    Console.WriteLine("Something strange is happening on the server... Response:\n{0}", response);
-                    ShouldExit = true;
-                }
-                else
-                {
-                    var boardString = response.Substring(ResponsePrefix.Length);
 
-                    var action = DoMove(new GameBoard(boardString));
+		private void Socket_OnMessage(object sender, MessageEventArgs e)
+		{
+			if (!ShouldExit)
+			{
+				var response = e.Data;
 
-                    ((WebSocket)sender).Send(action);
-                }
-            }
-        }
+				if (!response.StartsWith(ResponsePrefix))
+				{
+					Console.WriteLine("Something strange is happening on the server... Response:\n{0}", response);
+					ShouldExit = true;
+				}
+				else
+				{
+					var boardString = response.Substring(ResponsePrefix.Length);
 
-        protected abstract string DoMove(GameBoard gameBoard);
+					var action = DoMove(new GameBoard(boardString));
 
-        protected static string LoderunnerActionToString(LoderunnerAction action)
-        {
-            switch (action)
-            {
-                case LoderunnerAction.GoLeft: return "left";
-                case LoderunnerAction.GoRight: return "right";
-                case LoderunnerAction.GoUp: return "up";
-                case LoderunnerAction.GoDown: return "down";
-                case LoderunnerAction.DrillLeft: return "act,left";
-                case LoderunnerAction.DrillRight: return "act,right";
-                case LoderunnerAction.Suicide: return "act(0)";
-                default: return "stop";
-            }
-        }
+					((WebSocket)sender).Send(action);
+				}
+			}
+		}
 
-        protected void Connect()
-        {
-            this.socket.Connect(); 
-        }
-    }
+		protected abstract string DoMove(GameBoard gameBoard);
+
+		protected static string LoderunnerActionToString(LoderunnerAction action)
+		{
+			switch (action)
+			{
+				case LoderunnerAction.GoLeft: return "left";
+				case LoderunnerAction.GoRight: return "right";
+				case LoderunnerAction.GoUp: return "up";
+				case LoderunnerAction.GoDown: return "down";
+				case LoderunnerAction.DrillLeft: return "act,left";
+				case LoderunnerAction.DrillRight: return "act,right";
+				case LoderunnerAction.Suicide: return "act(0)";
+				default: return "stop";
+			}
+		}
+
+		protected void Connect()
+		{
+			this.socket.Connect();
+		}
+	}
 }

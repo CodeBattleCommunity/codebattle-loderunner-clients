@@ -19,18 +19,18 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-﻿namespace Loderunner.Api
+namespace Loderunner.Api
 {
-    public enum LoderunnerAction
-    {
-        GoLeft,
-        GoRight,
-        GoUp,
-        GoDown,
-        FrillLeft,
-        DrillRight,
-        DrillLeft,
-        DoNothing,
-        Suicide
-    }
+	public enum LoderunnerAction
+	{
+		GoLeft,
+		GoRight,
+		GoUp,
+		GoDown,
+		FrillLeft,
+		DrillRight,
+		DrillLeft,
+		DoNothing,
+		Suicide
+	}
 }

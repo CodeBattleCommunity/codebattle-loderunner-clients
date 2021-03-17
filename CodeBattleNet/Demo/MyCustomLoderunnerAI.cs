@@ -24,41 +24,41 @@ using Loderunner.Api;
 
 namespace Demo
 {
-    /// <summary>
-    /// This is LoderunnerAI client demo.
-    /// </summary>
-    internal class MyCustomLoderunnerAI : LoderunnerBase
-    {
-        public MyCustomLoderunnerAI(string serverUrl)
-            : base(serverUrl)
-        {
-        }
+	/// <summary>
+	/// This is LoderunnerAI client demo.
+	/// </summary>
+	internal class MyCustomLoderunnerAI : LoderunnerBase
+	{
+		public MyCustomLoderunnerAI(string serverUrl)
+			: base(serverUrl)
+		{
+		}
 
-        /// <summary>
-        /// Calls each move to make decision what to do (next move)
-        /// </summary>
-        protected override string DoMove(GameBoard gameBoard)
-        {
-            //Just print current state (gameBoard) to console
-            Console.Clear();
-            //Console.SetCursorPosition(0, 0);
-            gameBoard.PrintBoard();
+		/// <summary>
+		/// Calls each move to make decision what to do (next move)
+		/// </summary>
+		protected override string DoMove(GameBoard gameBoard)
+		{
+			//Just print current state (gameBoard) to console
+			Console.Clear();
+			//Console.SetCursorPosition(0, 0);
+			gameBoard.PrintBoard();
 
-            Random random = new Random(Environment.TickCount);
+			Random random = new Random(Environment.TickCount);
 
-            //TODO: Implement your logic here
-            LoderunnerAction action = (LoderunnerAction)random.Next(3);
+			//TODO: Implement your logic here
+			LoderunnerAction action = (LoderunnerAction)random.Next(3);
 
-            Console.WriteLine(action.ToString());
-            return LoderunnerActionToString(action);
-        }
+			Console.WriteLine(action.ToString());
+			return LoderunnerActionToString(action);
+		}
 
-        /// <summary>
-        /// Starts loderunner's client shutdown.
-        /// </summary>
-        public void InitiateExit()
-        {
-            ShouldExit = true;
-        }
-    }
+		/// <summary>
+		/// Starts loderunner's client shutdown.
+		/// </summary>
+		public void InitiateExit()
+		{
+			ShouldExit = true;
+		}
+	}
 }
