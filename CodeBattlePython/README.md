@@ -48,7 +48,9 @@
 
 ## Установка клиента
 
-Команда выполняется в активированном ранее виртуальном окружении (virtualenv)
+1. Перейти к codebattle-loderunner-clients\CodeBattlePython>
+
+2. Команда выполняется в активированном ранее виртуальном окружении (virtualenv)
 
 ```bash
 
@@ -85,7 +87,7 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
 
 ```bash
     
-    py loadrunnerclient
+    py loderunnerclient
 
 ```
 
@@ -93,16 +95,53 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
 
 ```bash
     
-    python3 loadrunnerclient
+    python3 loderunnerclient
 
 ```
 
-Логику и то какие команды отправлять необходимо прописывать в методе **turn** в том же модуле __main__.py:
+Пример ответа от Сервера игры, который приходит после соединения:
+
+```python
+
+2021-03-17 12:26:05,951 INFO:connecting... ws://codebattle2021.westeurope.cloudapp.azure.com/codenjoy-contest/ws?user=some-user-index&gameName=loderunner
+2021-03-17 12:26:06,067 INFO:Connection established: <websocket._app.WebSocketApp object at >
+☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼
+☼ H ~~~~     ~~~~                      ~~~~~     ☼             ☼                 ☼
+☼ H     ######  H###H  H  H############     ###H   H#########H   H#########H#####☼
+☼#☼☼ #       #  H  ##H H H#                    ☼☼☼☼☼         ☼☼☼☼☼         H     ☼
+☼    #       #  H  ####H## ~H###############                               H     ☼
+☼ ☼☼###H#### #  H~~~~~~~ ~~ H #            #############H##################H~~~~~☼
+☼    # H   # #  H           H # ~~~               ~~~~~~~~~~~~~            H #  H☼
+☼#☼☼ # H   # ###H  ####H    H #    H#############H             H###########H #  H☼
+☼    # H   #    H      H#######    H            ##H  ##☼☼☼##  H##  $       H #  H☼
+☼ #### H   #####H#          # #### H~~~~H###### $##H         H##  #####H   H #  H☼
+☼    # H ~~      #        ~~~~~~   H    H     ## ######☼☼☼###### ##    #######  H☼
+☼~~  # H   H###H ########H      H##H ## H            ~~~~~~~           #   #    H☼
+☼    # H   H#  H         ########       H###########         ###########~~~~~~~~H☼
+☼ ~~ # H   H#  H                        H  ~~~~~~~            ~~~~~~~ (#    H    ☼
+☼    # H   H###H########################H#H       H##########H        (#    H    ☼
+☼~ ~~#######   H      $                 H######H  H          H#☼☼☼☼☼# ##### H ###☼
+☼            H☼☼#☼☼H    H#########H     H#     H#####H#####H##( ~~~~~ #     H #$ ☼
+☼  ##########H     H    H         H#####H#     H ~   H     H  Є~ (    #H#   H #H ☼
+☼  ~~       #H#☼#☼#H    H$        H  ~~~ #####H#     H     H    ~Є    #H##### #H ☼
+☼ H  ###H####H  ~  H~~~~H~~~~~~   H           H   H######H##      ~~   H      #H ☼
+☼ H  ~~~H~~~#H     H    H     H###☼☼☼☼☼☼H☼    H~~~H      H          ######H## #H ☼
+☼ H     H   #H     H    H#####H         H     H $    H#########H   ~~~ #  H    H ☼
+☼ H     H   #☼###☼##☼##☼H         H###H##    H##     H#       ##          H H####☼
+☼       H   #☼###☼~~~~  H         H   H######H######### H###H #####H####### H~~~ ☼
+☼  ~~ ##### #☼(((☼      H   ~~~~~~H   H      H          H# #H      H        H    ☼
+☼           #########H###☼☼☼☼     H  ############   ###### ###############~~H  ☼☼☼
+☼~   ########        H            H                                         H    ☼
+
+```
+
+
+## Логику и то какие команды отправлять необходимо прописывать в методе **turn** в том же модуле __main__.py:
 
 ```python
 
     def turn(gcb: Board):
-        # send random one of possible commands
+        # send random one of possible commands sample
         # gcb - это основной класс "игрового поля", который вы используете во время игры - именно его методы описываются ниже в README.md
         action_id = random.randint(0, len(LoderunnerAction) - 1)
         return list(LoderunnerAction)[action_id]
@@ -129,50 +168,75 @@ Actions (команды которые вы можете отправлять) �
 
 Основной класс для получения информации об игровом поле - это Board (internals.board). 
 
-_find_all - Returns the list of points for the given element type.
+### Список методов API для работы с координатами
 
-get_at - Return an Element object at coordinates x,y.
+**_find_all** - Возвращает список координат для данного типа элемента.
 
-has_element_at - Return True if Element is at x,y coordinates.
+**get_at** - Возвращает объект элемента в координатах x,y.
 
-is_barrier_at - Return true if barrier is at x,y.
+**has_element_at** - Возвращает True,если элемент находится в координатах x, y.
 
-get_my_position - Return the point where your hero is.
+**is_barrier_at** - Возвращает true,если барьер находится в точке x, y.
 
-is_game_over - Returns False if your hero still alive.
+**get_my_position** - Возвращает точку, в которой находится ваш герой.
 
-get_enemy_positions - Return the list of points for other heroes.
+**is_game_over** - Возвращает False, если ваш герой еще жив.
 
-get_other_hero_positions - Return the list of points for other heroes.
+**get_enemy_positions** - Возвращает список очков для других героев.
 
-get_shadow_pills - Return the list of points for elements with type 'THE_SHADOW_PILL'
+**get_other_hero_positions** - Возвращает список очков для других героев.
 
-get_portals - Return the list of points for elements with type 'PORTAL'
+**get_shadow_pills** - Возвращает список точек для элементов с типом 'THE_SHADOW_PILL'
 
-get_wall_positions - Returns the list of walls Element Points.
+**get_portals** - Возвращает список точек для элементов с типом 'PORTAL'
 
-get_ladder_positions - Returns the set of ladder Points
+**get_wall_positions** - Возвращает список точек элементов стен.
 
-get_gold_positions - Return the list of points for elements with types YELLOW_GOLD, GREEN_GOLD, RED_GOLD
+**get_ladder_positions** - Возвращает набор точек лестницы
 
-get_pipe_positions - Returns the set of pipe Points
+**get_gold_positions** - Возвращает список точек для элементов с типами YELLOW_GOLD, GREEN_GOLD, RED_GOLD
 
-get_barriers - Return the list of barriers Points.
+**get_pipe_positions** - Возвращает набор точек pipe
 
-is_near_to_element - Check if near exists element of chosed type
+**get_barriers** - Возвращает список точек барьеров.
 
-has_enemy_at - return bool if enemy exists in current point
 
-has_other_hero_at - return bool if other hero exists in current point
+### Список методов API для работы с элементами комнаты
 
-has_wall_at - return bool if wall exists in current point
+**is_near_to_element** - Проверить, существует ли рядом элемент выбранного типа
 
-has_ladder_at - return bool if ladder exists in current point
+**has_enemy_at** - возвращает bool, если враг существует в текущей точке
 
-has_gold_at - return bool if golf exists in current point
+**has_other_hero_at** - возвращает bool, если другой герой существует в текущей точке
 
-has_pipe_at - return bool if pipe exists in current point
+**has_wall_at** - возвращает bool, если стена существует в текущей точке
 
-has_shadow_at - return bool if shadow exists in current point
+**has_ladder_at** - возвращает bool, если лестница существует в текущей точке
 
-get_count_elements_near_to_point - Counts the number of occurencies of elem nearby
+**has_gold_at** - возвращает bool, если золото существует в текущей точке
+
+**has_pipe_at** - возвращает bool, если pipe существует в текущей точке
+
+**has_shadow_at** - возвращает bool, если тень существует в текущей точке
+
+**get_count_elements_near_to_point** - подсчитывает количество появлений элемента поблизости
+
+
+### Список доступных Действий
+
+**GO_LEFT = "left"** - передвижение игрока влево
+
+**GO_RIGHT = "right"** - передвижение игрока вправо
+
+**GO_UP = "up"** - передвижение игрока вверх по лестнице
+
+**GO_DOWN = "down"** - передвижение игрока вниз
+
+**DRILL_RIGHT = "act,right"** - просверлить отверстие вправо
+
+**DRILL_LEFT = "act,left"** - просверлить отверстие влево /
+**Если игрок будет использовать только одну команду ACT то отверстие просверлится в направлении, куда смотрит герой.** 
+
+**DO_NOTHING = "stop"** - остановиться
+
+**SUICIDE = "act(0)"** - завершить игру
