@@ -27,109 +27,6 @@ namespace Loderunner.Api
 {
     public class GameBoard
     {
-        private readonly BoardElement[] HeroIdentifiers =
-        {
-            BoardElement.HeroDie,
-            BoardElement.HeroDrillLeft,
-            BoardElement.HeroDrillRight,
-            BoardElement.HeroFallRight,
-            BoardElement.HeroFallLeft,
-            BoardElement.HeroLadder,
-            BoardElement.HeroLeft,
-            BoardElement.HeroRight,
-            BoardElement.HeroPipeLeft,
-            BoardElement.HeroPipeRight,
-            BoardElement.HeroShadowDrillLeft,
-            BoardElement.HeroShadowDrillRight,
-            BoardElement.HeroShadowFallLeft,
-            BoardElement.HeroShadowFallRight,
-            BoardElement.HeroShadowLadder,
-            BoardElement.HeroShadowLeft,
-            BoardElement.HeroShadowRight,
-            BoardElement.HeroShadowPipeLeft,
-            BoardElement.HeroShadowPipeRight,
-        };
-
-        private readonly BoardElement[] LadderIdentifiers =
-        {
-            BoardElement.Ladder,
-            BoardElement.HeroLadder,
-            BoardElement.OtherHeroLadder,
-            BoardElement.EnemyLadder,
-            BoardElement.HeroShadowLadder,
-            BoardElement.OtherHeroShadowLadder
-        };
-
-        private readonly BoardElement[] EnemyIdentifiers =
-        {
-            BoardElement.EnemyLadder,
-            BoardElement.EnemyLeft,
-            BoardElement.EnemyPipeLeft,
-            BoardElement.EnemyPipeRight,
-            BoardElement.EnemyRight,
-            BoardElement.EnemyPit
-        };
-
-        private readonly BoardElement[] OtherHeroIdentifiers =
-        {
-            BoardElement.OtherHeroLadder,
-            BoardElement.OtherHeroLeft,
-            BoardElement.OtherHeroPipeLeft,
-            BoardElement.OtherHeroPipeRight,
-            BoardElement.OtherHeroRight,
-            BoardElement.OtherHeroShadowLadder,
-            BoardElement.OtherHeroShadowLeft,
-            BoardElement.OtherHeroShadowRight,
-            BoardElement.OtherHeroShadowPipeLeft,
-            BoardElement.OtherHeroShadowPipeRight
-        };
-
-        private readonly BoardElement[] PipeIdentifiers =
-        {
-            BoardElement.Pipe,
-            BoardElement.HeroPipeLeft,
-            BoardElement.HeroPipeRight,
-            BoardElement.OtherHeroPipeLeft,
-            BoardElement.OtherHeroPipeRight,
-            BoardElement.EnemyPipeLeft,
-            BoardElement.EnemyPipeRight,
-            BoardElement.HeroShadowPipeLeft,
-            BoardElement.HeroShadowPipeRight,
-            BoardElement.OtherHeroShadowPipeLeft,
-            BoardElement.OtherHeroShadowPipeRight
-        };
-
-        private readonly BoardElement[] WallIdentifiers =
-        {
-            BoardElement.Brick,
-            BoardElement.UndestroyableWall
-        };
-
-        private readonly BoardElement[] GoldIdentifiers =
-        {
-            BoardElement.YellowGold,
-            BoardElement.GreenGold,
-            BoardElement.RedGold
-        };
-
-        private readonly BoardElement[] ShadowIdentifiers =
-        {
-            BoardElement.OtherHeroShadowLadder,
-            BoardElement.OtherHeroShadowLeft,
-            BoardElement.OtherHeroShadowRight,
-            BoardElement.OtherHeroShadowPipeLeft,
-            BoardElement.OtherHeroShadowPipeRight,
-            BoardElement.HeroShadowDrillLeft,
-            BoardElement.HeroShadowDrillRight,
-            BoardElement.HeroShadowLadder,
-            BoardElement.HeroShadowLeft,
-            BoardElement.HeroShadowRight,
-            BoardElement.HeroShadowFallLeft,
-            BoardElement.HeroShadowFallRight,
-            BoardElement.HeroShadowPipeLeft,
-            BoardElement.HeroShadowPipeRight
-        };
-
         public GameBoard(string boardString)
         {
             BoardString = boardString.Replace("\n", "");
@@ -142,15 +39,16 @@ namespace Loderunner.Api
         /// <summary>
         /// Returns the list of points for the given element type.
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="elements"></param>
         /// <returns></returns>
-        public List<BoardPoint> FindAll(params BoardElement[] element) => Enumerate(element).ToList();
+        public List<BoardPoint> FindAll(params BoardElement[] elements) =>
+            EnumeratePoints(new HashSet<BoardElement>(elements))
+            .ToList();
 
         /// <summary>
         /// Returns the point where your hero is.
         /// </summary>
-        public BoardPoint GetMyPosition() => EnumerateMap()
-            .Single(point => HasElementAt(point, HeroIdentifiers));
+        public BoardPoint GetMyPosition() => EnumeratePoints(ElementSet.Hero).Single();
 
         /// <summary>
         /// Returns a BoardElement object at coordinates x,y.
@@ -182,7 +80,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool IsBarrierAt(int x, int y) => HasElementAt(x, y, WallIdentifiers);
+        public bool IsBarrierAt(int x, int y) => HasElementAt(x, y, ElementSet.Wall);
 
         /// <summary>
         /// Returns False if your hero still alive.
@@ -194,56 +92,56 @@ namespace Loderunner.Api
         /// Return the list of points for other heroes.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetEnemyPositions() => FindAll(EnemyIdentifiers);
+        public List<BoardPoint> GetEnemyPositions() => EnumeratePoints(ElementSet.Enemy).ToList();
 
         /// <summary>
         /// Returns the list of points for other heroes.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetOtherHeroPositions() => FindAll(OtherHeroIdentifiers);
+        public List<BoardPoint> GetOtherHeroPositions() => EnumeratePoints(ElementSet.OtherHero).ToList();
 
         /// <summary>
         /// Returns the list of points for elements with type BoardElement.TheShadowPill.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetShadowPills() => FindAll(BoardElement.TheShadowPill);
+        public List<BoardPoint> GetShadowPills() => EnumeratePoints(BoardElement.TheShadowPill).ToList();
 
         /// <summary>
         /// Returns the list of points for elements with type BoardElement.Portal.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetPortals() => FindAll(BoardElement.Portal);
+        public List<BoardPoint> GetPortals() => EnumeratePoints(BoardElement.Portal).ToList();
 
         /// <summary>
         /// Returns the list of walls element Points.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetWallPositions() => FindAll(WallIdentifiers);
+        public List<BoardPoint> GetWallPositions() => EnumeratePoints(ElementSet.Wall).ToList();
 
         /// <summary>
         /// Returns the set of ladder Points.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetLadderPositions() => Enumerate(LadderIdentifiers).Distinct().ToList();
+        public List<BoardPoint> GetLadderPositions() => EnumeratePoints(ElementSet.Ladder).ToList();
 
         /// <summary>
         /// Return the list of points for elements with types:
         /// BoardElement.YellowGold, BoardElement.GreenGold, BoardElement.RedGold
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetGoldPositions() => FindAll(GoldIdentifiers);
+        public List<BoardPoint> GetGoldPositions() => EnumeratePoints(ElementSet.Gold).ToList();
 
         /// <summary>
         /// Returns the set of pipe BoardPoints.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetPipePositions() => FindAll(PipeIdentifiers);
+        public List<BoardPoint> GetPipePositions() => EnumeratePoints(ElementSet.Pipe).ToList();
 
         /// <summary>
         /// Returns the list of barriers Points.
         /// </summary>
         /// <returns></returns>
-        public List<BoardPoint> GetBarriers() => Enumerate(WallIdentifiers).Distinct().ToList();
+        public List<BoardPoint> GetBarriers() => EnumeratePoints(ElementSet.Wall).ToList();
 
         /// <summary>
         /// Check if near exists element of chosen type.
@@ -267,7 +165,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool HasEnemyAt(int x, int y) => HasElementAt(x, y, EnemyIdentifiers);
+        public bool HasEnemyAt(int x, int y) => HasElementAt(x, y, ElementSet.Enemy);
 
         /// <summary>
         /// Returns True if other hero exists in current point.
@@ -275,7 +173,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool HasOtherHeroAt(int x, int y) => HasElementAt(x, y, OtherHeroIdentifiers);
+        public bool HasOtherHeroAt(int x, int y) => HasElementAt(x, y, ElementSet.OtherHero);
 
         /// <summary>
         /// Returns True if wall exists in current point.
@@ -283,7 +181,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool HasWallAt(int x, int y) => HasElementAt(x, y, WallIdentifiers);
+        public bool HasWallAt(int x, int y) => HasElementAt(x, y, ElementSet.Wall);
 
         /// <summary>
         /// Returns True if ladder exists in current point.
@@ -291,7 +189,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool HasLadderAt(int x, int y) => HasElementAt(x, y, LadderIdentifiers);
+        public bool HasLadderAt(int x, int y) => HasElementAt(x, y, ElementSet.Ladder);
 
         /// <summary>
         /// Returns True if golf exists in current point.
@@ -299,7 +197,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool HasGoldAt(int x, int y) => HasElementAt(x, y, GoldIdentifiers);
+        public bool HasGoldAt(int x, int y) => HasElementAt(x, y, ElementSet.Gold);
 
         /// <summary>
         /// Returns True if pipe exists in current point.
@@ -307,7 +205,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool HasPipeAt(int x, int y) => HasElementAt(x, y, PipeIdentifiers);
+        public bool HasPipeAt(int x, int y) => HasElementAt(x, y, ElementSet.Pipe);
 
         /// <summary>
         /// Returns True if shadow exists in current point.
@@ -315,7 +213,7 @@ namespace Loderunner.Api
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool HasShadowAt(int x, int y) => HasElementAt(x, y, ShadowIdentifiers);
+        public bool HasShadowAt(int x, int y) => HasElementAt(x, y, ElementSet.Shadow);
 
         /// <summary>
         /// Counts the number of occurrences of element nearby.
@@ -349,22 +247,23 @@ namespace Loderunner.Api
             yield return point.ShiftBottom();
         }
 
-        private IEnumerable<BoardPoint> EnumerateMap() => Enumerable
-            .Range(0, Size * Size)
+        private IEnumerable<BoardPoint> EnumeratePoints(BoardElement element) => Enumerable
+            .Range(0, BoardString.Length)
+            .Where(i => element == (BoardElement)BoardString[i])
             .Select(GetPointByShift);
 
-        public IEnumerable<BoardPoint> Enumerate(params BoardElement[] element) => EnumerateMap()
-            .Where(point => HasElementAt(point, element));
+        private IEnumerable<BoardPoint> EnumeratePoints(HashSet<BoardElement> elements) => Enumerable
+            .Range(0, BoardString.Length)
+            .Where(i => elements.Contains((BoardElement)BoardString[i]))
+            .Select(GetPointByShift);
 
-        private bool HasElementAt(int x, int y, params BoardElement[] elements)
+        private bool HasElementAt(int x, int y, IEnumerable<BoardElement> elements)
             => elements.Any(elem => HasElementAt(x, y, elem));
 
         private bool HasElementAt(BoardPoint point, params BoardElement[] elements)
         {
             return elements.Any(elem => HasElementAt(point.X, point.Y, elem));
         }
-
-        private int GetShiftByPoint(BoardPoint point) => GetShiftByPoint(point.Y, point.X);
 
         private int GetShiftByPoint(int x, int y) => y * Size + x;
 
