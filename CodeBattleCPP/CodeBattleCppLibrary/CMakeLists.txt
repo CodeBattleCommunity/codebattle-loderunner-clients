@@ -6,6 +6,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(Sources
   BoardElement.h
+  BoardElement.cpp
 
   BoardPoint.cpp
   BoardPoint.h
