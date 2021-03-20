@@ -8,68 +8,6 @@
 
 namespace
 {
-	const std::unordered_map<BoardElement, std::string> boardElementToString {
-		// Game blocks
-		{BoardElement::NONE, u8" "},
-		{BoardElement::BRICK, u8"#"},
-		{BoardElement::INDESTRUCTIBLE_WALL, u8"☼"},
-		{BoardElement::DRILL_PIT, u8"*"},
-		{BoardElement::YELLOW_GOLD, u8"$"},
-		{BoardElement::GREEN_GOLD, u8"&"},
-		{BoardElement::RED_GOLD, u8"@"},
-		{BoardElement::LADDER, u8"H"},
-		{BoardElement::PIPE, u8"~"},
-		{BoardElement::PIT_FILL_1, u8"1"},
-		{BoardElement::PIT_FILL_2, u8"2"},
-		{BoardElement::PIT_FILL_3, u8"3"},
-		{BoardElement::PIT_FILL_4, u8"4"},
-		{BoardElement::PORTAL, u8"⊛"},
-		{BoardElement::THE_SHADOW_PILL, u8"S"},
-
-		// Your hero
-		{BoardElement::HERO_DIE, u8"Ѡ"},
-		{BoardElement::HERO_DRILL_LEFT, u8"Я"},
-		{BoardElement::HERO_DRILL_RIGHT, u8"R"},
-		{BoardElement::HERO_LADDER, u8"Y"},
-		{BoardElement::HERO_LEFT, u8"◄"},
-		{BoardElement::HERO_RIGHT, u8"►"},
-		{BoardElement::HERO_FALL_LEFT, u8"]"},
-		{BoardElement::HERO_FALL_RIGHT, u8"["},
-		{BoardElement::HERO_PIPE_LEFT, u8"{"},
-		{BoardElement::HERO_PIPE_RIGHT, u8"}"},
-		{BoardElement::HERO_SHADOW_DRILL_LEFT, u8"⊰"},
-		{BoardElement::HERO_SHADOW_DRILL_RIGHT, u8"⊱"},
-		{BoardElement::HERO_SHADOW_LADDER, u8"⍬"},
-		{BoardElement::HERO_SHADOW_LEFT, u8"⊲"},
-		{BoardElement::HERO_SHADOW_RIGHT, u8"⊳"},
-		{BoardElement::HERO_SHADOW_FALL_LEFT, u8"⊅"},
-		{BoardElement::HERO_SHADOW_FALL_RIGHT, u8"⊄"},
-		{BoardElement::HERO_SHADOW_PIPE_LEFT, u8"⋜"},
-		{BoardElement::HERO_SHADOW_PIPE_RIGHT, u8"⋝"},
-
-		// Other heroes
-		{BoardElement::OTHER_HERO_DIE, u8"Z"},
-		{BoardElement::OTHER_HERO_LEFT, u8")"},
-		{BoardElement::OTHER_HERO_RIGHT, u8"("},
-		{BoardElement::OTHER_HERO_LADDER, u8"U"},
-		{BoardElement::OTHER_HERO_PIPE_LEFT, u8"Э"},
-		{BoardElement::OTHER_HERO_PIPE_RIGHT, u8"Є"},
-		{BoardElement::OTHER_HERO_SHADOW_DIE, u8"⋈"},
-		{BoardElement::OTHER_HERO_SHADOW_LEFT, u8"⋊"},
-		{BoardElement::OTHER_HERO_SHADOW_RIGHT, u8"⋉"},
-		{BoardElement::OTHER_HERO_SHADOW_LADDER, u8"⋕"},
-		{BoardElement::OTHER_HERO_SHADOW_PIPE_LEFT, u8"⊣"},
-		{BoardElement::OTHER_HERO_SHADOW_PIPE_RIGHT, u8"⊢"},
-
-		// Other enemy
-		{BoardElement::ENEMY_LADDER, u8"Q"},
-		{BoardElement::ENEMY_LEFT, u8"«"},
-		{BoardElement::ENEMY_RIGHT, u8"»"},
-		{BoardElement::ENEMY_PIPE_LEFT, u8"<"},
-		{BoardElement::ENEMY_PIPE_RIGHT, u8">"},
-		{BoardElement::ENEMY_PIT, u8"X"},
-	};
-
 	bool isHero(BoardElement element) {
 		switch (element) {
 		case BoardElement::HERO_DIE:
@@ -193,8 +131,6 @@ namespace
 
 } // namespace
 
-GameBoard::GameBoard() : m_myPosition(0,0) {}
-
 GameBoard::GameBoard(std::string::const_iterator begin, std::string::const_iterator end)
 	: m_myPosition(0,0)
 {
@@ -206,50 +142,46 @@ GameBoard::GameBoard(std::string::const_iterator begin, std::string::const_itera
 	int row = 0, column = 0;
 	while(it != end) {
 		const auto next = utf8_next(it);
-		for(const auto& el : boardElementToString) {
-			if(std::equal(el.second.cbegin(), el.second.cend(), it)) {
-				const auto element = el.first;
-				m_map[row][column] = element;
+		const std::string token(it, next);
+		const auto element = BoardElementFromString(token);
+		m_map[row][column] = element;
 
-				if(isHero(element)) {
-					m_myPosition = std::move(BoardPoint(column, row));
-				}
-
-				if(isOtherHero(element)) {
-					m_otherHeroPositions.emplace_back(BoardPoint(column, row));
-				}
-
-				if(isWall(element)) {
-					m_wallPositions.emplace_back(BoardPoint(column, row));
-				}
-
-				if(isLadder(element)) {
-					m_ladderPositions.emplace_back(BoardPoint(column, row));
-				}
-
-				if(isGold(element)) {
-					m_goldPositions.emplace_back(BoardPoint(column, row));
-				}
-
-				if(isPipe(element)) {
-					m_pipePositions.emplace_back(BoardPoint(column, row));
-				}
-
-				if(isEnemy(element)) {
-					m_enemyPositions.emplace_back(BoardPoint(column, row));
-				}
-
-				if(isPortal(element)) {
-					m_portalsPositions.emplace_back(BoardPoint(column, row));
-				}
-
-				if(isPill(element)) {
-					m_pillsPositions.emplace_back(BoardPoint(column, row));
-				}
-
-				break;
-			}
+		if (isHero(element)) {
+			m_myPosition = std::move(BoardPoint(column, row));
 		}
+
+		if (isOtherHero(element)) {
+			m_otherHeroPositions.emplace_back(BoardPoint(column, row));
+		}
+
+		if (isWall(element)) {
+			m_wallPositions.emplace_back(BoardPoint(column, row));
+		}
+
+		if (isLadder(element)) {
+			m_ladderPositions.emplace_back(BoardPoint(column, row));
+		}
+
+		if (isGold(element)) {
+			m_goldPositions.emplace_back(BoardPoint(column, row));
+		}
+
+		if (isPipe(element)) {
+			m_pipePositions.emplace_back(BoardPoint(column, row));
+		}
+
+		if (isEnemy(element)) {
+			m_enemyPositions.emplace_back(BoardPoint(column, row));
+		}
+
+		if (isPortal(element)) {
+			m_portalsPositions.emplace_back(BoardPoint(column, row));
+		}
+
+		if (isPill(element)) {
+			m_pillsPositions.emplace_back(BoardPoint(column, row));
+		}
+
 		++column;
 		if(column == size) {
 			column = 0;
@@ -263,7 +195,7 @@ GameBoard::GameBoard(std::string::const_iterator begin, std::string::const_itera
 void GameBoard::printBoard() const {
 	for(const auto& columns : m_map) {
 		for(const auto& column : columns) {
-			std::cout << boardElementToString.at(column);
+			std::cout << std::to_string(column);
 		}
 		std::cout << '\n';
 	}
@@ -285,25 +217,23 @@ bool GameBoard::isGameOver() const {
 	return false;
 }
 
-bool GameBoard::hasElementAt(BoardPoint point, BoardElement element) const {
+bool GameBoard::hasElementAt(const BoardPoint& point, BoardElement element) const {
 	if (point.isOutOfBoard(static_cast<int>(m_map.size()))) {
 		return false;
 	}
 	return getElementAt(point) == element;
 }
 
-BoardElement GameBoard::getElementAt(BoardPoint point) const {
+BoardElement GameBoard::getElementAt(const BoardPoint& point) const {
 	return m_map[point.getY()][point.getX()];
 }
 
 std::vector<BoardPoint> GameBoard::findAllElements(BoardElement element) const {
 	std::vector<BoardPoint> result;
-	for (int j = 0; j < m_map.size(); j++)
-	{
-		for (int i = 0; i < m_map.size(); i++)
-		{
+	for (size_t j = 0; j < m_map.size(); j++) {
+		for (size_t i = 0; i < m_map.size(); i++) {
 			if (m_map[j][i] == element) {
-				result.push_back(BoardPoint(i, j));
+				result.push_back(BoardPoint(static_cast<int>(i), static_cast<int>(j)));
 			}
 		}
 	}
@@ -341,7 +271,7 @@ const std::vector<BoardPoint>& GameBoard::getPortals() const {
 const std::vector<BoardPoint>& GameBoard::getShadowPills() const {
 	return m_pillsPositions;
 }
-bool GameBoard::isNearToElement(BoardPoint point, BoardElement element) const {
+bool GameBoard::isNearToElement(const BoardPoint& point, BoardElement element) const {
 	if (point.isOutOfBoard(static_cast<int>(m_map.size()))) {
 		return false;
 	}
@@ -351,7 +281,7 @@ bool GameBoard::isNearToElement(BoardPoint point, BoardElement element) const {
 		|| hasElementAt(point.shiftRight(), element);
 }
 
-bool GameBoard::hasEnemyAt(BoardPoint point) const {
+bool GameBoard::hasEnemyAt(const BoardPoint& point) const {
 	const auto& enemies = getEnemyPositions();
 	for (auto it = enemies.cbegin(); it != enemies.cend(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {
@@ -361,7 +291,7 @@ bool GameBoard::hasEnemyAt(BoardPoint point) const {
 	return false;
 }
 
-bool GameBoard::hasOtherHeroAt(BoardPoint point) const {
+bool GameBoard::hasOtherHeroAt(const BoardPoint& point) const {
 	const auto& enemies = getOtherHeroPositions();
 	for (auto it = enemies.cbegin(); it != enemies.cend(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {
@@ -371,7 +301,7 @@ bool GameBoard::hasOtherHeroAt(BoardPoint point) const {
 	return false;
 }
 
-bool GameBoard::hasWallAt(BoardPoint point) const {
+bool GameBoard::hasWallAt(const BoardPoint& point) const {
 	const auto& enemies = getWallPositions();
 	for (auto it = enemies.cbegin(); it != enemies.cend(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {
@@ -381,7 +311,7 @@ bool GameBoard::hasWallAt(BoardPoint point) const {
 	return false;
 }
 
-bool GameBoard::hasLadderAt(BoardPoint point) const {
+bool GameBoard::hasLadderAt(const BoardPoint& point) const {
 	const auto& enemies = getLadderPositions();
 	for (auto it = enemies.cbegin(); it != enemies.cend(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {
@@ -391,7 +321,7 @@ bool GameBoard::hasLadderAt(BoardPoint point) const {
 	return false;
 }
 
-bool GameBoard::hasGoldAt(BoardPoint point) const {
+bool GameBoard::hasGoldAt(const BoardPoint& point) const {
 	const auto& enemies = getGoldPositions();
 	for (auto it = enemies.cbegin(); it != enemies.cend(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {
@@ -401,7 +331,7 @@ bool GameBoard::hasGoldAt(BoardPoint point) const {
 	return false;
 }
 
-bool GameBoard::hasPipeAt(BoardPoint point) const {
+bool GameBoard::hasPipeAt(const BoardPoint& point) const {
 	const auto& enemies = getPipePositions();
 	for (auto it = enemies.cbegin(); it != enemies.cend(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {
@@ -411,7 +341,7 @@ bool GameBoard::hasPipeAt(BoardPoint point) const {
 	return false;
 }
 
-bool GameBoard::hasShadowAt(BoardPoint point) const {
+bool GameBoard::hasShadowAt(const BoardPoint& point) const {
 	const auto& enemies = getShadowPills();
 	for (auto it = enemies.cbegin(); it != enemies.cend(); ++it) {
 		if (it->getX() == point.getX() && it->getY() == point.getY()) {

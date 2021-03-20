@@ -10,12 +10,11 @@ class GameBoard
 {
 public:
 	GameBoard(std::string::const_iterator begin, std::string::const_iterator end);
-	GameBoard();
 
 	const BoardPoint& getMyPosition() const;
 	bool isGameOver() const;
-	bool hasElementAt(BoardPoint point, BoardElement element) const;
-	BoardElement getElementAt(BoardPoint point) const;
+	bool hasElementAt(const BoardPoint& point, BoardElement element) const;
+	BoardElement getElementAt(const BoardPoint& point) const;
 	void printBoard() const;
 	std::vector<BoardPoint> findAllElements(BoardElement element) const;
 	const std::vector<BoardPoint>& getOtherHeroPositions() const;
@@ -26,14 +25,14 @@ public:
 	const std::vector<BoardPoint>& getEnemyPositions() const;
 	const std::vector<BoardPoint>& getPortals() const;
 	const std::vector<BoardPoint>& getShadowPills() const;
-	bool isNearToElement(BoardPoint point, BoardElement element) const;
-	bool hasEnemyAt(BoardPoint point) const;
-	bool hasOtherHeroAt(BoardPoint point) const;
-	bool hasWallAt(BoardPoint point) const;
-	bool hasLadderAt(BoardPoint point) const;
-	bool hasGoldAt(BoardPoint point) const;
-	bool hasPipeAt(BoardPoint point) const;
-	bool hasShadowAt(BoardPoint point) const;
+	bool isNearToElement(const BoardPoint& point, BoardElement element) const;
+	bool hasEnemyAt(const BoardPoint& point) const;
+	bool hasOtherHeroAt(const BoardPoint& point) const;
+	bool hasWallAt(const BoardPoint& point) const;
+	bool hasLadderAt(const BoardPoint& point) const;
+	bool hasGoldAt(const BoardPoint& point) const;
+	bool hasPipeAt(const BoardPoint& point) const;
+	bool hasShadowAt(const BoardPoint& point) const;
 
 private:
 	std::vector<std::vector<BoardElement>> m_map;
