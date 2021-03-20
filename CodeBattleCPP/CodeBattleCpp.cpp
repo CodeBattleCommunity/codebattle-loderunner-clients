@@ -3,33 +3,31 @@
 
 #include "GameClientLodeRunner.h"
 
-int main()
-{
-	srand(static_cast<uint32_t>(time(0)));
+LodeRunnerAction makeTurn(const GameBoard& board) {
+	const BoardPoint& position = board.getMyPosition();
+	std::cout << "Hero position is (" << position.getX() << "," << position.getY() << ")\n";
 
-	const std::string serverUrl = "http://codebattle2021.westeurope.cloudapp.azure.com/codenjoy-contest/board/player/8tpxg3ohy8saq6lge9dq?code=5120724914036517902&gameName=loderunner";
+	switch (rand() % 5)
+	{
+	case 0:
+		return LodeRunnerAction::GO_UP;
+	case 1:
+		return LodeRunnerAction::GO_DOWN;
+	case 2:
+		return LodeRunnerAction::GO_LEFT;
+	case 3:
+		return LodeRunnerAction::GO_RIGHT;
+	case 4:
+		return LodeRunnerAction::DRILL;
+	}
+	return LodeRunnerAction::SUICIDE;
+}
+
+int main() {
+	const std::string serverUrl = "http://codebattle2021.westeurope.cloudapp.azure.com/codenjoy-contest/board/player/j2p3kh7mztqz07f2e1sb?code=2490633588462720265&gameName=loderunner";
 
 	GameClientLodeRunner gcb(serverUrl);
-	gcb.Run([&]()
-	{
-			const auto& gb = gcb.get_GameBoard();
-			const auto& gold = gb.getGoldPositions();
-
-			bool done = false;
-			switch (rand() % 5)
-			{
-			case 0: gcb.LoderunnerAction(LoderunnerAction::GO_UP); done = true; break;
-			case 1: gcb.LoderunnerAction(LoderunnerAction::GO_DOWN); done = true; break;
-			case 2: gcb.LoderunnerAction(LoderunnerAction::GO_LEFT); done = true; break;
-			case 3: gcb.LoderunnerAction(LoderunnerAction::GO_RIGHT); done = true; break;
-			case 4: gcb.LoderunnerAction(LoderunnerAction::DRILL); done = true; break;
-			}
-			if (!done) {
-				gcb.LoderunnerAction(LoderunnerAction::DO_NOTHING);
-			}
-	});
-
-	getchar();
+	gcb.Run(makeTurn);
 
 	return 0;
 }
