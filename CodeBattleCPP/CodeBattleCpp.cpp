@@ -2,6 +2,7 @@
 #include <random>
 
 #include "GameClientLodeRunner.h"
+#include "GameBoard.h"
 
 LodeRunnerAction makeTurn(const GameBoard& board) {
 	const BoardPoint& position = board.getMyPosition();

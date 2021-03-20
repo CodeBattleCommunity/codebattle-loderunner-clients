@@ -5,12 +5,12 @@
 #include <functional>
 
 #include "LodeRunnerAction.h"
-#include "GameBoard.h"
 
 namespace easywsclient
 {
 	class WebSocket;
 } // namespace easywsclient
+class GameBoard;
 
 class GameClientLodeRunner
 {

@@ -1,5 +1,7 @@
-#include "GameClientLodeRunner.h"
 #include "easywsclient/easywsclient.hpp"
+#include "GameBoard.h"
+#include "GameClientLodeRunner.h"
+#include "utf8tools.h"
 
 #include <iostream>
 #include <algorithm>
@@ -9,10 +11,7 @@
 #include <WinSock2.h>
 #endif
 
-#include "utf8tools.h"
-
 GameClientLodeRunner::GameClientLodeRunner(const std::string &_server) : path(_server)
-
 {
 	path = path.replace(path.find("http"), sizeof("http") - 1, "ws");
 	path = path.replace(path.find("board/player/"), sizeof("board/player/") - 1, "ws?user=");
@@ -43,8 +42,11 @@ void GameClientLodeRunner::Run(std::function<LodeRunnerAction(const GameBoard &)
 	{
 		web_socket->poll(60 * 1000); //1 minute
 		web_socket->dispatch([&](const std::string &message) {
-			GameBoard board(message.begin() + 6, message.end());
+			// Message starts with 'board=', so we want to skip this part
+			const int offset = 6;
+			GameBoard board(message.begin() + offset, message.end());
 			const auto result = _message_handler(board);
+
 			std::cout << "Sending: " << std::to_string(result) << '\n';
 			web_socket->send(std::to_string(result));
 		});
