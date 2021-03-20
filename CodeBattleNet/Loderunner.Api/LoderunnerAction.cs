@@ -21,16 +21,16 @@
  */
 namespace Loderunner.Api
 {
-	public enum LoderunnerAction
-	{
-		GoLeft,
-		GoRight,
-		GoUp,
-		GoDown,
-		FrillLeft,
-		DrillRight,
-		DrillLeft,
-		DoNothing,
-		Suicide
-	}
+    public enum LoderunnerAction
+    {
+        GoLeft,
+        GoRight,
+        GoUp,
+        GoDown,
+        FrillLeft,
+        DrillRight,
+        DrillLeft,
+        DoNothing,
+        Suicide
+    }
 }

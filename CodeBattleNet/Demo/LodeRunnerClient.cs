@@ -24,45 +24,45 @@ using Loderunner.Api;
 
 namespace Demo
 {
-	/// <summary>
-	/// This is LoderunnerAI client demo.
-	/// </summary>
-	internal class LodeRunnerClient : LoderunnerBase
-	{
+    /// <summary>
+    /// This is LoderunnerAI client demo.
+    /// </summary>
+    internal class LodeRunnerClient : LoderunnerBase
+    {
 
-		private Func<GameBoard, LoderunnerAction> callback;
+        private Func<GameBoard, LoderunnerAction> callback;
 
-		public LodeRunnerClient(string serverAddress) : base(serverAddress)
-		{
-		}
+        public LodeRunnerClient(string serverAddress) : base(serverAddress)
+        {
+        }
 
-		/// <summary>
-		/// Calls each move to make decision what to do (next move)
-		/// </summary>
-		protected override string DoMove(GameBoard gameBoard)
-		{
-			//Just print current state (gameBoard) to console
-			Console.Clear();
-			//Console.SetCursorPosition(0, 0);
-			gameBoard.PrintBoard();
+        /// <summary>
+        /// Calls each move to make decision what to do (next move)
+        /// </summary>
+        protected override string DoMove(GameBoard gameBoard)
+        {
+            //Just print current state (gameBoard) to console
+            Console.Clear();
+            //Console.SetCursorPosition(0, 0);
+            gameBoard.PrintBoard();
 
-			LoderunnerAction action = callback(gameBoard);
-			Console.WriteLine(action.ToString());
-			return LoderunnerActionToString(action);
-		}
+            LoderunnerAction action = callback(gameBoard);
+            Console.WriteLine(action.ToString());
+            return LoderunnerActionToString(action);
+        }
 
-		/// <summary>
-		/// Starts loderunner's client shutdown.
-		/// </summary>
-		public void InitiateExit()
-		{
-			ShouldExit = true;
-		}
+        /// <summary>
+        /// Starts loderunner's client shutdown.
+        /// </summary>
+        public void InitiateExit()
+        {
+            ShouldExit = true;
+        }
 
-		public void Run(Func<GameBoard, LoderunnerAction> callback)
-		{
-			this.callback = callback;
-			Connect();
-		}
-	}
+        public void Run(Func<GameBoard, LoderunnerAction> callback)
+        {
+            this.callback = callback;
+            Connect();
+        }
+    }
 }
