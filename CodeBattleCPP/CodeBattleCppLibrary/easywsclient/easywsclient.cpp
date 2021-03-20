@@ -113,15 +113,15 @@ socket_t hostname_connect(const std::string& hostname, int port) {
 class _DummyWebSocket : public easywsclient::WebSocket
 {
   public:
-    void poll(int timeout) { }
-    void send(const std::string& message) { }
-    void sendBinary(const std::string& message) { }
-    void sendBinary(const std::vector<uint8_t>& message) { }
+    void poll(int) { }
+    void send(const std::string&) { }
+    void sendBinary(const std::string&) { }
+    void sendBinary(const std::vector<uint8_t>&) { }
     void sendPing() { }
     void close() { } 
     readyStateValues getReadyState() const { return CLOSED; }
-    void _dispatch(Callback_Imp & callable) { }
-    void _dispatchBinary(BytesCallback_Imp& callable) { }
+    void _dispatch(Callback_Imp &) { }
+    void _dispatchBinary(BytesCallback_Imp&) { }
 };
 
 
@@ -152,7 +152,7 @@ class _RealWebSocket : public easywsclient::WebSocket
         unsigned header_size;
         bool fin;
         bool mask;
-        enum opcode_type {
+        enum class opcode_type : uint8_t {
             CONTINUATION = 0x0,
             TEXT_FRAME = 0x1,
             BINARY_FRAME = 0x2,
@@ -273,50 +273,54 @@ class _RealWebSocket : public easywsclient::WebSocket
             ws.mask = (data[1] & 0x80) == 0x80;
             ws.N0 = (data[1] & 0x7f);
             ws.header_size = 2 + (ws.N0 == 126? 2 : 0) + (ws.N0 == 127? 8 : 0) + (ws.mask? 4 : 0);
-            if (rxbuf.size() < ws.header_size) { return; /* Need: ws.header_size - rxbuf.size() */ }
-            int i = 0;
-            if (ws.N0 < 126) {
-                ws.N = ws.N0;
-                i = 2;
+            if (rxbuf.size() < ws.header_size) {
+                return; /* Need: ws.header_size - rxbuf.size() */
             }
-            else if (ws.N0 == 126) {
-                ws.N = 0;
-                ws.N |= ((uint64_t) data[2]) << 8;
-                ws.N |= ((uint64_t) data[3]) << 0;
-                i = 4;
-            }
-            else if (ws.N0 == 127) {
-                ws.N = 0;
-                ws.N |= ((uint64_t) data[2]) << 56;
-                ws.N |= ((uint64_t) data[3]) << 48;
-                ws.N |= ((uint64_t) data[4]) << 40;
-                ws.N |= ((uint64_t) data[5]) << 32;
-                ws.N |= ((uint64_t) data[6]) << 24;
-                ws.N |= ((uint64_t) data[7]) << 16;
-                ws.N |= ((uint64_t) data[8]) << 8;
-                ws.N |= ((uint64_t) data[9]) << 0;
-                i = 10;
-            }
-            if (ws.mask) {
-                ws.masking_key[0] = ((uint8_t) data[i+0]) << 0;
-                ws.masking_key[1] = ((uint8_t) data[i+1]) << 0;
-                ws.masking_key[2] = ((uint8_t) data[i+2]) << 0;
-                ws.masking_key[3] = ((uint8_t) data[i+3]) << 0;
-            }
-            else {
-                ws.masking_key[0] = 0;
-                ws.masking_key[1] = 0;
-                ws.masking_key[2] = 0;
-                ws.masking_key[3] = 0;
+            { // To limit scope of variable i
+                int i = 0;
+                if (ws.N0 < 126) {
+                    ws.N = ws.N0;
+                    i = 2;
+                }
+                else if (ws.N0 == 126) {
+                    ws.N = 0;
+                    ws.N |= ((uint64_t) data[2]) << 8;
+                    ws.N |= ((uint64_t) data[3]) << 0;
+                    i = 4;
+                }
+                else if (ws.N0 == 127) {
+                    ws.N = 0;
+                    ws.N |= ((uint64_t) data[2]) << 56;
+                    ws.N |= ((uint64_t) data[3]) << 48;
+                    ws.N |= ((uint64_t) data[4]) << 40;
+                    ws.N |= ((uint64_t) data[5]) << 32;
+                    ws.N |= ((uint64_t) data[6]) << 24;
+                    ws.N |= ((uint64_t) data[7]) << 16;
+                    ws.N |= ((uint64_t) data[8]) << 8;
+                    ws.N |= ((uint64_t) data[9]) << 0;
+                    i = 10;
+                }
+                if (ws.mask) {
+                    ws.masking_key[0] = ((uint8_t) data[i+0]) << 0;
+                    ws.masking_key[1] = ((uint8_t) data[i+1]) << 0;
+                    ws.masking_key[2] = ((uint8_t) data[i+2]) << 0;
+                    ws.masking_key[3] = ((uint8_t) data[i+3]) << 0;
+                }
+                else {
+                    ws.masking_key[0] = 0;
+                    ws.masking_key[1] = 0;
+                    ws.masking_key[2] = 0;
+                    ws.masking_key[3] = 0;
+                }
             }
             if (rxbuf.size() < ws.header_size+ws.N) { return; /* Need: ws.header_size+ws.N - rxbuf.size() */ }
 
             // We got a whole message, now do something with it:
             if (false) { }
             else if (
-                   ws.opcode == wsheader_type::TEXT_FRAME 
-                || ws.opcode == wsheader_type::BINARY_FRAME
-                || ws.opcode == wsheader_type::CONTINUATION
+                   ws.opcode == wsheader_type::opcode_type::TEXT_FRAME 
+                || ws.opcode == wsheader_type::opcode_type::BINARY_FRAME
+                || ws.opcode == wsheader_type::opcode_type::CONTINUATION
             ) {
                 if (ws.mask) { for (size_t i = 0; i != ws.N; ++i) { rxbuf[i+ws.header_size] ^= ws.masking_key[i&0x3]; } }
                 receivedData.insert(receivedData.end(), rxbuf.begin()+ws.header_size, rxbuf.begin()+ws.header_size+(size_t)ws.N);// just feed
@@ -326,13 +330,13 @@ class _RealWebSocket : public easywsclient::WebSocket
                     std::vector<uint8_t> ().swap(receivedData);// free memory
                 }
             }
-            else if (ws.opcode == wsheader_type::PING) {
+            else if (ws.opcode == wsheader_type::opcode_type::PING) {
                 if (ws.mask) { for (size_t i = 0; i != ws.N; ++i) { rxbuf[i+ws.header_size] ^= ws.masking_key[i&0x3]; } }
-                std::string data(rxbuf.begin()+ws.header_size, rxbuf.begin()+ws.header_size+(size_t)ws.N);
-                sendData(wsheader_type::PONG, data.size(), data.begin(), data.end());
+                std::string response(rxbuf.begin()+ws.header_size, rxbuf.begin()+ws.header_size+(size_t)ws.N);
+                sendData(wsheader_type::opcode_type::PONG, response.size(), response.begin(), response.end());
             }
-            else if (ws.opcode == wsheader_type::PONG) { }
-            else if (ws.opcode == wsheader_type::CLOSE) { close(); }
+            else if (ws.opcode == wsheader_type::opcode_type::PONG) { }
+            else if (ws.opcode == wsheader_type::opcode_type::CLOSE) { close(); }
             else { fprintf(stderr, "ERROR: Got unexpected WebSocket message.\n"); close(); }
 
             rxbuf.erase(rxbuf.begin(), rxbuf.begin() + ws.header_size+(size_t)ws.N);
@@ -341,19 +345,19 @@ class _RealWebSocket : public easywsclient::WebSocket
 
     void sendPing() {
         std::string empty;
-        sendData(wsheader_type::PING, empty.size(), empty.begin(), empty.end());
+        sendData(wsheader_type::opcode_type::PING, empty.size(), empty.begin(), empty.end());
     }
 
     void send(const std::string& message) {
-        sendData(wsheader_type::TEXT_FRAME, message.size(), message.begin(), message.end());
+        sendData(wsheader_type::opcode_type::TEXT_FRAME, message.size(), message.begin(), message.end());
     }
 
     void sendBinary(const std::string& message) {
-        sendData(wsheader_type::BINARY_FRAME, message.size(), message.begin(), message.end());
+        sendData(wsheader_type::opcode_type::BINARY_FRAME, message.size(), message.begin(), message.end());
     }
 
     void sendBinary(const std::vector<uint8_t>& message) {
-        sendData(wsheader_type::BINARY_FRAME, message.size(), message.begin(), message.end());
+        sendData(wsheader_type::opcode_type::BINARY_FRAME, message.size(), message.begin(), message.end());
     }
 
     template<class Iterator>
@@ -367,7 +371,7 @@ class _RealWebSocket : public easywsclient::WebSocket
         if (readyState == CLOSING || readyState == CLOSED) { return; }
         std::vector<uint8_t> header;
         header.assign(2 + (message_size >= 126 ? 2 : 0) + (message_size >= 65536 ? 6 : 0) + (useMask ? 4 : 0), 0);
-        header[0] = 0x80 | type;
+        header[0] = 0x80 | static_cast<uint8_t>(type);
         if (false) { }
         else if (message_size < 126) {
             header[1] = (message_size & 0xff) | (useMask ? 0x80 : 0);

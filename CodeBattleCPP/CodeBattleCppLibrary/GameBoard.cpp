@@ -199,11 +199,11 @@ GameBoard::GameBoard(std::string::const_iterator begin, std::string::const_itera
 	: m_myPosition(0,0)
 {
 	const auto messageSize = utf8_strlen(begin, end);
-	uint32_t size = static_cast<uint32_t>(std::sqrt(messageSize));
+	int size = static_cast<int>(std::sqrt(messageSize));
 	m_map.resize(size, std::vector<BoardElement>(size, BoardElement::NONE));
 
 	auto it = begin;
-	size_t row = 0, column = 0;
+	int row = 0, column = 0;
 	while(it != end) {
 		const auto next = utf8_next(it);
 		for(const auto& el : boardElementToString) {
@@ -286,7 +286,7 @@ bool GameBoard::isGameOver() const {
 }
 
 bool GameBoard::hasElementAt(BoardPoint point, BoardElement element) const {
-	if (point.isOutOfBoard(m_map.size())) {
+	if (point.isOutOfBoard(static_cast<int>(m_map.size()))) {
 		return false;
 	}
 	return getElementAt(point) == element;
@@ -342,7 +342,7 @@ const std::vector<BoardPoint>& GameBoard::getShadowPills() const {
 	return m_pillsPositions;
 }
 bool GameBoard::isNearToElement(BoardPoint point, BoardElement element) const {
-	if (point.isOutOfBoard(m_map.size())) {
+	if (point.isOutOfBoard(static_cast<int>(m_map.size()))) {
 		return false;
 	}
 	return hasElementAt(point.shiftBottom(), element)
