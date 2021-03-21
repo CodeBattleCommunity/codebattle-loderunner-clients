@@ -1,57 +1,54 @@
+#include "easywsclient/easywsclient.hpp"
+#include "GameBoard.h"
 #include "GameClientLodeRunner.h"
-#include <iostream>
-#include <cmath>
-#include <algorithm>
-
 #include "utf8tools.h"
 
-GameClientLodeRunner::GameClientLodeRunner(std::string _server)
-{
-	path = _server.replace(_server.find("http"), sizeof("http")-1, "ws");
-	path = path.replace(path.find("board/player/"),sizeof("board/player/")-1,"ws?user=");
-	path = path.replace(path.find("?code="),sizeof("?code=")-1,"&code=");
+#include <iostream>
+#include <algorithm>
 
-	is_running = false;
+#ifdef _WIN32
+#pragma comment(lib, "ws2_32")
+#include <WinSock2.h>
+#endif
+
+GameClientLodeRunner::GameClientLodeRunner(const std::string &_server) : path(_server)
+{
+	path = path.replace(path.find("http"), sizeof("http") - 1, "ws");
+	path = path.replace(path.find("board/player/"), sizeof("board/player/") - 1, "ws?user=");
+	path = path.replace(path.find("?code="), sizeof("?code=") - 1, "&code=");
 }
 
 GameClientLodeRunner::~GameClientLodeRunner()
 {
-	is_running = false;
-	if(work_thread.joinable())
-		work_thread.join();
+	web_socket->close();
+#ifdef _WIN32
+	WSACleanup();
+#endif
 }
 
-void GameClientLodeRunner::Run(std::function<void()> _message_handler)
-{
-	is_running = true;
-	work_thread = std::move(std::thread(&GameClientLodeRunner::update_func, this, _message_handler));
-}
-
-void GameClientLodeRunner::update_func(std::function<void()> _message_handler)
+void GameClientLodeRunner::Run(std::function<LodeRunnerAction(const GameBoard &)> _message_handler)
 {
 #ifdef _WIN32
 	WSADATA wsaData;
 
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData))
-		throw new std::exception("WSAStartup Failed.\n");
+		throw std::exception("WSAStartup Failed.\n");
 	else
 		std::cout << "Connection established" << std::endl;
 #endif
 
-	web_socket = easywsclient::WebSocket::from_url(path);
-	if (web_socket == nullptr)is_running = false;
-	while (is_running)
+	web_socket.reset(easywsclient::WebSocket::from_url(path));
+	while (1)
 	{
-		web_socket->poll();
-		web_socket->dispatch([&](const std::string &message)
-		{
-			board = std::move(GameBoard(message.begin()+6, message.end()));
-			_message_handler();
+		web_socket->poll(60 * 1000); //1 minute
+		web_socket->dispatch([&](const std::string &message) {
+			// Message starts with 'board=', so we want to skip this part
+			const int offset = 6;
+			GameBoard board(message.begin() + offset, message.end());
+			const auto result = _message_handler(board);
+
+			std::cout << "Sending: " << std::to_string(result) << '\n';
+			web_socket->send(std::to_string(result));
 		});
 	}
-	if (web_socket)web_socket->close();
-
-#ifdef _WIN32
-	WSACleanup();
-#endif
 }

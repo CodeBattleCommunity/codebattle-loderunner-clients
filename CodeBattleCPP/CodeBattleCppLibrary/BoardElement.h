@@ -1,8 +1,9 @@
 ﻿#pragma once
 
 #include <cstdint>
+#include <string>
 
-enum class BoardElement : uint16_t
+enum class BoardElement : uint8_t
 {
 	NONE,
 	BRICK,
@@ -58,3 +59,8 @@ enum class BoardElement : uint16_t
 	ENEMY_PIT
 };
 
+BoardElement BoardElementFromString(const std::string& str);
+
+namespace std {
+	std::string to_string(BoardElement element);
+}

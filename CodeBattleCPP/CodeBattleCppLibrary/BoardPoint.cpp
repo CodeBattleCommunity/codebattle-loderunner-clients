@@ -1,7 +1,7 @@
 #include "BoardPoint.h"
 #include <iostream>
 
-BoardPoint::BoardPoint(int x, int y) : x(x), y(y) {
+BoardPoint::BoardPoint(int x, int y) noexcept : x(x), y(y) {
 }
 
 BoardPoint BoardPoint::shiftLeft(int delta) const noexcept {

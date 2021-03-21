@@ -6,6 +6,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(Sources
   BoardElement.h
+  BoardElement.cpp
 
   BoardPoint.cpp
   BoardPoint.h
@@ -16,7 +17,8 @@ set(Sources
   GameClientLodeRunner.h
   GameClientLodeRunner.cpp
 
-  LoderunnerAction.h
+  LodeRunnerAction.h
+  LodeRunnerAction.cpp
 )
 
 option(build_tests "Enable this option to build tests" false)

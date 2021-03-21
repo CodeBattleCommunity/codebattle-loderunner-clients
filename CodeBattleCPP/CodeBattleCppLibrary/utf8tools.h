@@ -11,7 +11,9 @@ inline constexpr size_t codepointSize(uint8_t lb) {
         return 3;
     if ((lb & 0xF8) == 0xF0) // 1111 0xxx
         return 4;
-    assert(false);
+
+    assert(("Can't detect length of codepoint", false));
+    return 1; // To avoid getting stuck in an endless loop.
 }
 
 inline size_t utf8_strlen(std::string::const_iterator begin, std::string::const_iterator end) {

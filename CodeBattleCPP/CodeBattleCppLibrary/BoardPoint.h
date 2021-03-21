@@ -3,7 +3,7 @@
 class BoardPoint
 {
 public:
-	BoardPoint(int x, int y);
+	BoardPoint(int x, int y) noexcept;
 
 	BoardPoint shiftLeft(int delta) const noexcept;
 	BoardPoint shiftLeft() const noexcept;
