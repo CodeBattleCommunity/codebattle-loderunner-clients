@@ -18,7 +18,7 @@
 
 #### Подключение к серверу и начало игры
 
-1. Чтобы подключится к серверу необходимо в файле CodeBattleJava\src\main\java\кг\codebattle\client\Main.java прописать uri сервера игры
+1. Чтобы подключится к серверу необходимо в файле CodeBattleJava\src\main\java\ru\codebattle\client\Main.java прописать uri сервера игры
 
 ```java
 
