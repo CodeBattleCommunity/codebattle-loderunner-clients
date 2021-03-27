@@ -22,20 +22,20 @@
 using System;
 using Loderunner.Api;
 
-namespace Demo
+namespace Loderunner
 {
     /// <summary>
     /// This is LoderunnerAI client demo.
     /// </summary>
-    internal class MyCustomLoderunnerAI : LoderunnerBase
+    internal class MyLoderunnerBot : LoderunnerBase
     {
-        public MyCustomLoderunnerAI(string serverUrl)
+        public MyLoderunnerBot(string serverUrl)
             : base(serverUrl)
         {
         }
 
         /// <summary>
-        /// Calls each move to make decision what to do (next move)
+        /// Called each game tick to make decision what to do (next move)
         /// </summary>
         protected override string DoMove(GameBoard gameBoard)
         {
@@ -43,13 +43,21 @@ namespace Demo
             Console.Clear();
             gameBoard.PrintBoard();
 
-            Random random = new Random(Environment.TickCount);
 
             //TODO: Implement your logic here
+            Random random = new Random(Environment.TickCount);
             LoderunnerAction action = (LoderunnerAction)random.Next(3);
 
             Console.WriteLine(action.ToString());
             return LoderunnerActionToString(action);
+        }
+
+        /// <summary>
+        /// Connect to server and start recieving messages
+        /// </summary>
+        internal void Run()
+        {
+            Connect();
         }
 
         /// <summary>
