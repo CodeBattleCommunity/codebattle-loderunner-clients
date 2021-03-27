@@ -167,7 +167,6 @@ LoderunnerAction (команды которые вы можете отправл
         GoRight,
         GoUp,
         GoDown,
-        FrillLeft,
         DrillRight,
         DrillLeft,
         DoNothing,

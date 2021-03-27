@@ -27,7 +27,6 @@ namespace Loderunner.Api
         GoRight,
         GoUp,
         GoDown,
-        FrillLeft,
         DrillRight,
         DrillLeft,
         DoNothing,
