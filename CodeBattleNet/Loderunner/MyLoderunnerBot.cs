@@ -53,14 +53,6 @@ namespace Loderunner
         }
 
         /// <summary>
-        /// Connect to server and start recieving messages
-        /// </summary>
-        internal void Run()
-        {
-            Connect();
-        }
-
-        /// <summary>
         /// Starts loderunner's client shutdown.
         /// </summary>
         public void InitiateExit()

@@ -30,10 +30,7 @@ namespace Loderunner
         static void Main(string[] args)
         {
             // creating custom AI client
-            var bot = new MyLoderunnerBot(ServerAddress);
-
-            // connect to server and start a game
-            bot.Run();
+            using var bot = new MyLoderunnerBot(ServerAddress);
 
             // waiting for any key
             Console.ReadKey();

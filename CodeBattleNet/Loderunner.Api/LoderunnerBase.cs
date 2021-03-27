@@ -24,16 +24,18 @@ using WebSocketSharp;
 
 namespace Loderunner.Api
 {
-    public abstract class LoderunnerBase
+    public abstract class LoderunnerBase : IDisposable
     {
         private const string ResponsePrefix = "board=";
-        private WebSocket socket;
+        private WebSocket _socket;
+        private bool _disposedValue;
 
         protected LoderunnerBase(string url)
         {
             var _server = url.Replace("http", "ws").Replace("board/player/", "ws?user=").Replace("?code=", "&code=");
-            this.socket = new WebSocket(_server);
-            socket.OnMessage += Socket_OnMessage;
+            _socket = new WebSocket(_server);
+            _socket.OnMessage += Socket_OnMessage;
+            _socket.Connect();
         }
 
 
@@ -83,9 +85,22 @@ namespace Loderunner.Api
             }
         }
 
-        protected void Connect()
+        protected virtual void Dispose(bool disposing)
         {
-            this.socket.Connect();
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _socket?.Close();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        void IDisposable.Dispose()
+        {
+            Dispose(disposing: true);
         }
     }
 }
