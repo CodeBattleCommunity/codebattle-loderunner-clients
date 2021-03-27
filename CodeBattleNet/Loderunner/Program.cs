@@ -29,7 +29,7 @@ namespace Loderunner
 
         static void Main(string[] args)
         {
-            // creating custom AI client
+            // creating and starting a bot instance
             using var bot = new MyLoderunnerBot(ServerAddress);
 
             // waiting for any key
