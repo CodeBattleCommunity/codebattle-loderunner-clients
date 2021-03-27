@@ -41,7 +41,6 @@ namespace Demo
         {
             //Just print current state (gameBoard) to console
             Console.Clear();
-            //Console.SetCursorPosition(0, 0);
             gameBoard.PrintBoard();
 
             Random random = new Random(Environment.TickCount);

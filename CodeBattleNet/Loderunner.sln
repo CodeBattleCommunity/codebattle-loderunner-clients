@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{EF90FD1E-2DB5-4E31-92F7-20E6C2186203}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loderunner", "Loderunner\Loderunner.csproj", "{EF90FD1E-2DB5-4E31-92F7-20E6C2186203}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loderunner.Api", "Loderunner.Api\Loderunner.Api.csproj", "{466DF49B-C4AF-40B4-8A9B-13922187EBA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loderunner.Api", "Loderunner.Api\Loderunner.Api.csproj", "{466DF49B-C4AF-40B4-8A9B-13922187EBA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
