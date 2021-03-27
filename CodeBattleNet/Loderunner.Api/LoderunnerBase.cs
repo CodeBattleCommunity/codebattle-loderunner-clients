@@ -140,7 +140,11 @@ namespace Loderunner.Api
                 {
                     _cts?.Cancel();
                     _cts?.Dispose();
-                    _socket?.Close();
+                    if (_socket != null)
+                    {
+                        _socket.OnMessage -= Socket_OnMessage;
+                        _socket.Close();
+                    }
                 }
 
                 _disposedValue = true;
