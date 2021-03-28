@@ -19,7 +19,7 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-﻿namespace Loderunner.Api
+namespace Loderunner.Api
 {
     public enum BoardElement : short
     {
