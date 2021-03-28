@@ -46,6 +46,26 @@
     dotnet run --project ./Demo/Demo.csproj
 ```
 
+### Mac (macOS 10.13 "High Sierra" и выше)
+1. Установить Command line tools Mac OS
+
+```bash
+    xcode-select --install
+```
+2. Скачать и установить (SDK версии 3.1)[https://dotnet.microsoft.com/download/dotnet/3.1] для macOS (Дополнительная информация по установке)[https://docs.microsoft.com/ru-ru/dotnet/core/install/macos]
+
+3. Выполнить команду для сборки решения:
+
+```bash
+    # сборка решения
+    dotnet build ./Loderunner.sln
+```
+3. Запуск клиента осуществляется командой:
+```bash
+    # запуск клиента
+    dotnet run --project ./Demo/Demo.csproj
+```
+
 ## Подключение к серверу игры
 
 Сервер игры Load Runner (https://github.com/codenjoyme/codenjoy) работает по протоколу WebSocket.
