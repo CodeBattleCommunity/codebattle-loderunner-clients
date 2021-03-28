@@ -52,7 +52,7 @@
 ```bash
     xcode-select --install
 ```
-2. Скачать и установить (SDK версии 3.1)[https://dotnet.microsoft.com/download/dotnet/3.1] для macOS (Дополнительная информация по установке)[https://docs.microsoft.com/ru-ru/dotnet/core/install/macos]
+2. Скачать и установить [SDK версии 3.1](https://dotnet.microsoft.com/download/dotnet/3.1) для macOS [Дополнительная информация по установке](https://docs.microsoft.com/ru-ru/dotnet/core/install/macos)
 
 3. Выполнить команду для сборки решения:
 
