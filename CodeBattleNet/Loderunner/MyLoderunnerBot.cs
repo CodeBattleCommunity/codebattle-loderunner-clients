@@ -48,6 +48,7 @@ namespace Loderunner
             Random random = new Random(Environment.TickCount);
             LoderunnerAction action = (LoderunnerAction)random.Next(3);
 
+
             Console.WriteLine(action.ToString());
             return LoderunnerActionToString(action);
         }
@@ -57,7 +58,7 @@ namespace Loderunner
         /// </summary>
         public void InitiateExit()
         {
-            ShouldExit = true;
+            _cts.Cancel();
         }
     }
 }

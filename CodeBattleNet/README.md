@@ -43,7 +43,7 @@
 3. Запуск клиента осуществляется командой:
 ```bash
     # запуск клиента
-    dotnet run --project ./Demo/Demo.csproj
+    dotnet run --project ./Loderunner/Loderunner.csproj
 ```
 
 ### Mac (macOS 10.13 "High Sierra" и выше)
@@ -76,7 +76,7 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
 
 где http://some-server-address - это адрес сервера, и далее url, содержащий id Вашего игрока и начатой игры.
 
-В клиенте в файле **Program.cs** (CodeBattleNet/Demo/Program.cs) Вы увидите константное поле **ServerAddress** класса **Program**. В нем необходимо поменять url игры на Ваш собственный: 
+В клиенте в файле **Program.cs** (CodeBattleNet/Loderunner/Program.cs) Вы увидите константное поле **ServerAddress** класса **Program**. В нем необходимо поменять url игры на Ваш собственный: 
 
 ```csharp
     class Program
@@ -165,16 +165,25 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
         Console.Clear();
         gameBoard.PrintBoard();
 
-        Random random = new Random(Environment.TickCount);
 
         //TODO: Implement your logic here
+        Random random = new Random(Environment.TickCount);
         LoderunnerAction action = (LoderunnerAction)random.Next(3);
+
 
         Console.WriteLine(action.ToString());
         return LoderunnerActionToString(action);
     }
 ```
-Вместо `LoderunnerAction action = (LoderunnerAction)random.Next(3);` Вы должны указать, какую команду отправить на сервер в качестве Вашего хода.
+
+Вместо:
+
+```csharp
+Random random = new Random(Environment.TickCount);
+LoderunnerAction action = (LoderunnerAction)random.Next(3);
+```
+
+Вы должны указать, какую команду отправить на сервер в качестве Вашего хода.
 
 Полное описание механики игры и список команд можно найти в UI на сервере игры. А так же здесь: https://github.com/Insomnium/codenjoy/blob/master/CodingDojo/games/loderunner/src/main/webapp/resources/help/loderunner.html (та же самая информация, что в UI сервера)
 
