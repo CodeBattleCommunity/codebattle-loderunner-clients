@@ -19,7 +19,6 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-﻿using System;
 
 namespace Loderunner.Api
 {
@@ -73,17 +72,10 @@ namespace Loderunner.Api
         public BoardPoint ShiftBottom(int delta = 1)
         {
             return new BoardPoint(X, Y + delta);
-            
         }
 
         public static bool operator ==(BoardPoint p1, BoardPoint p2)
         {
-            if (ReferenceEquals(p1, p2))
-                return true;
-
-            if (ReferenceEquals(p1, null) || ReferenceEquals(p2, null))
-                return false;
-
             return p1.X == p2.X && p1.Y == p2.Y;
         }
 
@@ -97,14 +89,22 @@ namespace Loderunner.Api
             return string.Format("[{0},{1}]", X, Y);
         }
 
+        public bool Equals(BoardPoint other)
+        {
+            return X == other.X && Y == other.Y;
+        }
+
         public override bool Equals(object obj)
         {
-            return (BoardPoint)obj == this;
+            return obj is BoardPoint other && Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return (X.GetHashCode() ^ Y.GetHashCode());
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
         }
     }
 }
