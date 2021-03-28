@@ -126,6 +126,8 @@ public class GameBoard {
         result.addAll(findAllElements(BoardElement.HERO_LADDER));
         result.addAll(findAllElements(BoardElement.OTHER_HERO_LADDER));
         result.addAll(findAllElements(BoardElement.ENEMY_LADDER));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_LADDER));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_LADDER));
         return result;
     }
 
@@ -145,6 +147,10 @@ public class GameBoard {
         result.addAll(findAllElements(BoardElement.OTHER_HERO_PIPE_RIGHT));
         result.addAll(findAllElements(BoardElement.ENEMY_PIPE_LEFT));
         result.addAll(findAllElements(BoardElement.ENEMY_PIPE_RIGHT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_PIPE_LEFT));
+        result.addAll(findAllElements(BoardElement.HERO_SHADOW_PIPE_RIGHT));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_PIPE_LEFT));
+        result.addAll(findAllElements(BoardElement.OTHER_HERO_SHADOW_PIPE_RIGHT));
         return result;
     }
 

@@ -132,6 +132,8 @@ class Board:
         points.update(self._find_all(Element("HERO_LADDER")))
         points.update(self._find_all(Element("OTHER_HERO_LADDER")))
         points.update(self._find_all(Element("ENEMY_LADDER")))
+        points.update(self._find_all(Element("HERO_SHADOW_LADDER")))
+        points.update(self._find_all(Element("OTHER_HERO_SHADOW_LADDER")))
         return list(points)
 
     def get_gold_positions(self):
@@ -151,6 +153,10 @@ class Board:
         points.update(self._find_all(Element("OTHER_HERO_PIPE_RIGHT")))
         points.update(self._find_all(Element("ENEMY_PIPE_LEFT")))
         points.update(self._find_all(Element("ENEMY_PIPE_RIGHT")))
+        points.update(self._find_all(Element("HERO_SHADOW_PIPE_LEFT")))
+        points.update(self._find_all(Element("HERO_SHADOW_PIPE_RIGHT")))
+        points.update(self._find_all(Element("OTHER_HERO_SHADOW_PIPE_LEFT")))
+        points.update(self._find_all(Element("OTHER_HERO_SHADOW_PIPE_RIGHT")))
         return list(points)
 
     def get_barriers(self):
