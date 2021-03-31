@@ -40,6 +40,7 @@ namespace Loderunner.Api
             var _server = url.Replace("http", "ws").Replace("board/player/", "ws?user=").Replace("?code=", "&code=");
             _cts = new CancellationTokenSource();
             _socket = new WebSocket(_server);
+            _socket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
             _socket.OnMessage += Socket_OnMessage;
 
             _ = ConnectWithReconnectionAsync(_cts.Token);
