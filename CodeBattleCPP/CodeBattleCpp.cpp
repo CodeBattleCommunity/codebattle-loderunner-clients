@@ -21,11 +21,10 @@ LodeRunnerAction makeTurn(const GameBoard& board) {
 	case 4:
 		return LodeRunnerAction::DRILL;
 	}
-	return LodeRunnerAction::SUICIDE;
 }
 
 int main() {
-	const std::string serverUrl = "http://codebattle2021.westeurope.cloudapp.azure.com/codenjoy-contest/board/player/j2p3kh7mztqz07f2e1sb?code=2490633588462720265&gameName=loderunner";
+	const std::string serverUrl = "<put your URL here>";
 
 	GameClientLodeRunner gcb(serverUrl);
 	gcb.Run(makeTurn);
