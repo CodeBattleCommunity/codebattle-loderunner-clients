@@ -63,7 +63,7 @@
 3. Запуск клиента осуществляется командой:
 ```bash
     # запуск клиента
-    dotnet run --project ./Demo/Demo.csproj
+    dotnet run --project ./Loderunner/Loderunner.csproj
 ```
 
 ## Подключение к серверу игры
