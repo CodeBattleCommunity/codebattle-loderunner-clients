@@ -1,5 +1,7 @@
-﻿class GameClient {
+﻿var boardRegex = /board=/;
+class GameClient {
   constructor(url) {
+
 	this.path = url.replace("http", "ws").replace("board/player/", "ws?user=").replace("?code=", "&code=");
         this.board = new Board();
   }
@@ -11,7 +13,7 @@
     this.socket.onerror = this.onError;
     this.socket.onclose = this.onClose;
     this.socket.onmessage = function (event) {
-      var board = new Board(event.data);
+      var board = new Board(event.data.replace(boardRegex, ''));
       var action = callback(board);
       self.send(action)
     }
