@@ -350,3 +350,7 @@ bool GameBoard::hasShadowAt(const BoardPoint& point) const {
 	}
 	return false;
 }
+
+size_t GameBoard::getBoardSize() const {
+	return m_map.size();
+}

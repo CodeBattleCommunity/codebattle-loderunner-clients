@@ -19,11 +19,9 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-using Loderunner.Api;
 using System;
-using System.Threading;
 
-namespace Demo
+namespace Loderunner
 {
     class Program
     {
@@ -31,22 +29,14 @@ namespace Demo
 
         static void Main(string[] args)
         {
-            // creating custom AI client
-            var client = new LodeRunnerClient(ServerAddress);
-
-            // starting thread with playing game
-            client.Run(gameBoard =>
-            {
-                Random random = new Random(Environment.TickCount);
-                return (LoderunnerAction)random.Next(3);
-
-            });
+            // creating and starting a bot instance
+            using var bot = new MyLoderunnerBot(ServerAddress);
 
             // waiting for any key
             Console.ReadKey();
 
             // on any key - asking AI client to stop.
-            client.InitiateExit();
+            bot.InitiateExit();
         }
     }
 }

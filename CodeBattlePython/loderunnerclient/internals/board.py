@@ -5,7 +5,7 @@ from loderunnerclient.internals.point import Point
 
 
 class Board:
-    """ Class describes the Board field for Bomberman game."""
+    """ Class describes the Board field for Loderunner game."""
 
     def __init__(self, board_string):
         self._string = board_string.replace("\n", "")

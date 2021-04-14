@@ -33,6 +33,7 @@ public:
 	bool hasGoldAt(const BoardPoint& point) const;
 	bool hasPipeAt(const BoardPoint& point) const;
 	bool hasShadowAt(const BoardPoint& point) const;
+	size_t getBoardSize() const;
 
 private:
 	std::vector<std::vector<BoardElement>> m_map;
