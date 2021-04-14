@@ -147,9 +147,10 @@ http://some-server-address/codenjoy-contest/board/player/u1apyj3djrfgguunpxw0?co
         return list(LoderunnerAction)[action_id]
 
 ```
+
 Вместо `list(LoderunnerAction)[action_id]` вы должны указать какую команду отправить на сервер в качестве вашего хода.
 
-Полное описание механики игры и список команд можно найти в UI на сервере игры. А так же здесь: https://github.com/Insomnium/codenjoy/blob/master/CodingDojo/games/loderunner/src/main/webapp/resources/help/loderunner.html (та же самая информация, что в UI сервера)
+Полное описание механики игры и список команд можно найти в UI на сервере игры. А так же здесь: https://dojorena.io/manuals/46.
 
 Actions (команды которые вы можете отправлять) в клиенте доступны в классе LoderunnerAction в модуле internals.actions.py:
 
