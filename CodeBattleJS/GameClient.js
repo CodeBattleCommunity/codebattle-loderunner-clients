@@ -10,7 +10,7 @@ class GameClient {
     var self = this;
     this.socket = new WebSocket(this.path);
     this.socket.onopen = this.onOpen;
-    this.socket.onerror = this.onError;
+    this.socket.onerror = this.onError.bind(this, callback);
     this.socket.onclose = this.onClose;
     this.socket.onmessage = function (event) {
       var board = new Board(event.data.replace(boardRegex, ''));
@@ -53,8 +53,10 @@ class GameClient {
     }
   }
 
-  onError(error) {
-    text.value += "### error ###\n" + error.message + "\n";
+  onError(callback, error) {
+    text.value += "### error ###\n" + error.message + "\n" + "### Try to reconnect after 1s...\n";
+
+    setTimeout(() => this.run(callback), 1000);
   }
 
   send(msg) {

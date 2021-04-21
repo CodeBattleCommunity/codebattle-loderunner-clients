@@ -61,6 +61,8 @@ var Elements = {
     OTHER_HERO_SHADOW_LADDER: '⋕',
     OTHER_HERO_SHADOW_PIPE_LEFT: '⊣',
     OTHER_HERO_SHADOW_PIPE_RIGHT: '⊢',
+    OTHER_HERO_FALL_LEFT: '⊐',
+    OTHER_HERO_FALL_RIGHT: '⊏',
   
     /// ladder and pipe - you can walk
     LADDER: 'H',
