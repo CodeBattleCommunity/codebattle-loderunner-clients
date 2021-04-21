@@ -5,7 +5,51 @@
   * GCC 4.8 или новее
   * clang 3.3 или новее
 * cmake 3.0.0 или новее
+* OpenSSL 1.1.1
+* boost 1.65 или новее
 
+## Установка зависимостей
+### Ubuntu
+```
+>sudo apt install cmake libssl-dev libboost-all-dev
+```
+### Mac OS
+```
+>brew install cmake openssl boost
+```
+
+### Windows
+* Сборка OpenSSL
+  * Скачать и установить [Active Perl](http://downloads.activestate.com/ActivePerl/releases/)
+  * Скачать и установить [NASM](https://www.nasm.us/pub/nasm/releasebuilds/?C=M;O=D)
+  * Скачать и распаковать исходники [OpenSSL](http://openssl.org/source/)
+  * Отркыть VS2015(подставьте вашу версию VS) x64 Cross Tools Command Prompt, перейти в папку с кодом OpenSSL и выполнить следующий набор команд:
+  ```
+    perl Configure VC-WIN64A --prefix=C:\src\OpenSSL\Build-VC-64-release
+    ms\do_win64a.bat
+    nmake -f ms\nt.mak clean
+    nmake -f ms\nt.mak
+    nmame -f ms\nt.mak install
+  ```
+  * В текстовом редакторе откройте ms/nt.mak и замените все вхождения /Zi на /Z7 кроме одной строки, начинающейся с ASM
+  * Отркыть VS2015(подставьте вашу версию VS) x64 Cross Tools Command Prompt, перейти в папку с кодом OpenSSL и выполнить следующий набор команд:
+  ```
+    perl Configure debug-VC-WIN64A --prefix=C:\src\OpenSSL\Build-VC-64-debug
+    ms\do_win64a.bat
+    nmake -f ms\nt.mak clean
+    nmake -f ms\nt.mak
+    nmame -f ms\nt.mak install
+  ```
+
+* Сборка boost
+  * Скачать и распаковать [исходники boost](https://www.boost.org/users/history/version_1_76_0.html)
+  * Открыть терминал и перейти в каталог с распакованными исходниками
+  * Выполнить следующий набор команд
+  ```
+    bootstrap
+    .\b2
+  ```
+  * Создать переменную окружения BOOST_ROOT и указать в ней путь до распакованных исходников
 ## Сборка проекта:
 ### Из консоли:
 * Переходим в каталог с кодом клиента
@@ -18,7 +62,7 @@ C:\codebattle-loderunner-clients\CodeBattleCPP>mkdir build
 ```
 * Сконфигурируем проект
 ```
-C:\codebattle-loderunner-clients\CodeBattleCPP>cmake -S . -B build
+C:\codebattle-loderunner-clients\CodeBattleCPP>cmake -S . -B build -DOPENSSL_ROOT_DIR="C:\src\OpenSSL\Build-VC-64-debug"
 -- Building for: Visual Studio 16 2019
 -- Selecting Windows SDK version 10.0.18362.0 to target Windows 10.0.18363.
 -- The CXX compiler identification is MSVC 19.28.29336.0
@@ -31,6 +75,8 @@ C:\codebattle-loderunner-clients\CodeBattleCPP>cmake -S . -B build
 -- Generating done
 -- Build files have been written to: C:/codebattle-loderunner-clients/CodeBattleCPP/build
 ```
+
+>Параметр `-DOPENSSL_ROOT_DIR` необходимо указывать только на платформе Windows
 
 Параметр `-S` указывает на каталог, в котором находится CMakeLists.txt. В нашем случае данный файл находится в том же каталоге, из которого мы запускаем данную команду
 
@@ -126,8 +172,8 @@ C:\codebattle-loderunner-clients\CodeBattleCPP>build\Debug\loderunner-client.exe
 Для остановки клиента необходимо нажать `Ctrl+C`
 
 ### Из среды разработки
-* Visual Studio - современные версии данной IDE имеют встроенную поддержку cmake проектов, поэтому вам достаточно лишь открыть каталог с файлом CMakeLists.txt и дальше вы сможете работать с данным проектам также, как и с любым другим проектом для Visual Studio.
-* VS Code - при открытии каталога с файлом CMakeLists.txt предложит установить расширении для работы с cmake проектами, который автоматизирует конфигурацию проекта и упростит работу с ним в целом. Если вы раньше не использовали данное расширение, ознакомьтесь с документацией к нему.
+* Visual Studio - современные версии данной IDE имеют встроенную поддержку cmake проектов, поэтому вам достаточно лишь открыть каталог с файлом CMakeLists.txt и дальше вы сможете работать с данным проектом также, как и с любым другим проектом для Visual Studio.
+* VS Code - при открытии каталога с файлом CMakeLists.txt предложит установить расширение для работы с cmake проектами, который автоматизирует конфигурацию проекта и упростит работу с ним в целом. Если вы раньше не использовали данное расширение, ознакомьтесь с документацией к нему.
 * Другие IDE - ознакомьтесь с документацией к вашей IDE на предмет интеграции с cmake или поищите информацию в сети Интернет
 ## Модификация проекта
 Все файлы из каталога `CodeBattleCppLibrary` являются служебными и НЕ должны быть модифицированы вами. Они лишь скрывают детали подключения к серверу, разбор сообщений от него и отправку ответов. Единственный файл, который имеет смысл редактировать - `CodeBattleCpp.cpp`. В этом файле указываются параметры подключения к серверу(URL), а также имеется функция `makeTurn`, внутри которой реализована простейшая игровая логика, которая заставляет вашего персонажа двигаться случайным образом.
