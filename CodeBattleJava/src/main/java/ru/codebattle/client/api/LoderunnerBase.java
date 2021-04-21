@@ -9,8 +9,6 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static java.lang.String.format;
-
 @Slf4j
 public abstract class LoderunnerBase extends WebSocketClient {
     private final String responsePrefix = "board=";

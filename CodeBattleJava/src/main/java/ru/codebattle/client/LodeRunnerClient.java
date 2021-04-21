@@ -1,21 +1,21 @@
 package ru.codebattle.client;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
 import ru.codebattle.client.api.GameBoard;
 import ru.codebattle.client.api.LoderunnerAction;
 import ru.codebattle.client.api.LoderunnerBase;
 
-import java.io.Console;
 import java.net.URISyntaxException;
 import java.util.Random;
+import java.util.function.Function;
 
 public class LodeRunnerClient extends LoderunnerBase {
 
     private Function<GameBoard, LoderunnerAction> callback;
+    private final Runnable closeHandler;
 
-    public LodeRunnerClient(String url) throws URISyntaxException {
+    public LodeRunnerClient(String url, Runnable closeHandler) throws URISyntaxException {
         super(url);
+        this.closeHandler = closeHandler;
     }
 
     public void run(Function<GameBoard, LoderunnerAction> callback) {
@@ -33,13 +33,18 @@ public class LodeRunnerClient extends LoderunnerBase {
         return loderunnerActionToString(action);
     }
 
+    @Override
+    public void onClose(int code, String reason, boolean remote) {
+        super.onClose(code, reason, remote);
+        closeHandler.run();
+    }
+
     public void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    public void initiateExit()
-    {
+    public void initiateExit() {
         setShouldExit(true);
     }
 }
