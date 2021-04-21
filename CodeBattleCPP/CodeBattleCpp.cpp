@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 
-#include "GameClientLodeRunner.h"
+#include "details/BeastGameClient.h"
 #include "GameBoard.h"
 
 LodeRunnerAction makeTurn(const GameBoard& board) {
@@ -26,8 +26,10 @@ LodeRunnerAction makeTurn(const GameBoard& board) {
 int main() {
 	const std::string serverUrl = "<put your URL here>";
 
-	GameClientLodeRunner gcb(serverUrl);
-	gcb.Run(makeTurn);
+	while(1) {
+		details::BeastGameClient gcb(serverUrl);
+		gcb.Run(makeTurn);
+	}
 
 	return 0;
 }

@@ -19,6 +19,10 @@ set(Sources
 
   LodeRunnerAction.h
   LodeRunnerAction.cpp
+
+  details/GameClientInterface.h
+  details/BeastGameClient.h
+  details/BeastGameClient.cpp
 )
 
 option(build_tests "Enable this option to build tests" false)

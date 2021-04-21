@@ -2,7 +2,7 @@
 #include <string>
 #include <cassert>
 
-inline constexpr size_t codepointSize(uint8_t lb) {
+inline size_t codepointSize(uint8_t lb) {
     if ((lb & 0x80) == 0) // lead bit is zero, must be a single ascii
         return 1;
     if ((lb & 0xE0) == 0xC0) // 110x xxxx
@@ -28,7 +28,7 @@ inline size_t utf8_strlen(std::string::const_iterator begin, std::string::const_
     return length;
 }
 
-inline auto utf8_next(std::string::const_iterator it) {
+inline std::string::const_iterator utf8_next(std::string::const_iterator it) {
     const size_t cpSize = codepointSize(*it);
     return it+cpSize;
 }
