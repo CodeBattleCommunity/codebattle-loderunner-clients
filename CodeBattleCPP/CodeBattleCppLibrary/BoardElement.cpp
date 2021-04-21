@@ -18,6 +18,7 @@ namespace
     constexpr const char *const kPIT_FILL_4 = u8"4";
     constexpr const char *const kPORTAL = u8"⊛";
     constexpr const char *const kTHE_SHADOW_PILL = u8"S";
+
     constexpr const char *const kHERO_DIE = u8"Ѡ";
     constexpr const char *const kHERO_DRILL_LEFT = u8"Я";
     constexpr const char *const kHERO_DRILL_RIGHT = u8"R";
@@ -28,6 +29,8 @@ namespace
     constexpr const char *const kHERO_FALL_RIGHT = u8"[";
     constexpr const char *const kHERO_PIPE_LEFT = u8"{";
     constexpr const char *const kHERO_PIPE_RIGHT = u8"}";
+
+    constexpr const char *const kHERO_SHADOW_DIE = u8"x";
     constexpr const char *const kHERO_SHADOW_DRILL_LEFT = u8"⊰";
     constexpr const char *const kHERO_SHADOW_DRILL_RIGHT = u8"⊱";
     constexpr const char *const kHERO_SHADOW_LADDER = u8"⍬";
@@ -37,18 +40,29 @@ namespace
     constexpr const char *const kHERO_SHADOW_FALL_RIGHT = u8"⊄";
     constexpr const char *const kHERO_SHADOW_PIPE_LEFT = u8"⋜";
     constexpr const char *const kHERO_SHADOW_PIPE_RIGHT = u8"⋝";
+
     constexpr const char *const kOTHER_HERO_DIE = u8"Z";
     constexpr const char *const kOTHER_HERO_LEFT = u8")";
     constexpr const char *const kOTHER_HERO_RIGHT = u8"(";
+    constexpr const char *const kOTHER_HERO_DRILL_LEFT = u8"⌋";
+    constexpr const char *const kOTHER_HERO_DRILL_RIGHT = u8"⌊";
+    constexpr const char *const kOTHER_HERO_FALL_LEFT = u8"⊐";
+    constexpr const char *const kOTHER_HERO_FALL_RIGHT = u8"⊏";
     constexpr const char *const kOTHER_HERO_LADDER = u8"U";
     constexpr const char *const kOTHER_HERO_PIPE_LEFT = u8"Э";
     constexpr const char *const kOTHER_HERO_PIPE_RIGHT = u8"Є";
+
     constexpr const char *const kOTHER_HERO_SHADOW_DIE = u8"⋈";
     constexpr const char *const kOTHER_HERO_SHADOW_LEFT = u8"⋊";
     constexpr const char *const kOTHER_HERO_SHADOW_RIGHT = u8"⋉";
     constexpr const char *const kOTHER_HERO_SHADOW_LADDER = u8"⋕";
     constexpr const char *const kOTHER_HERO_SHADOW_PIPE_LEFT = u8"⊣";
     constexpr const char *const kOTHER_HERO_SHADOW_PIPE_RIGHT = u8"⊢";
+    constexpr const char *const kOTHER_HERO_SHADOW_DRILL_LEFT = u8"⋰";
+    constexpr const char *const kOTHER_HERO_SHADOW_DRILL_RIGHT = u8"⋱";
+    constexpr const char *const kOTHER_HERO_SHADOW_FALL_LEFT = u8"⋣";
+    constexpr const char *const kOTHER_HERO_SHADOW_FALL_RIGHT = u8"⋢";
+
     constexpr const char *const kENEMY_LADDER = u8"Q";
     constexpr const char *const kENEMY_LEFT = u8"«";
     constexpr const char *const kENEMY_RIGHT = u8"»";
@@ -109,6 +123,8 @@ BoardElement BoardElementFromString(const std::string &str)
         return BoardElement::HERO_PIPE_LEFT;
     if (str == kHERO_PIPE_RIGHT)
         return BoardElement::HERO_PIPE_RIGHT;
+    if (str == kHERO_SHADOW_DIE)
+        return BoardElement::HERO_SHADOW_DIE;
     if (str == kHERO_SHADOW_DRILL_LEFT)
         return BoardElement::HERO_SHADOW_DRILL_LEFT;
     if (str == kHERO_SHADOW_DRILL_RIGHT)
@@ -129,6 +145,14 @@ BoardElement BoardElementFromString(const std::string &str)
         return BoardElement::HERO_SHADOW_PIPE_RIGHT;
     if (str == kOTHER_HERO_DIE)
         return BoardElement::OTHER_HERO_DIE;
+    if (str == kOTHER_HERO_DRILL_LEFT)
+        return BoardElement::OTHER_HERO_DRILL_LEFT;
+    if (str == kOTHER_HERO_DRILL_RIGHT)
+        return BoardElement::OTHER_HERO_DRILL_RIGHT;
+    if (str == kOTHER_HERO_FALL_LEFT)
+        return BoardElement::OTHER_HERO_FALL_LEFT;
+    if (str == kOTHER_HERO_FALL_RIGHT)
+        return BoardElement::OTHER_HERO_FALL_RIGHT;
     if (str == kOTHER_HERO_LEFT)
         return BoardElement::OTHER_HERO_LEFT;
     if (str == kOTHER_HERO_RIGHT)
@@ -141,6 +165,12 @@ BoardElement BoardElementFromString(const std::string &str)
         return BoardElement::OTHER_HERO_PIPE_RIGHT;
     if (str == kOTHER_HERO_SHADOW_DIE)
         return BoardElement::OTHER_HERO_SHADOW_DIE;
+    if (str == kOTHER_HERO_SHADOW_DRILL_LEFT)
+        return BoardElement::OTHER_HERO_SHADOW_DRILL_LEFT;
+    if (str == kOTHER_HERO_SHADOW_DRILL_RIGHT)
+        return BoardElement::OTHER_HERO_SHADOW_DRILL_RIGHT;
+    if (str == kOTHER_HERO_SHADOW_FALL_LEFT)
+        return BoardElement::OTHER_HERO_SHADOW_FALL_LEFT;
     if (str == kOTHER_HERO_SHADOW_LEFT)
         return BoardElement::OTHER_HERO_SHADOW_LEFT;
     if (str == kOTHER_HERO_SHADOW_RIGHT)
@@ -224,6 +254,8 @@ namespace std
             return kHERO_PIPE_LEFT;
         case BoardElement::HERO_PIPE_RIGHT:
             return kHERO_PIPE_RIGHT;
+        case BoardElement::HERO_SHADOW_DIE:
+            return kHERO_SHADOW_DIE;
         case BoardElement::HERO_SHADOW_DRILL_LEFT:
             return kHERO_SHADOW_DRILL_LEFT;
         case BoardElement::HERO_SHADOW_DRILL_RIGHT:
@@ -244,6 +276,14 @@ namespace std
             return kHERO_SHADOW_PIPE_RIGHT;
         case BoardElement::OTHER_HERO_DIE:
             return kOTHER_HERO_DIE;
+        case BoardElement::OTHER_HERO_DRILL_LEFT:
+            return kOTHER_HERO_DRILL_LEFT;
+        case BoardElement::OTHER_HERO_DRILL_RIGHT:
+            return kOTHER_HERO_DRILL_RIGHT;
+        case BoardElement::OTHER_HERO_FALL_LEFT:
+            return kOTHER_HERO_FALL_LEFT;
+        case BoardElement::OTHER_HERO_FALL_RIGHT:
+            return kOTHER_HERO_FALL_RIGHT;
         case BoardElement::OTHER_HERO_LEFT:
             return kOTHER_HERO_LEFT;
         case BoardElement::OTHER_HERO_RIGHT:
@@ -256,6 +296,14 @@ namespace std
             return kOTHER_HERO_PIPE_RIGHT;
         case BoardElement::OTHER_HERO_SHADOW_DIE:
             return kOTHER_HERO_SHADOW_DIE;
+        case BoardElement::OTHER_HERO_SHADOW_DRILL_LEFT:
+            return kOTHER_HERO_SHADOW_DRILL_LEFT;
+        case BoardElement::OTHER_HERO_SHADOW_DRILL_RIGHT:
+            return kOTHER_HERO_SHADOW_DRILL_RIGHT;
+        case BoardElement::OTHER_HERO_SHADOW_FALL_LEFT:
+            return kOTHER_HERO_SHADOW_FALL_LEFT;
+        case BoardElement::OTHER_HERO_SHADOW_FALL_RIGHT:
+            return kOTHER_HERO_SHADOW_FALL_RIGHT;
         case BoardElement::OTHER_HERO_SHADOW_LEFT:
             return kOTHER_HERO_SHADOW_LEFT;
         case BoardElement::OTHER_HERO_SHADOW_RIGHT:
