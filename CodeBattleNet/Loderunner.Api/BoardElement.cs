@@ -56,6 +56,7 @@ namespace Loderunner.Api
         HeroPipeLeft = (short)'{',
         HeroPipeRight = (short)'}',
 
+        HeroShadowDie = (short)'x',
         HeroShadowDrillLeft = (short)'⊰',
         HeroShadowDrillRight = (short)'⊱',
         HeroShadowLadder = (short)'⍬',
@@ -67,16 +68,24 @@ namespace Loderunner.Api
         HeroShadowPipeRight = (short)'⋝',
 
         OtherHeroDie = (short)'Z',
+        OtherHeroDrillLeft = (short)'⌋',
+        OtherHeroDrillRight = (short)'⌊',
         OtherHeroLeft = (short)')',
         OtherHeroRight = (short)'(',
         OtherHeroLadder = (short)'U',
+        OtherHeroFallLeft = (short)'⊐',
+        OtherHeroFallRight = (short)'⊏',
         OtherHeroPipeLeft = (short)'Э',
         OtherHeroPipeRight = (short)'Є',
 
         OtherHeroShadowDie = (short)'⋈',
+        OtherHeroShadowDrillLeft = (short)'⋰',
+        OtherHeroShadowDrillRight = (short)'⋱',
         OtherHeroShadowLeft = (short)'⋊',
         OtherHeroShadowRight = (short)'⋉',
         OtherHeroShadowLadder = (short)'⋕',
+        OtherHeroShadowFallLeft = (short)'⋣',
+        OtherHeroShadowFallRight = (short)'⋢',
         OtherHeroShadowPipeLeft = (short)'⊣',
         OtherHeroShadowPipeRight = (short)'⊢',
 

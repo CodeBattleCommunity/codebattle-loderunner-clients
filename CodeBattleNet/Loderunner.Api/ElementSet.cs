@@ -37,6 +37,7 @@ namespace Loderunner.Api
             BoardElement.HeroRight,
             BoardElement.HeroPipeLeft,
             BoardElement.HeroPipeRight,
+            BoardElement.HeroShadowDie,
             BoardElement.HeroShadowDrillLeft,
             BoardElement.HeroShadowDrillRight,
             BoardElement.HeroShadowFallLeft,
@@ -79,7 +80,15 @@ namespace Loderunner.Api
             BoardElement.OtherHeroShadowLeft,
             BoardElement.OtherHeroShadowRight,
             BoardElement.OtherHeroShadowPipeLeft,
-            BoardElement.OtherHeroShadowPipeRight
+            BoardElement.OtherHeroShadowPipeRight,
+            BoardElement.OtherHeroShadowFallLeft,
+            BoardElement.OtherHeroShadowFallRight,
+            BoardElement.OtherHeroShadowDrillLeft,
+            BoardElement.OtherHeroShadowDrillRight,
+            BoardElement.OtherHeroFallLeft,
+            BoardElement.OtherHeroFallRight,
+            BoardElement.OtherHeroDrillLeft,
+            BoardElement.OtherHeroDrillRight
         };
 
         internal static readonly HashSet<BoardElement> Pipe = new HashSet<BoardElement>
@@ -117,6 +126,10 @@ namespace Loderunner.Api
             BoardElement.OtherHeroShadowRight,
             BoardElement.OtherHeroShadowPipeLeft,
             BoardElement.OtherHeroShadowPipeRight,
+            BoardElement.OtherHeroShadowFallLeft,
+            BoardElement.OtherHeroShadowFallRight,
+            BoardElement.OtherHeroShadowDrillLeft,
+            BoardElement.OtherHeroShadowDrillRight,
             BoardElement.HeroShadowDrillLeft,
             BoardElement.HeroShadowDrillRight,
             BoardElement.HeroShadowLadder,
@@ -125,7 +138,8 @@ namespace Loderunner.Api
             BoardElement.HeroShadowFallLeft,
             BoardElement.HeroShadowFallRight,
             BoardElement.HeroShadowPipeLeft,
-            BoardElement.HeroShadowPipeRight
+            BoardElement.HeroShadowPipeRight,
+            BoardElement.HeroShadowDie
         };
     }
 }
