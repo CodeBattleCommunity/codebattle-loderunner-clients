@@ -20,26 +20,16 @@
 
 ### Windows
 * Сборка OpenSSL
-  * Скачать и установить [Active Perl](http://downloads.activestate.com/ActivePerl/releases/)
+  * Скачать и установить [Strawberry Perl](https://strawberryperl.com/)
   * Скачать и установить [NASM](https://www.nasm.us/pub/nasm/releasebuilds/?C=M;O=D)
   * Скачать и распаковать исходники [OpenSSL](http://openssl.org/source/)
-  * Отркыть VS2015(подставьте вашу версию VS) x64 Cross Tools Command Prompt, перейти в папку с кодом OpenSSL и выполнить следующий набор команд:
+  * Отркыть VS2019(подставьте вашу версию VS) x64 Cross Tools Command Prompt, перейти в папку с кодом OpenSSL и выполнить следующий набор команд:
   ```
     perl Configure VC-WIN64A --prefix=C:\src\OpenSSL\Build-VC-64-release
-    ms\do_win64a.bat
-    nmake -f ms\nt.mak clean
-    nmake -f ms\nt.mak
-    nmame -f ms\nt.mak install
+    nmake
+    nmake install
   ```
-  * В текстовом редакторе откройте ms/nt.mak и замените все вхождения /Zi на /Z7 кроме одной строки, начинающейся с ASM
-  * Отркыть VS2015(подставьте вашу версию VS) x64 Cross Tools Command Prompt, перейти в папку с кодом OpenSSL и выполнить следующий набор команд:
-  ```
-    perl Configure debug-VC-WIN64A --prefix=C:\src\OpenSSL\Build-VC-64-debug
-    ms\do_win64a.bat
-    nmake -f ms\nt.mak clean
-    nmake -f ms\nt.mak
-    nmame -f ms\nt.mak install
-  ```
+  * Создать переменную окружения OPENSSL_ROOT_DIR и указать в ней тот же путь, что указывали для параматра `--prefix`
 
 * Сборка boost
   * Скачать и распаковать [исходники boost](https://www.boost.org/users/history/version_1_76_0.html)
@@ -47,9 +37,9 @@
   * Выполнить следующий набор команд
   ```
     bootstrap
-    .\b2
+    .\b2 --prefix=C:\boost-built
   ```
-  * Создать переменную окружения BOOST_ROOT и указать в ней путь до распакованных исходников
+  * Создать переменную окружения BOOST_ROOT и указать в ней тот же путь, что указывали для параматра `--prefix`
 ## Сборка проекта:
 ### Из консоли:
 * Переходим в каталог с кодом клиента
@@ -62,21 +52,39 @@ C:\codebattle-loderunner-clients\CodeBattleCPP>mkdir build
 ```
 * Сконфигурируем проект
 ```
-C:\codebattle-loderunner-clients\CodeBattleCPP>cmake -S . -B build -DOPENSSL_ROOT_DIR="C:\src\OpenSSL\Build-VC-64-debug"
+C:\codebattle-loderunner-clients\CodeBattleCPP>cmake -S . -B build
 -- Building for: Visual Studio 16 2019
--- Selecting Windows SDK version 10.0.18362.0 to target Windows 10.0.18363.
--- The CXX compiler identification is MSVC 19.28.29336.0
+-- Selecting Windows SDK version 10.0.19041.0 to target Windows 10.0.17763.
+-- The CXX compiler identification is MSVC 19.28.29914.0
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x64/cl.exe - skipped
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/bin/Hostx64/x64/cl.exe - skipped
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
+-- Found OpenSSL: D:/projects/openssl64/lib/libcrypto.lib (found version "1.1.1k")
+CMake Warning at C:/Program Files/CMake/share/cmake-3.20/Modules/FindBoost.cmake:1354 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  C:/Program Files/CMake/share/cmake-3.20/Modules/FindBoost.cmake:1476 (_Boost_COMPONENT_DEPENDENCIES)
+  C:/Program Files/CMake/share/cmake-3.20/Modules/FindBoost.cmake:2086 (_Boost_MISSING_DEPENDENCIES)
+  CMakeLists.txt:11 (find_package)
+
+
+CMake Warning at C:/Program Files/CMake/share/cmake-3.20/Modules/FindBoost.cmake:1354 (message):
+  New Boost version may have incorrect or missing dependencies and imported
+  targets
+Call Stack (most recent call first):
+  C:/Program Files/CMake/share/cmake-3.20/Modules/FindBoost.cmake:1476 (_Boost_COMPONENT_DEPENDENCIES)
+  C:/Program Files/CMake/share/cmake-3.20/Modules/FindBoost.cmake:2086 (_Boost_MISSING_DEPENDENCIES)
+  CMakeLists.txt:11 (find_package)
+
+
+-- Found Boost: D:/projects/boost_1_76_0 (found suitable version "1.76.0", minimum required is "1.67") found components: system date_time
 -- Configuring done
 -- Generating done
 -- Build files have been written to: C:/codebattle-loderunner-clients/CodeBattleCPP/build
 ```
-
->Параметр `-DOPENSSL_ROOT_DIR` необходимо указывать только на платформе Windows
 
 Параметр `-S` указывает на каталог, в котором находится CMakeLists.txt. В нашем случае данный файл находится в том же каталоге, из которого мы запускаем данную команду
 
@@ -142,24 +150,32 @@ Generators
 * Соберем сгенерированный проект
 ```
 C:\codebattle-loderunner-clients\CodeBattleCPP>cmake --build build
-Microsoft (R) Build Engine version 16.8.3+39993bd9d for .NET Framework
+Microsoft (R) Build Engine version 16.9.0+5e4b48a27 for .NET Framework
 Copyright (C) Microsoft Corporation. All rights reserved.
 
   Checking Build System
-  Building Custom Rule C:/codebattle-loderunner-clients/CodeBattleCPP/CodeBattleCppLibrary/easywsclient/CMakeLists.txt
+  Building Custom Rule D:/projects/codebattle-loderunner-clients/CodeBattleCPP/CodeBattleCppLibrary/easywsclient/CMakeLists.txt
   easywsclient.cpp
-  easywsclient.vcxproj -> C:\codebattle-loderunner-clients\CodeBattleCPP\build
-  \CodeBattleCppLibrary\easywsclient\Debug\easywsclient.lib
-  Building Custom Rule C:/codebattle-loderunner-clients/CodeBattleCPP/CodeBattleCppLibrary/CMakeLists.txt
+  easywsclient.vcxproj -> D:\projects\codebattle-loderunner-clients\CodeBattleCPP\build\CodeBattleCppLibrary\easywsclient\Debug\easywsclient.lib
+  Building Custom Rule D:/projects/codebattle-loderunner-clients/CodeBattleCPP/CodeBattleCppLibrary/CMakeLists.txt
   BoardElement.cpp
   BoardPoint.cpp
   GameBoard.cpp
   GameClientLodeRunner.cpp
   LodeRunnerAction.cpp
+  BeastGameClient.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
   Generating Code...
-  loderunner-client-library.vcxproj -> C:\codebattle-loderunner-clients\CodeBattleCPP\build\CodeBattleCppLibrary\Debug\loderunner-client-library.lib
-  Building Custom Rule C:/codebattle-loderunner-clients/CodeBattleCPP/CMakeLists.txt
+  loderunner-client-library.vcxproj -> D:\projects\codebattle-loderunner-clients\CodeBattleCPP\build\CodeBattleCppLibrary\Debug\loderunner-client-library.lib
+  Building Custom Rule D:/projects/codebattle-loderunner-clients/CodeBattleCPP/CMakeLists.txt
   CodeBattleCpp.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target)
   loderunner-client.vcxproj -> C:\codebattle-loderunner-clients\CodeBattleCPP\build\Debug\loderunner-client.exe
   Building Custom Rule C:/codebattle-loderunner-clients/CodeBattleCPP/CMakeLists.txt
 ```
