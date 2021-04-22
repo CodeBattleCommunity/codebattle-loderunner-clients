@@ -50,7 +50,7 @@ var Elements = {
     /// this is other players
     OTHER_HERO_DIE: 'Z',
     OTHER_HERO_LEFT: ')',
-    OTHER_HERO_RIGHT: ' : ',
+    OTHER_HERO_RIGHT: '(',
     OTHER_HERO_LADDER: 'U',
     OTHER_HERO_PIPE_LEFT: 'Э',
     OTHER_HERO_PIPE_RIGHT: 'Є',
