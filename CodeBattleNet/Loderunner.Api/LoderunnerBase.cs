@@ -20,9 +20,10 @@
  * #L%
  */
 using System;
+using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
-using WebSocketSharp;
+using WebSocket4Net;
 
 namespace Loderunner.Api
 {
@@ -40,8 +41,8 @@ namespace Loderunner.Api
             var _server = url.Replace("http", "ws").Replace("board/player/", "ws?user=").Replace("?code=", "&code=");
             _cts = new CancellationTokenSource();
             _socket = new WebSocket(_server);
-            _socket.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-            _socket.OnMessage += Socket_OnMessage;
+            _socket.Security.EnabledSslProtocols = SslProtocols.Tls12;
+            _socket.MessageReceived += Socket_OnMessage;
 
             _ = ConnectWithReconnectionAsync(_cts.Token);
         }
@@ -58,7 +59,7 @@ namespace Loderunner.Api
             {
                 while (!ct.IsCancellationRequested)
                 {
-                    if (_socket.ReadyState != WebSocketState.Open)
+                    if (_socket.State != WebSocketState.Open)
                     {
                         Connect();
                     }
@@ -79,10 +80,10 @@ namespace Loderunner.Api
 
             try
             {
-                _socket.Connect();
+                _socket.Open();
 
                 // reset try count on success connection
-                if (_socket.ReadyState == WebSocketState.Open)
+                if (_socket.State == WebSocketState.Open)
                 {
                     _tryCount = 0;
                 }
@@ -93,11 +94,11 @@ namespace Loderunner.Api
             }
         }
 
-        private void Socket_OnMessage(object sender, MessageEventArgs e)
+        private void Socket_OnMessage(object sender, MessageReceivedEventArgs e)
         {
             if (!_cts.IsCancellationRequested)
             {
-                var response = e.Data;
+                var response = e.Message;
 
                 if (!response.StartsWith(ResponsePrefix))
                 {
@@ -143,7 +144,7 @@ namespace Loderunner.Api
                     _cts?.Dispose();
                     if (_socket != null)
                     {
-                        _socket.OnMessage -= Socket_OnMessage;
+                        _socket.MessageReceived -= Socket_OnMessage;
                         _socket.Close();
                     }
                 }
