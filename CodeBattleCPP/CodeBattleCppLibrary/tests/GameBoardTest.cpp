@@ -4,6 +4,15 @@
 #include "GameBoard.h"
 #include "BoardPoint.h"
 
+TEST(GameBoardTest, ParseAllPossibleElements) {
+
+    const std::string allElements = u8" #☼*$&@H~1234⊛SѠЯRY◄►][{}x⊰⊱⍬⊲⊳⊅⊄⋜⋝Z)(⌋⌊⊐⊏UЭЄ⋈⋊⋉⋕⊣⊢⋰⋱⋣⋢Q«»<>XXXX";
+    EXPECT_NO_THROW(
+        GameBoard board(allElements.begin(), allElements.end());
+        board.printBoard();
+    );
+}
+
 TEST(GameBoardTest, hasElementAtTest) {
     const std::string map(u8"☼☼☼⋝⋝⋝⋊⋊⋊");
     GameBoard board(map.cbegin(), map.cend());
