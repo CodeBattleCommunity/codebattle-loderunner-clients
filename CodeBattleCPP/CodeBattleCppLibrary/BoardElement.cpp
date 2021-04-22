@@ -171,6 +171,8 @@ BoardElement BoardElementFromString(const std::string &str)
         return BoardElement::OTHER_HERO_SHADOW_DRILL_RIGHT;
     if (str == kOTHER_HERO_SHADOW_FALL_LEFT)
         return BoardElement::OTHER_HERO_SHADOW_FALL_LEFT;
+    if (str == kOTHER_HERO_SHADOW_FALL_RIGHT)
+        return BoardElement::OTHER_HERO_SHADOW_FALL_RIGHT;
     if (str == kOTHER_HERO_SHADOW_LEFT)
         return BoardElement::OTHER_HERO_SHADOW_LEFT;
     if (str == kOTHER_HERO_SHADOW_RIGHT)
