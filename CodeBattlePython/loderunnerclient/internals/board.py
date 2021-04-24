@@ -195,7 +195,7 @@ class Board:
         """ Counts the number of occurencies of elem nearby """
         _near_count = 0
         if not Point(x, y).is_bad(self._size):
-            for _x, _y in ((x + 1, y), (x - 1, y), (x, 1 + y), (x, 1 - y)):
+            for _x, _y in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
                 if self.has_element_at(_x, _y, elem):
                     _near_count += 1
         return _near_count
