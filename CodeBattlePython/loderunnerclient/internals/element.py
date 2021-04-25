@@ -51,7 +51,13 @@ _ELEMENTS = dict(
     OTHER_HERO_SHADOW_PIPE_LEFT="⊣",
     OTHER_HERO_SHADOW_PIPE_RIGHT="⊢",
     OTHER_HERO_FALL_LEFT='⊐',
-    OTHER_HERO_FALL_RIGHT='⊏',
+    OTHER_HERO_FALL_RIGHT='⊏',    
+    OTHER_HERO_SHADOW_DRILL_LEFT="⋰",   # Другой герой-тень сверлит слева от себя
+    OTHER_HERO_SHADOW_DRILL_RIGHT="⋱",  # Другой герой-тень сверлит справа от себя
+    OTHER_HERO_SHADOW_FALL_LEFT="⋣",   # Другой герой-тень падает, смотря влево
+    OTHER_HERO_SHADOW_FALL_RIGHT="⋢",  # Другой герой-тень падает, смотря вправо
+    OTHER_HERO_DRILL_LEFT="⌋",   # Другой герой сверлит слева от себя
+    OTHER_HERO_DRILL_RIGHT="⌊",  # Другой герой сверлит справа от себя
     # ladder and pipe - you can walk
     LADDER="H",
     PIPE="~",
